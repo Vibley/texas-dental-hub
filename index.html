@@ -13,35 +13,22 @@
     .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
     .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
-    .brand span{font-size:22px}
-
-    .nav select{
-      padding:8px 14px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      font-size:14px;
-      cursor:pointer;
-      background:#fff;
-    }
-
+    .nav select{padding:8px 14px;border-radius:999px;border:1px solid var(--border);font-size:14px}
     .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
     .hero{background:linear-gradient(180deg,#fff,var(--accentSoft));border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
     .hero h1{margin:0 0 6px 0;font-size:26px}
     .hero p{margin:0;color:var(--muted)}
     .section{margin-top:28px}
-    .section h2{display:flex;align-items:center;gap:8px;font-size:20px}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
     @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.grid{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow2);display:flex;flex-direction:column;transition:transform .15s ease, box-shadow .15s ease}
-    .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(2,6,23,.18)}
-    .card.featured{border:2px solid var(--accent);background:linear-gradient(180deg,#ffffff,#f0f6ff)}
-    .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;align-self:flex-start}
-    .address{color:var(--muted);font-size:14px;display:flex;gap:6px;margin:6px 0 10px 0}
-    .btn{margin-top:auto;padding:10px 14px;border-radius:14px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;text-align:center}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow2);display:flex;flex-direction:column}
+    .card.featured{border:2px solid var(--accent);background:#f0f6ff}
+    .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px}
+    .address{color:var(--muted);font-size:14px;margin:6px 0 10px}
+    .btn{margin-top:auto;padding:10px 14px;border-radius:14px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
     .page{display:none}.page.active{display:block}
     .footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
-
     #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
     #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
     #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
@@ -51,7 +38,7 @@
 <body>
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand"><span>🦷</span>TexasDentalHub</div>
+    <div class="brand">🦷 TexasDentalHub</div>
     <div class="nav">
       <select id="citySelect">
         <option value="houston">Houston</option>
@@ -78,41 +65,91 @@
 
 <div class="footer">© 2026 TexasDentalHub</div>
 
-<!-- Lead Modal unchanged -->
+<!-- Lead Modal -->
 <div id="leadModal">
   <div class="modal">
     <h3>Request Appointment</h3>
-    <p id="leadClinic" style="font-size:14px;color:#475569"></p>
+    <p id="leadClinic"></p>
     <form onsubmit="submitLead(event)">
       <input required placeholder="Your Name" />
       <input required type="email" placeholder="Email" />
       <input required placeholder="Phone" />
       <textarea required placeholder="Preferred time / message"></textarea>
       <button class="btn" type="submit">Submit Request</button>
-      <button type="button" onclick="closeLead()" style="margin-left:10px">Cancel</button>
+      <button type="button" onclick="closeLead()">Cancel</button>
     </form>
   </div>
 </div>
 
 <script>
-// -------- DATA + RENDERING (UNCHANGED) --------
-/* DATA + renderCity + card + callClinic + submitLead
-   ALL remain exactly the same as your original file */
+// ---------------- DATA ----------------
+const DATA = {
+  houston:{label:'Houston',featured:[{name:'Lovett Dental – Midtown',address:'410 Pierce St, Houston, TX 77002',phone:'7136509500'},{name:'URBN Dental – Heights',address:'1911 Taylor St Ste D, Houston, TX 77007',phone:'7138623939'}],clinics:[{name:'Garden Oaks Dental',address:'331 W 34th St, Houston, TX 77018'},{name:'Mint Dentistry – Midtown',address:'1213 Binz St, Houston, TX 77004'}]},
+  katy:{label:'Katy',featured:[{name:'Cinco Ranch Dental',address:'23000 Cinco Ranch Blvd Ste 200, Katy, TX 77494',phone:'2813952110'}],clinics:[{name:'Westgreen Dental',address:'25700 Westheimer Pkwy, Katy, TX 77494'}]},
+  sugarland:{label:'Sugar Land',featured:[{name:'My Dental of Sugar Land',address:'4965 Sweetwater Blvd, Sugar Land, TX 77479',phone:'2814947777'}],clinics:[{name:'Apollonia Dental',address:'4427 Hwy 6, Sugar Land, TX 77478'}]},
+  richmond:{label:'Richmond',featured:[{name:'Richmond Family Dentistry',address:'10111 FM 762 Rd, Richmond, TX 77469',phone:'2813422200'}],clinics:[{name:'Long Meadow Farms Dental',address:'5310 FM 359 Rd, Richmond, TX 77406'}]},
+  rosenberg:{label:'Rosenberg',featured:[{name:'Rosenberg Family Dentistry',address:'23901 Commercial Dr, Rosenberg, TX 77471',phone:'2812390600'}],clinics:[{name:'Rosenberg Dental Care',address:'24401 Brazos Town Crossing, Rosenberg, TX 77471'}]},
+  woodlands:{label:'The Woodlands',featured:[{name:'Woodlands Family Dentistry',address:'179 Vision Park Blvd, The Woodlands, TX 77384',phone:'2812920123'}],clinics:[{name:'Sterling Ridge Dental',address:'6700 Woodlands Pkwy, The Woodlands, TX 77382'}]},
+  spring:{label:'Spring',featured:[{name:'Spring Family Dentistry',address:'23221 Aldine Westfield Rd, Spring, TX 77373',phone:'2812881700'}],clinics:[{name:'Klein Family Dental',address:'7310 Louetta Rd, Spring, TX 77379'}]}
+};
+
+// ---------------- RENDER ----------------
+function renderCity(key){
+  const city = DATA[key];
+  document.getElementById(key).innerHTML = `
+    <div class="hero">
+      <h1>Dentists in ${city.label}</h1>
+      <p>Call featured clinics or request an appointment online.</p>
+    </div>
+    <div class="section">
+      <h2>⭐ Featured Clinics</h2>
+      <div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div>
+    </div>
+    <div class="section">
+      <h2>🏥 All Clinics</h2>
+      <div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div>
+    </div>
+  `;
+}
+
+function card(c, featured){
+  return `
+  <div class="card ${featured?'featured':''}">
+    <span class="badge">${featured?'Featured':'Clinic'}</span>
+    <h3>${c.name}</h3>
+    <div class="address">📍 ${c.address}</div>
+    ${c.phone
+      ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
+      : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`}
+  </div>`;
+}
+
+Object.keys(DATA).forEach(renderCity);
+
+// ---------------- LEADS ----------------
+function callClinic(phone){ window.location.href=`tel:${phone}`; }
+function openLead(name){document.getElementById('leadClinic').innerText=name;document.getElementById('leadModal').style.display='flex';}
+function closeLead(){document.getElementById('leadModal').style.display='none';}
+
+function submitLead(e){
+  e.preventDefault();
+  const f=e.target;
+  fetch("https://script.google.com/macros/s/AKfycbxUQduaVzN-YlniJvAJ9M8oIn1Yw6lWWdMDRxHBLSTs65YIX7C5VJi6MZlvXS3XJSe-Yg/exec",{
+    method:"POST",mode:"no-cors",
+    body:JSON.stringify({
+      clinic:document.getElementById('leadClinic').innerText,
+      name:f[0].value,email:f[1].value,phone:f[2].value,message:f[3].value,
+      city:document.getElementById('citySelect').selectedOptions[0].text
+    })
+  });
+  alert("Request sent");
+  closeLead();f.reset();
+}
+
+// ---------------- DROPDOWN NAV ----------------
+const citySelect=document.getElementById('citySelect');
+citySelect.addEventListener('change',()=>{document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(citySelect.value).classList.add('active');});
+citySelect.value="houston";
 </script>
-
-<script>
-// -------- DROPDOWN NAV --------
-const citySelect = document.getElementById('citySelect');
-
-citySelect.addEventListener('change', () => {
-  const city = citySelect.value;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(city).classList.add('active');
-});
-
-// Default
-citySelect.value = "houston";
-</script>
-
 </body>
 </html>
