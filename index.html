@@ -107,53 +107,49 @@ fetch(DATA_URL)
 // --------------- RENDERING ----------------
 function renderCity(key){
   const city = DATA[key];
-  if (!city) return;
+  const container = document.getElementById(key);
 
-  document.getElementById(key).innerHTML = `
-  
-<div class="hero">
-  <h1>General & Family Dentists in ${city.label}</h1>
-  <p>
-    Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you discover verified general and family dental clinics across ${city.label} and nearby areas. Browse local providers, call featured clinics directly, or request an appointment online with confidence.
-  </p>
+  // ✅ HARD SAFETY CHECK (this prevents the crash)
+  if (!city || !container) {
+    console.warn("Skipping city render:", key);
+    return;
+  }
 
-  <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
-   <li>✅ Verified local dental clinics in and around ${city.label}</li>
-    <li>📞 Call featured clinics directly — no middlemen</li>
-    <li>🗓️ Request appointments online in seconds</li>
-    <li>🦷 General, family, cosmetic & emergency care options</li>
-    <li>📍 Focused on your city — not a national spam directory</li>
-  </ul>
-</div>
+  container.innerHTML = `
+    <div class="hero">
+      <h1>General & Family Dentists in ${city.label}</h1>
+      <p>
+        Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you
+        discover verified general and family dental clinics across ${city.label}
+        and nearby areas. Browse local providers, call featured clinics directly,
+        or request an appointment online with confidence.
+      </p>
 
+      <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
+        <li>✅ Verified local dental clinics in and around ${city.label}</li>
+        <li>📞 Call featured clinics directly — no middlemen</li>
+        <li>🗓️ Request appointments online in seconds</li>
+        <li>🦷 General, family, cosmetic & emergency care options</li>
+        <li>📍 Focused on your city — not a national spam directory</li>
+      </ul>
+    </div>
 
-    <div class="section"><h2>⭐ Featured Clinics</h2><div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div></div>
-    <div class="section"><h2>🏥 All Clinics</h2><div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div></div>
+    <div class="section">
+      <h2>⭐ Featured Clinics</h2>
+      <div class="grid">
+        ${city.featured.map(c => card(c, true)).join("")}
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🏥 All Clinics</h2>
+      <div class="grid">
+        ${city.clinics.map(c => card(c, false)).join("")}
+      </div>
+    </div>
   `;
 }
 
-function card(c,isFeatured){
-  const action = c.phone
-    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
-
-  return `<div class="card ${isFeatured?'featured':''}">
-    <span class="badge">${isFeatured?'⭐ Featured Clinic':'Clinic'}</span>
-    <h3>${c.name}</h3>
-    <div class="address">📍 ${c.address}</div>
-    ${action}
-  </div>`;
-}
-
-Object.keys(DATA).forEach(renderCity);
-
-function callClinic(phone, clinic) {
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    window.location.href = `tel:${phone}`;
-  } else {
-    alert(`Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`);
-  }
-}
 
 // --------------- LEAD MODAL ----------------
 function openLead(name){
