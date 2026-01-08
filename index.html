@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TexasDentalHub | Houston Metro Dentists</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TexasDentalHub | Houston Metro Dentists</title>
+  <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
 
-<style>
-:root{--bg:#eef5ff;--card:#fff;--text:#0f172a;--muted:#475569;--border:rgba(15,23,42,.10);--accent:#0b5ed7;--accentSoft:#e6f0ff;--radius:18px}
-body{margin:0;font-family:system-ui;background:var(--bg)}
-.topbar{background:#fff;border-bottom:1px solid var(--border)}
-.topbar-inner{max-width:1100px;margin:auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-.brand{font-weight:800;color:var(--accent)}
-.container{max-width:1100px;margin:auto;padding:22px}
-.hero{background:linear-gradient(180deg,#fff,var(--accentSoft));padding:28px;border-radius:18px}
-.section{margin-top:28px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-@media(max-width:800px){.grid{grid-template-columns:1fr}}
-.card{background:#fff;border-radius:18px;padding:18px;border:1px solid var(--border)}
-.card.featured{border:2px solid var(--accent)}
-.badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px}
-.address{color:var(--muted);margin:6px 0}
-.btn{margin-top:auto;padding:10px;border-radius:14px;border:none;background:var(--accent);color:#fff;cursor:pointer}
-.page{display:none}
-.page.active{display:block}
-</style>
+  <style>
+    :root{--bg:#eef5ff;--card:#ffffff;--text:#0f172a;--muted:#475569;--border:rgba(15,23,42,.10);--shadow:0 18px 40px rgba(2,6,23,.10);--shadow2:0 10px 25px rgba(2,6,23,.12);--accent:#0b5ed7;--accentSoft:#e6f0ff;--radius:18px}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+    .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
+    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
+    .brand span{font-size:22px}
+    .nav button{background:none;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px}
+    .nav button.active{background:rgba(37,99,235,.12);color:#1e88ff}
+    .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+    .hero{background:linear-gradient(180deg,#fff,var(--accentSoft));border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
+    .hero h1{margin:0 0 6px 0;font-size:26px}
+    .hero p{margin:0;color:var(--muted)}
+    .section{margin-top:28px}
+    .section h2{display:flex;align-items:center;gap:8px;font-size:20px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow2);display:flex;flex-direction:column;transition:transform .15s ease, box-shadow .15s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(2,6,23,.18)}
+    .card.featured{border:2px solid var(--accent);background:linear-gradient(180deg,#ffffff,#f0f6ff)}
+    .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;align-self:flex-start;display:flex;align-items:center;gap:6px}
+    .address{color:var(--muted);font-size:14px;display:flex;gap:6px;margin:6px 0 10px 0}
+    .btn{margin-top:auto;padding:10px 14px;border-radius:14px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+    .page{display:none}.page.active{display:block}
+    .footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+    #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
+    #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
+    #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
+  </style>
 </head>
-
 <body>
-
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand">🦷 TexasDentalHub</div>
-    <select id="citySelect">
-      <option value="houston">Houston</option>
-      <option value="katy">Katy</option>
-      <option value="sugarland">Sugar Land</option>
-      <option value="richmond">Richmond</option>
-      <option value="rosenberg">Rosenberg</option>
-      <option value="woodlands">The Woodlands</option>
-      <option value="spring">Spring</option>
-    </select>
+    <div class="brand"><span>🦷</span>TexasDentalHub</div>
+    <div class="nav">
+      <button class="active" data-city="houston">Houston</button>
+      <button data-city="katy">Katy</button>
+      <button data-city="sugarland">Sugar Land</button>
+      <button data-city="richmond">Richmond</button>
+      <button data-city="rosenberg">Rosenberg</button>
+      <button data-city="woodlands">The Woodlands</button>
+      <button data-city="spring">Spring</button>
+    </div>
   </div>
 </div>
 
@@ -53,77 +64,126 @@ body{margin:0;font-family:system-ui;background:var(--bg)}
   <div id="spring" class="page"></div>
 </div>
 
+<div class="footer">© 2026 TexasDentalHub</div>
+
+<div id="leadModal">
+  <div class="modal">
+    <h3>Request Appointment</h3>
+    <p id="leadClinic" style="font-size:14px;color:#475569"></p>
+    <form onsubmit="submitLead(event)">
+      <input required placeholder="Your Name" />
+      <input required type="email" placeholder="Email" />
+      <input required placeholder="Phone" />
+      <textarea required placeholder="Preferred time / message"></textarea>
+      <button class="btn" type="submit">Submit Request</button>
+      <button type="button" onclick="closeLead()" style="margin-left:10px">Cancel</button>
+    </form>
+  </div>
+</div>
+
 <script>
 // ---------------- DATA ----------------
-const DATA = {
-  houston:{
-    label:"Houston",
-    featured:[
-      {name:"Lovett Dental – Midtown",address:"410 Pierce St, Houston, TX",phone:"7136509500"},
-      {name:"URBN Dental – Heights",address:"1911 Taylor St, Houston, TX",phone:"7138623939"},
-      {name:"Mint Dentistry – River Oaks",address:"3335 Westheimer Rd, Houston, TX",phone:"7135876458"}
-    ],
-    clinics:[
-      {name:"Garden Oaks Dental",address:"331 W 34th St, Houston, TX"},
-      {name:"Bellaire Family Dentistry",address:"6700 West Loop S, Bellaire, TX"},
-      {name:"Heights Dental Center",address:"107 E 11th St, Houston, TX"}
-    ]
-  },
-  katy:{label:"Katy",featured:[],clinics:[]},
-  sugarland:{label:"Sugar Land",featured:[],clinics:[]},
-  richmond:{label:"Richmond",featured:[],clinics:[]},
-  rosenberg:{label:"Rosenberg",featured:[],clinics:[]},
-  woodlands:{label:"The Woodlands",featured:[],clinics:[]},
-  spring:{label:"Spring",featured:[],clinics:[]}
+const DATA={
+  houston:{label:'Houston',featured:[{name:'Lovett Dental – Midtown',address:'410 Pierce St, Houston, TX 77002',phone:'7136509500'},{name:'URBN Dental – Heights',address:'1911 Taylor St Ste D, Houston, TX 77007',phone:'7138623939'}],clinics:[{name:'Garden Oaks Dental',address:'331 W 34th St, Houston, TX 77018',phone:''},{name:'Mint Dentistry – Midtown',address:'1213 Binz St, Houston, TX 77004',phone:''},{name:'Bellaire Family Dentistry',address:'6700 West Loop S Ste 300, Bellaire, TX 77401',phone:''},{name:'Heights Dental Center',address:'107 E 11th St, Houston, TX 77008',phone:''},{name:'Memorial Family Dentistry',address:'9630 Westheimer Rd Ste 100, Houston, TX 77063',phone:''},{name:'Westchase Family Dentistry',address:'10503 Westheimer Rd Ste A, Houston, TX 77042',phone:''},{name:'Galleria Dental Group',address:'5757 Woodway Dr Ste 250, Houston, TX 77057',phone:''},{name:'Spring Branch Dental',address:'9020 Long Point Rd, Houston, TX 77055',phone:''}]},
+  katy:{label:'Katy',featured:[{name:'Cinco Ranch Dental',address:'23000 Cinco Ranch Blvd Ste 200, Katy, TX 77494',phone:'2813952110'},{name:'Katy Family Dentistry',address:'1510 S Mason Rd Ste C, Katy, TX 77450',phone:'2813950888'}],clinics:[{name:'Westgreen Dental',address:'25700 Westheimer Pkwy Ste 120, Katy, TX 77494',phone:''},{name:'Elyson Family Dentistry',address:'7307 Katy Hockley Cut Off Rd, Katy, TX 77493',phone:''},{name:'Morton Ranch Dental',address:'2501 N Mason Rd Ste 400, Katy, TX 77449',phone:''},{name:'Falcon Point Dental',address:'9910 Gaston Rd Ste 150, Katy, TX 77494',phone:''},{name:'Katy Modern Dentistry',address:'20725 Katy Fwy Ste 800, Katy, TX 77450',phone:''},{name:'Spring Green Family Dental',address:'9910 Gaston Rd Ste 200, Katy, TX 77494',phone:''},{name:'Seven Meadows Dental',address:'7600 Seven Meadows Dr Ste 110, Katy, TX 77494',phone:''},{name:'Grand Lakes Dental',address:'4020 FM 1463 Ste 100, Katy, TX 77494',phone:''}]},
+  sugarland:{label:'Sugar Land',featured:[{name:'My Dental of Sugar Land',address:'4965 Sweetwater Blvd, Sugar Land, TX 77479',phone:'2814947777'},{name:'Sugar Creek Smile Dentistry',address:'4645 Hwy 6 Ste G, Sugar Land, TX 77478',phone:'2813132000'}],clinics:[{name:'Apollonia Dental',address:'4427 Hwy 6 Ste A, Sugar Land, TX 77478',phone:''},{name:'Delight Dental',address:'3524 Hwy 6, Sugar Land, TX 77478',phone:''},{name:'Greatwood Dental Care',address:'110 Greatwood Pkwy, Sugar Land, TX 77479',phone:''},{name:'Riverstone Dental',address:'4501 Riverstone Blvd, Sugar Land, TX 77479',phone:''},{name:'First Colony Dental',address:'1550 First Colony Blvd, Sugar Land, TX 77479',phone:''},{name:'Imperial Dental Associates',address:'14090 Southwest Fwy, Sugar Land, TX 77478',phone:''},{name:'Fort Bend Dental',address:'1850 Eldridge Rd, Sugar Land, TX 77478',phone:''},{name:'Greatwood Family Dentistry',address:'1990 Greatwood Pkwy Ste 100, Sugar Land, TX 77479',phone:''}]},
+  richmond:{label:'Richmond',featured:[{name:'Richmond Family Dentistry',address:'10111 FM 762 Rd Ste 200, Richmond, TX 77469',phone:'2813422200'},{name:'Aliana Family Dental',address:'18450 W Airport Blvd Ste 500, Richmond, TX 77407',phone:'8329397777'}],clinics:[{name:'Pecan Grove Dental',address:'10703 FM 359 Rd, Richmond, TX 77406',phone:''},{name:'Grand Parkway Dental Care',address:'10235 Grand Pkwy Ste 300, Richmond, TX 77407',phone:''},{name:'Waterview Dental',address:'19100 W Bellfort Blvd Ste 200, Richmond, TX 77407',phone:''},{name:'Long Meadow Farms Dental',address:'5310 FM 359 Rd Ste 100, Richmond, TX 77406',phone:''},{name:'Harvest Green Dental',address:'4515 Harvest Corner Dr Ste 100, Richmond, TX 77406',phone:''},{name:'Williams Way Dental',address:'19110 FM 1093 Rd Ste 200, Richmond, TX 77407',phone:''},{name:'River Pointe Dental',address:'18410 W Airport Blvd Ste 300, Richmond, TX 77407',phone:''},{name:'Fulshear Family Dentistry',address:'8410 FM 359 Rd Ste 200, Fulshear, TX 77441',phone:''}]},
+  rosenberg:{label:'Rosenberg',featured:[{name:'Rosenberg Family Dentistry',address:'23901 Commercial Dr Ste 100, Rosenberg, TX 77471',phone:'2812390600'},{name:'Fort Bend Family Dental',address:'2224 1st St, Rosenberg, TX 77471',phone:'2813423350'}],clinics:[{name:'Rosenberg Dental Care',address:'24401 Brazos Town Crossing, Rosenberg, TX 77471',phone:''},{name:'Town Center Dental',address:'25111 FM 2218 Rd Ste 200, Rosenberg, TX 77471',phone:''},{name:'Brazos Valley Dental',address:'2300 Avenue H Ste B, Rosenberg, TX 77471',phone:''},{name:'Needville Family Dentistry',address:'14400 Main St Ste 200, Needville, TX 77461',phone:''},{name:'Fort Bend Dental Group',address:'25200 Southwest Fwy Ste 100, Rosenberg, TX 77471',phone:''},{name:'Richmond Rosenberg Dental',address:'24008 Southwest Fwy Ste 100, Rosenberg, TX 77471',phone:''},{name:'Townsend Dental',address:'1906 Avenue G, Rosenberg, TX 77471',phone:''},{name:'Heritage Family Dentistry',address:'1719 3rd St Ste 101, Rosenberg, TX 77471',phone:''}]},
+  woodlands:{label:'The Woodlands',featured:[{name:'Woodlands Family Dentistry',address:'179 Vision Park Blvd Ste 100, The Woodlands, TX 77384',phone:'2812920123'},{name:'Creekside Dental',address:'8708 Creekside Forest Dr Ste 100, The Woodlands, TX 77375',phone:'2814199300'}],clinics:[{name:'Sterling Ridge Dental',address:'6700 Woodlands Pkwy Ste 230-224, The Woodlands, TX 77382',phone:''},{name:'Indian Springs Dental',address:'25114 Grogans Park Dr, The Woodlands, TX 77380',phone:''},{name:'Alden Bridge Dental',address:'8000 Research Forest Dr Ste 115, The Woodlands, TX 77382',phone:''},{name:'Panther Creek Dental',address:'4775 W Panther Creek Dr Ste 150, The Woodlands, TX 77381',phone:''},{name:'Hughes Landing Dental',address:'1900 Hughes Landing Blvd Ste 600, The Woodlands, TX 77380',phone:''},{name:'Magnolia Family Dentistry',address:'4223 Research Forest Dr Ste 300, The Woodlands, TX 77381',phone:''},{name:'Creekside Park Dental',address:'26505 Kuykendahl Rd Ste 200, The Woodlands, TX 77389',phone:''},{name:'North Woods Dental',address:'3600 FM 1488 Rd Ste 120, The Woodlands, TX 77384',phone:''}]},
+  spring:{label:'Spring',featured:[{name:'Spring Family Dentistry',address:'23221 Aldine Westfield Rd Ste 300, Spring, TX 77373',phone:'2812881700'},{name:'Harmony Dental – Spring',address:'16806 Stuebner Airline Rd Ste 200, Spring, TX 77379',phone:'2813532273'}],clinics:[{name:'Klein Family Dental',address:'7310 Louetta Rd Ste 200, Spring, TX 77379',phone:''},{name:'Champions Dental',address:'5211 FM 1960 Rd W Ste 100, Houston, TX 77069',phone:''},{name:'Spring Cypress Dental',address:'21212 Kuykendahl Rd Ste 500, Spring, TX 77379',phone:''},{name:'Northampton Dental',address:'20003 Champion Forest Dr Ste 200, Spring, TX 77379',phone:''},{name:'Stuebner Airline Dental',address:'16000 Stuebner Airline Rd Ste 100, Spring, TX 77379',phone:''},{name:'Spring Trails Dental',address:'21606 Gosling Rd Ste 200, Spring, TX 77388',phone:''},{name:'Harmony Smiles',address:'7310 Louetta Rd Ste 220, Spring, TX 77379',phone:''},{name:'Benders Landing Dental',address:'20227 Gosling Rd Ste 100, Spring, TX 77388',phone:''}]}
 };
 
-// ---------------- RENDER ----------------
+// --------------- RENDERING ----------------
 function renderCity(key){
   const city = DATA[key];
-  if(!city) return;
-
   document.getElementById(key).innerHTML = `
-    <div class="hero">
-      <h1>General & Family Dentists in ${city.label}</h1>
-      <p>Browse trusted local dental clinics.</p>
-    </div>
+  
+<div class="hero"><h1>General & Family Dentists in ${city.label}</h1>
+  <p>
+    Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you discover verified general and family dental clinics across ${city.label} and nearby areas. Browse local providers, call featured clinics directly, or request an appointment online with confidence.
+  </p>
 
-    <div class="section">
-      <h2>⭐ Featured Clinics</h2>
-      <div class="grid">${city.featured.map(c=>card(c,true)).join("")}</div>
-    </div>
+  <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
+   <li>✅ Verified local dental clinics in and around ${city.label}</li>
+    <li>📞 Call featured clinics directly — no middlemen</li>
+    <li>🗓️ Request appointments online in seconds</li>
+    <li>🦷 General, family, cosmetic & emergency care options</li>
+    <li>📍 Focused on your city — not a national spam directory</li>
+  </ul>
+</div>
 
-    <div class="section">
-      <h2>🏥 All Clinics</h2>
-      <div class="grid">${city.clinics.map(c=>card(c,false)).join("")}</div>
-    </div>
+
+    <div class="section"><h2>⭐ Featured Clinics</h2><div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div></div>
+    <div class="section"><h2>🏥 All Clinics</h2><div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div></div>
   `;
 }
 
-function card(c,featured){
+function card(c,isFeatured){
   const action = c.phone
-    ? `<button class="btn" onclick="window.location.href='tel:${c.phone}'">Call</button>`
-    : `<button class="btn">Request Appointment</button>`;
+    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
+    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
 
-  return `
-    <div class="card ${featured?'featured':''}">
-      <span class="badge">${featured?'Featured':'Clinic'}</span>
-      <h3>${c.name}</h3>
-      <div class="address">${c.address}</div>
-      ${action}
-    </div>
-  `;
+  return `<div class="card ${isFeatured?'featured':''}">
+    <span class="badge">${isFeatured?'⭐ Featured Clinic':'Clinic'}</span>
+    <h3>${c.name}</h3>
+    <div class="address">📍 ${c.address}</div>
+    ${action}
+  </div>`;
 }
 
 Object.keys(DATA).forEach(renderCity);
 
-// ---------------- DROPDOWN ----------------
-const select = document.getElementById("citySelect");
-select.addEventListener("change",()=>{
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(select.value).classList.add("active");
+function callClinic(phone, clinic) {
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    window.location.href = `tel:${phone}`;
+  } else {
+    alert(`Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`);
+  }
+}
+
+// --------------- LEAD MODAL ----------------
+function openLead(name){
+  document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
+  document.getElementById('leadModal').style.display = 'flex';
+}
+
+function closeLead(){
+  document.getElementById('leadModal').style.display = 'none';
+}
+
+function submitLead(e){
+  e.preventDefault();
+  const form = e.target;
+
+  const data = {
+    clinic: document.getElementById('leadClinic').innerText.replace('Clinic: ', ''),
+    name: form.querySelector('input[placeholder="Your Name"]').value,
+    email: form.querySelector('input[type="email"]').value,
+    phone: form.querySelector('input[placeholder="Phone"]').value,
+    message: form.querySelector('textarea').value,
+    city: document.querySelector('.nav button.active').innerText,
+    timestamp: new Date().toISOString()
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxUQduaVzN-YlniJvAJ9M8oIn1Yw6lWWdMDRxHBLSTs65YIX7C5VJi6MZlvXS3XJSe-Yg/exec", {
+    method: "POST",
+    mode: "no-cors",
+    body: JSON.stringify(data)
+  });
+
+  alert("Appointment request submitted. We will contact you shortly.");
+  form.reset();
+  closeLead();
+}
+
+// --------------- NAV ----------------
+const buttons = document.querySelectorAll('.nav button');
+buttons.forEach(btn => btn.onclick = () => {
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(btn.dataset.city).classList.add('active');
 });
 </script>
-
 </body>
 </html>
