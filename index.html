@@ -42,15 +42,9 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand"><span>🦷</span>TexasDentalHub</div>
-    <div class="nav">
-      <button class="active" data-city="houston">Houston</button>
-      <button data-city="katy">Katy</button>
-      <button data-city="sugarland">Sugar Land</button>
-      <button data-city="richmond">Richmond</button>
-      <button data-city="rosenberg">Rosenberg</button>
-      <button data-city="woodlands">The Woodlands</button>
-      <button data-city="spring">Spring</button>
-    </div>
+    
+ <div class="nav">
+    
   </div>
 </div>
 
@@ -331,13 +325,16 @@ function submitLead(e){
 }
 
 // --------------- NAV ----------------
-const buttons = document.querySelectorAll('.nav button');
-buttons.forEach(btn => btn.onclick = () => {
-  buttons.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+const citySelect = document.getElementById("citySelect");
+
+citySelect.addEventListener("change", () => {
+  const cityKey = citySelect.value;
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(btn.dataset.city).classList.add('active');
+  document.getElementById(cityKey).classList.add('active');
 });
+
+  
 </script>
 </body>
 </html>
