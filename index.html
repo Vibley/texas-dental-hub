@@ -1,48 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TexasDentalHub | Houston Metro Dentists</title>
-  <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TexasDentalHub | Houston Metro Dentists</title>
 
-  <style>
-    :root{--bg:#eef5ff;--card:#ffffff;--text:#0f172a;--muted:#475569;--border:rgba(15,23,42,.10);--shadow:0 18px 40px rgba(2,6,23,.10);--shadow2:0 10px 25px rgba(2,6,23,.12);--accent:#0b5ed7;--accentSoft:#e6f0ff;--radius:18px}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-    .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
-    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
-    .brand span{font-size:22px}
-    .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
-    .hero{background:linear-gradient(180deg,#fff,var(--accentSoft));border:1px solid var(--border);border-radius:18px;padding:28px;box-shadow:var(--shadow)}
-    .hero h1{margin:0 0 6px 0;font-size:26px}
-    .hero p{margin:0;color:var(--muted)}
-    .section{margin-top:28px}
-    .section h2{display:flex;align-items:center;gap:8px;font-size:20px}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:600px){.grid{grid-template-columns:1fr}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow2);display:flex;flex-direction:column}
-    .card.featured{border:2px solid var(--accent);background:linear-gradient(180deg,#ffffff,#f0f6ff)}
-    .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;align-self:flex-start}
-    .address{color:var(--muted);font-size:14px;margin:6px 0 10px 0}
-    .btn{margin-top:auto;padding:10px 14px;border-radius:14px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
-    .page{display:none}.page.active{display:block}
-    .footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
-    #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
-    #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
-    #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
-    select{padding:8px 14px;border-radius:999px;border:1px solid var(--border);font-size:14px}
-  </style>
+<style>
+:root{--bg:#eef5ff;--card:#fff;--text:#0f172a;--muted:#475569;--border:rgba(15,23,42,.10);--accent:#0b5ed7;--accentSoft:#e6f0ff;--radius:18px}
+body{margin:0;font-family:system-ui;background:var(--bg)}
+.topbar{background:#fff;border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1100px;margin:auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:800;color:var(--accent)}
+.container{max-width:1100px;margin:auto;padding:22px}
+.hero{background:linear-gradient(180deg,#fff,var(--accentSoft));padding:28px;border-radius:18px}
+.section{margin-top:28px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:18px;padding:18px;border:1px solid var(--border)}
+.card.featured{border:2px solid var(--accent)}
+.badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px}
+.address{color:var(--muted);margin:6px 0}
+.btn{margin-top:auto;padding:10px;border-radius:14px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+.page{display:none}
+.page.active{display:block}
+</style>
 </head>
 
 <body>
+
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="brand"><span>🦷</span>TexasDentalHub</div>
-
-    <!-- CITY DROPDOWN -->
+    <div class="brand">🦷 TexasDentalHub</div>
     <select id="citySelect">
       <option value="houston">Houston</option>
       <option value="katy">Katy</option>
@@ -65,111 +53,77 @@
   <div id="spring" class="page"></div>
 </div>
 
-<div class="footer">© 2026 TexasDentalHub</div>
-
-<!-- LEAD MODAL -->
-<div id="leadModal">
-  <div class="modal">
-    <h3>Request Appointment</h3>
-    <p id="leadClinic"></p>
-    <form onsubmit="submitLead(event)">
-      <input required placeholder="Your Name" />
-      <input required type="email" placeholder="Email" />
-      <input required placeholder="Phone" />
-      <textarea required placeholder="Preferred time / message"></textarea>
-      <button class="btn" type="submit">Submit Request</button>
-      <button type="button" onclick="closeLead()">Cancel</button>
-    </form>
-  </div>
-</div>
-
 <script>
 // ---------------- DATA ----------------
-// (UNCHANGED — using your exact DATA object)
-const DATA = /* YOUR EXISTING DATA OBJECT HERE */;
+const DATA = {
+  houston:{
+    label:"Houston",
+    featured:[
+      {name:"Lovett Dental – Midtown",address:"410 Pierce St, Houston, TX",phone:"7136509500"},
+      {name:"URBN Dental – Heights",address:"1911 Taylor St, Houston, TX",phone:"7138623939"},
+      {name:"Mint Dentistry – River Oaks",address:"3335 Westheimer Rd, Houston, TX",phone:"7135876458"}
+    ],
+    clinics:[
+      {name:"Garden Oaks Dental",address:"331 W 34th St, Houston, TX"},
+      {name:"Bellaire Family Dentistry",address:"6700 West Loop S, Bellaire, TX"},
+      {name:"Heights Dental Center",address:"107 E 11th St, Houston, TX"}
+    ]
+  },
+  katy:{label:"Katy",featured:[],clinics:[]},
+  sugarland:{label:"Sugar Land",featured:[],clinics:[]},
+  richmond:{label:"Richmond",featured:[],clinics:[]},
+  rosenberg:{label:"Rosenberg",featured:[],clinics:[]},
+  woodlands:{label:"The Woodlands",featured:[],clinics:[]},
+  spring:{label:"Spring",featured:[],clinics:[]}
+};
 
 // ---------------- RENDER ----------------
 function renderCity(key){
   const city = DATA[key];
+  if(!city) return;
+
   document.getElementById(key).innerHTML = `
     <div class="hero">
       <h1>General & Family Dentists in ${city.label}</h1>
-      <p>Find trusted local dental clinics. Call featured clinics directly or request an appointment online.</p>
+      <p>Browse trusted local dental clinics.</p>
     </div>
 
     <div class="section">
       <h2>⭐ Featured Clinics</h2>
-      <div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div>
+      <div class="grid">${city.featured.map(c=>card(c,true)).join("")}</div>
     </div>
 
     <div class="section">
       <h2>🏥 All Clinics</h2>
-      <div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div>
+      <div class="grid">${city.clinics.map(c=>card(c,false)).join("")}</div>
     </div>
   `;
 }
 
-function card(c,isFeatured){
+function card(c,featured){
   const action = c.phone
-    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
+    ? `<button class="btn" onclick="window.location.href='tel:${c.phone}'">Call</button>`
+    : `<button class="btn">Request Appointment</button>`;
 
-  return `<div class="card ${isFeatured?'featured':''}">
-    <span class="badge">${isFeatured?'⭐ Featured Clinic':'Clinic'}</span>
-    <h3>${c.name}</h3>
-    <div class="address">📍 ${c.address}</div>
-    ${action}
-  </div>`;
+  return `
+    <div class="card ${featured?'featured':''}">
+      <span class="badge">${featured?'Featured':'Clinic'}</span>
+      <h3>${c.name}</h3>
+      <div class="address">${c.address}</div>
+      ${action}
+    </div>
+  `;
 }
 
 Object.keys(DATA).forEach(renderCity);
 
-// ---------------- DROPDOWN LOGIC ----------------
-const citySelect = document.getElementById("citySelect");
-citySelect.addEventListener("change", () => {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(citySelect.value).classList.add('active');
+// ---------------- DROPDOWN ----------------
+const select = document.getElementById("citySelect");
+select.addEventListener("change",()=>{
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(select.value).classList.add("active");
 });
-
-// ---------------- LEAD ----------------
-function openLead(name){
-  document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
-  document.getElementById('leadModal').style.display = 'flex';
-}
-function closeLead(){
-  document.getElementById('leadModal').style.display = 'none';
-}
-function submitLead(e){
-  e.preventDefault();
-  const form = e.target;
-
-  const data = {
-    clinic: document.getElementById('leadClinic').innerText.replace('Clinic: ', ''),
-    name: form[0].value,
-    email: form[1].value,
-    phone: form[2].value,
-    message: form[3].value,
-    city: citySelect.options[citySelect.selectedIndex].text
-  };
-
-  fetch("YOUR_GOOGLE_SCRIPT_URL", {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-  });
-
-  alert("Appointment request submitted.");
-  form.reset();
-  closeLead();
-}
-
-function callClinic(phone, clinic){
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    window.location.href = `tel:${phone}`;
-  } else {
-    alert(`Call ${clinic}\n\nPhone: ${phone}`);
-  }
-}
 </script>
+
 </body>
 </html>
