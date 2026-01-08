@@ -97,8 +97,9 @@ const DATA={
 function renderCity(key){
   const city = DATA[key];
   document.getElementById(key).innerHTML = `
-    <div class="hero"><h1>General & Family Dentists in ${city.label}</h1><p>Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you discover verified general and family dental clinics across ${city.label} and nearby areas. Browse local providers, call featured clinics directly, or request an appointment online with confidence.
-</p>
+    <div class="hero"><h1>General & Family Dentists in ${city.label}</h1><p> Finding the right dentist in ${city.label} shouldn’t be difficult. TexasDentalHub connects patients with trusted general and family dental clinics in ${city.label} and nearby communities. Browse local providers, call featured clinics directly, or request an appointment online — all in one place.</p>
+
+
 </div>
     <div class="section"><h2>⭐ Featured Clinics</h2><div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div></div>
     <div class="section"><h2>🏥 All Clinics</h2><div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div></div>
