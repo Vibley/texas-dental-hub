@@ -439,13 +439,11 @@ function applyFilters(){
 
   updateFilterCount(visibleCount);
 }
+  
 function updateFilterCount(count){
   const activePage = document.querySelector('.page.active');
-  const container = activePage.querySelector('.filter-count');
-  if (!container) return;
-
-  const text = container.querySelector('.count-text');
-  const clearBtn = container.querySelector('.clear-filters');
+  const label = activePage.querySelector('.filter-count');
+  if (!label) return;
 
   const hasFilters =
     filters.service.value ||
@@ -453,10 +451,17 @@ function updateFilterCount(count){
     filters.availability.value;
 
   if (!hasFilters) {
-    text.textContent = `Showing all ${count} clinics`;
-    clearBtn.style.display = 'none';
-    return;
+    label.textContent = `Showing all ${count} clinics`;
+  } else if (count === 0) {
+    label.textContent = 'No clinics match your filters';
+  } else if (count === 1) {
+    label.textContent = 'Showing 1 clinic';
+  } else {
+    label.textContent = `Showing ${count} clinics`;
   }
+}
+
+  
 
   clearBtn.style.display = 'inline';
 
