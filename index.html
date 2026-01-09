@@ -335,11 +335,12 @@ function renderCity(key){
 
 <div class="filters">
   <div class="filter-row">
-
 <div class="filter-count">
-  Showing all clinics
+  <span class="count-text">Showing all clinics</span>
+  <button class="clear-filters" onclick="resetFilters()" style="display:none;">
+    Clear filters
+  </button>
 </div>
-
 
 </div>
 
@@ -439,11 +440,13 @@ function applyFilters(){
 
   updateFilterCount(visibleCount);
 }
-  
 function updateFilterCount(count){
   const activePage = document.querySelector('.page.active');
-  const label = activePage.querySelector('.filter-count');
-  if (!label) return;
+  const container = activePage.querySelector('.filter-count');
+  if (!container) return;
+
+  const text = container.querySelector('.count-text');
+  const clearBtn = container.querySelector('.clear-filters');
 
   const hasFilters =
     filters.service.value ||
@@ -451,17 +454,10 @@ function updateFilterCount(count){
     filters.availability.value;
 
   if (!hasFilters) {
-    label.textContent = `Showing all ${count} clinics`;
-  } else if (count === 0) {
-    label.textContent = 'No clinics match your filters';
-  } else if (count === 1) {
-    label.textContent = 'Showing 1 clinic';
-  } else {
-    label.textContent = `Showing ${count} clinics`;
+    text.textContent = `Showing all ${count} clinics`;
+    clearBtn.style.display = 'none';
+    return;
   }
-}
-
-  
 
   clearBtn.style.display = 'inline';
 
