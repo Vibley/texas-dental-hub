@@ -95,6 +95,16 @@
 .clear-filters:hover {
   text-decoration: underline;
 }
+.sticky-filter {
+  position: sticky;
+  top: 64px; /* below your topbar */
+  z-index: 9;
+}
+
+/* Visual polish when stuck */
+.sticky-filter.is-stuck {
+  box-shadow: 0 10px 22px rgba(2,6,23,.12);
+}
 
     
   </style>
@@ -329,7 +339,8 @@ function renderCity(key){
   </ul>
 </div>
 
-<div class="filters">
+<div class="filters sticky-filter">
+
   <div class="filter-row">
 <div class="filter-count">
   <span class="count-text">Showing all clinics</span>
@@ -400,6 +411,24 @@ function card(c,isFeatured){
   
 
 Object.keys(DATA).forEach(renderCity);
+
+  // --------------- STICKY FILTER SCROLL ----------------
+window.addEventListener('scroll', () => {
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return;
+
+  const filter = activePage.querySelector('.sticky-filter');
+  if (!filter) return;
+
+  const rect = filter.getBoundingClientRect();
+
+  if (rect.top <= 64) {
+    filter.classList.add('is-stuck');
+  } else {
+    filter.classList.remove('is-stuck');
+  }
+});
+
 
   const filters = {
   service: document.getElementById('filter-service'),
