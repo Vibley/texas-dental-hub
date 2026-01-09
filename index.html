@@ -80,6 +80,30 @@
 }
 
 
+.filter-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clear-filters:hover {
+  text-decoration: underline;
+}
+
+    
   </style>
   
 </head>
@@ -314,7 +338,13 @@ function renderCity(key){
 
 <div class="filters">
   <div class="filter-row">
-  <div class="filter-count">
+<div class="filter-count">
+  <span class="count-text">Showing all clinics</span>
+  <button class="clear-filters" onclick="resetFilters()" style="display:none;">
+    Clear filters
+  </button>
+</div>
+
   Showing all clinics
 </div>
 
@@ -416,18 +446,33 @@ function applyFilters(){
 }
 function updateFilterCount(count){
   const activePage = document.querySelector('.page.active');
-  const label = activePage.querySelector('.filter-count');
-  if (!label) return;
+  const container = activePage.querySelector('.filter-count');
+  if (!container) return;
+
+  const text = container.querySelector('.count-text');
+  const clearBtn = container.querySelector('.clear-filters');
+
+  const hasFilters =
+    filters.service.value ||
+    filters.insurance.value ||
+    filters.availability.value;
+
+  if (!hasFilters) {
+    text.textContent = `Showing all ${count} clinics`;
+    clearBtn.style.display = 'none';
+    return;
+  }
+
+  clearBtn.style.display = 'inline';
 
   if (count === 0) {
-    label.textContent = 'No clinics match your filters';
+    text.textContent = 'No clinics match your filters';
   } else if (count === 1) {
-    label.textContent = 'Showing 1 clinic';
+    text.textContent = 'Showing 1 clinic';
   } else {
-    label.textContent = `Showing ${count} clinics`;
+    text.textContent = `Showing ${count} clinics`;
   }
 }
-
 
 
 
