@@ -72,6 +72,14 @@
   }
 }
 
+    .filter-count {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+
   </style>
   
 </head>
@@ -306,6 +314,10 @@ function renderCity(key){
 
 <div class="filters">
   <div class="filter-row">
+  <div class="filter-count" id="filterCount">
+  Showing all clinics
+</div>
+
     <select id="filter-service">
       <option value="">All Services</option>
       <option value="general">General Dentistry</option>
@@ -377,6 +389,7 @@ Object.values(filters).forEach(f =>
 function applyFilters(){
   const activePage = document.querySelector('.page.active');
   const cards = activePage.querySelectorAll('.card');
+  let visibleCount = 0;
 
   cards.forEach(card => {
     let visible = true;
@@ -394,8 +407,25 @@ function applyFilters(){
       visible = false;
 
     card.style.display = visible ? 'flex' : 'none';
+    if (visible) visibleCount++;
   });
+
+  updateFilterCount(visibleCount);
 }
+  function updateFilterCount(count){
+  const label = document.getElementById('filterCount');
+  if (!label) return;
+
+  if (count === 0) {
+    label.textContent = 'No clinics match your filters';
+  } else if (count === 1) {
+    label.textContent = 'Showing 1 clinic';
+  } else {
+    label.textContent = `Showing ${count} clinics`;
+  }
+}
+
+
 
 function resetFilters(){
   Object.values(filters).forEach(f => f.value = '');
@@ -452,6 +482,8 @@ buttons.forEach(btn => btn.onclick = () => {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(btn.dataset.city).classList.add('active');
+  applyFilters();
+
 });
 </script>
 </body>
