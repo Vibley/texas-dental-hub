@@ -314,7 +314,7 @@ function renderCity(key){
 
 <div class="filters">
   <div class="filter-row">
-  <div class="filter-count" id="filterCount">
+  <div class="filter-count">
   Showing all clinics
 </div>
 
@@ -352,6 +352,8 @@ function renderCity(key){
     <div class="section"><h2>⭐ Featured Clinics</h2><div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div></div>
     <div class="section"><h2>🏥 All Clinics</h2><div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div></div>
   `;
+  setTimeout(applyFilters);
+
 }
 
 function card(c,isFeatured){
@@ -412,8 +414,9 @@ function applyFilters(){
 
   updateFilterCount(visibleCount);
 }
-  function updateFilterCount(count){
-  const label = document.getElementById('filterCount');
+function updateFilterCount(count){
+  const activePage = document.querySelector('.page.active');
+  const label = activePage.querySelector('.filter-count');
   if (!label) return;
 
   if (count === 0) {
@@ -424,6 +427,7 @@ function applyFilters(){
     label.textContent = `Showing ${count} clinics`;
   }
 }
+
 
 
 
