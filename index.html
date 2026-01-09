@@ -35,7 +35,45 @@
     #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
     #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
     #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
+    .filters {
+  margin: 20px 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: var(--shadow2);
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.filters select,
+.filter-reset {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.filter-reset {
+  background: var(--accentSoft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .filter-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
   </style>
+  
 </head>
 <body>
 <div class="topbar">
@@ -266,6 +304,38 @@ function renderCity(key){
   </ul>
 </div>
 
+<div class="filters">
+  <div class="filter-row">
+    <select id="filter-service">
+      <option value="">All Services</option>
+      <option value="general">General Dentistry</option>
+      <option value="family">Family Dentistry</option>
+      <option value="cosmetic">Cosmetic</option>
+      <option value="emergency">Emergency</option>
+      <option value="pediatric">Pediatric</option>
+    </select>
+
+    <select id="filter-insurance">
+      <option value="">All Insurance</option>
+      <option value="delta">Delta Dental</option>
+      <option value="aetna">Aetna</option>
+      <option value="cigna">Cigna</option>
+      <option value="metlife">MetLife</option>
+      <option value="selfpay">No Insurance / Self-Pay</option>
+    </select>
+
+    <select id="filter-availability">
+      <option value="">Any Availability</option>
+      <option value="today">Open Today</option>
+      <option value="weekend">Weekend</option>
+      <option value="evening">Evenings</option>
+    </select>
+
+    <button class="filter-reset" onclick="resetFilters()">Reset</button>
+  </div>
+</div>
+
+
 
     <div class="section"><h2>⭐ Featured Clinics</h2><div class="grid">${city.featured.map(c=>card(c,true)).join('')}</div></div>
     <div class="section"><h2>🏥 All Clinics</h2><div class="grid">${city.clinics.map(c=>card(c,false)).join('')}</div></div>
@@ -277,7 +347,12 @@ function card(c,isFeatured){
     ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
     : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
 
-  return `<div class="card ${isFeatured?'featured':''}">
+  return `
+  <div class="card ${isFeatured?'featured':''}"
+       data-service="general family"
+       data-insurance="delta aetna selfpay"
+       data-availability="weekend evening">
+
     <span class="badge">${isFeatured?'⭐ Featured Clinic':'Clinic'}</span>
     <h3>${c.name}</h3>
     <div class="address">📍 ${c.address}</div>
@@ -285,7 +360,47 @@ function card(c,isFeatured){
   </div>`;
 }
 
+  
+
 Object.keys(DATA).forEach(renderCity);
+
+  const filters = {
+  service: document.getElementById('filter-service'),
+  insurance: document.getElementById('filter-insurance'),
+  availability: document.getElementById('filter-availability')
+};
+
+Object.values(filters).forEach(f =>
+  f && f.addEventListener('change', applyFilters)
+);
+
+function applyFilters(){
+  const activePage = document.querySelector('.page.active');
+  const cards = activePage.querySelectorAll('.card');
+
+  cards.forEach(card => {
+    let visible = true;
+
+    if (filters.service.value &&
+        !card.dataset.service.includes(filters.service.value))
+      visible = false;
+
+    if (filters.insurance.value &&
+        !card.dataset.insurance.includes(filters.insurance.value))
+      visible = false;
+
+    if (filters.availability.value &&
+        !card.dataset.availability.includes(filters.availability.value))
+      visible = false;
+
+    card.style.display = visible ? 'flex' : 'none';
+  });
+}
+
+function resetFilters(){
+  Object.values(filters).forEach(f => f.value = '');
+  applyFilters();
+}
 
 function callClinic(phone, clinic) {
   if (/Mobi|Android/i.test(navigator.userAgent)) {
