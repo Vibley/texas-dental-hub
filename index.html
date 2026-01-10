@@ -142,6 +142,15 @@
   }
 }
 
+    .city-select {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
     
   </style>
   
@@ -150,15 +159,20 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand"><span>🦷</span>TexasDentalHub</div>
-    <div class="nav">
-      <button class="active" data-city="houston">Houston</button>
-      <button data-city="katy">Katy</button>
-      <button data-city="sugarland">Sugar Land</button>
-      <button data-city="richmond">Richmond</button>
-      <button data-city="rosenberg">Rosenberg</button>
-      <button data-city="woodlands">The Woodlands</button>
-      <button data-city="spring">Spring</button>
-    </div>
+   
+<div class="nav">
+  <select id="citySelect" class="city-select">
+    <option value="houston">Houston</option>
+    <option value="katy">Katy</option>
+    <option value="sugarland">Sugar Land</option>
+    <option value="richmond">Richmond</option>
+    <option value="rosenberg">Rosenberg</option>
+    <option value="woodlands">The Woodlands</option>
+    <option value="spring">Spring</option>
+  </select>
+</div>
+
+    
   </div>
 </div>
 
@@ -448,6 +462,7 @@ function card(c,isFeatured){
   
 
 Object.keys(DATA).forEach(renderCity);
+document.getElementById('citySelect').value = 'houston';
 
   // --------------- STICKY FILTER SCROLL ----------------
 window.addEventListener('scroll', () => {
@@ -596,15 +611,20 @@ function submitLead(e){
 }
 
 // --------------- NAV ----------------
-const buttons = document.querySelectorAll('.nav button');
-buttons.forEach(btn => btn.onclick = () => {
-  buttons.forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(btn.dataset.city).classList.add('active');
-  applyFilters();
+const citySelect = document.getElementById('citySelect');
 
+citySelect.addEventListener('change', () => {
+  const city = citySelect.value;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(city).classList.add('active');
+
+  applyFilters();
+  window.dispatchEvent(new Event('scroll'));
 });
+
+
+  
 </script>
 </body>
 </html>
