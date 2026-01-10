@@ -35,14 +35,16 @@
     #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
     #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
     #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
-    .filters {
+    
+.filters {
   margin: 20px 0;
   background: #fff;
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 8px 20px rgba(2,6,23,.08);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 14px;
-  box-shadow: var(--shadow2);
 }
+
 
 .filter-row {
   display: grid;
@@ -50,14 +52,28 @@
   gap: 12px;
 }
 
-.filters select,
-.filter-reset {
-  padding: 10px 12px;
-  border-radius: 12px;
+.filters select {
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 12px 38px 12px 14px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   font-size: 14px;
-  background: #fff;
+  background:
+    #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2364758b'%3E%3Cpath d='M3 5l4 4 4-4'/%3E%3C/svg%3E")
+    no-repeat right 14px center;
   cursor: pointer;
+}
+
+/* Subtle press feedback (app-like feel) */
+.filters select {
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.filters select:active {
+  transform: scale(0.985);
 }
 
 
@@ -94,6 +110,7 @@
 .clear-filters:hover {
   text-decoration: underline;
 }
+    
 .sticky-filter {
   position: sticky;
   top: 64px; /* below your topbar */
@@ -101,9 +118,13 @@
 }
 
 /* Visual polish when stuck */
+/* App-like sticky state */
 .sticky-filter.is-stuck {
-  box-shadow: 0 10px 22px rgba(2,6,23,.12);
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px rgba(2,6,23,.14);
 }
+
 
     /* Desktop sticky (already exists above) */
 .sticky-filter {
@@ -112,9 +133,13 @@
   z-index: 9;
 }
 
+/* App-like sticky state */
 .sticky-filter.is-stuck {
-  box-shadow: 0 10px 22px rgba(2,6,23,.12);
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px rgba(2,6,23,.14);
 }
+
 
 /* 👇 ADD THIS BELOW (Mobile override) 👇 */
 @media (max-width: 768px) {
