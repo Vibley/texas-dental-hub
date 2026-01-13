@@ -505,7 +505,8 @@ function populateZipFilter(cityKey) {
   const zips = new Set();
 
   [...city.featured, ...city.clinics].forEach(c => {
-    if (c.zip) zips.add(c.zip);
+ if (c.zip) zips.add(String(c.zip));
+
   });
 
   // Reset dropdown
@@ -535,7 +536,8 @@ function card(c, isFeatured) {
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
-      data-zip="${c.zip || ''}"
+      data-zip="${c.zip ? String(c.zip) : ''}"
+
       data-service="${services}"
       data-insurance="${insurances}"
       data-availability="${availability}">
