@@ -563,14 +563,7 @@ function activateCity(cityKey, initial = false) {
     renderCity(cityKey);
   }
 
-  console.log(
-  'ZIP DEBUG',
-  cityKey,
-  DATA[cityKey].clinics.map(c => c.zip)
-);
-
-
-  // ✅ ZIP POPULATION MUST HAPPEN HERE
+  // ✅ ZIPs must be populated AFTER activation
   populateZipFilter(cityKey);
 
   wireFilters();
