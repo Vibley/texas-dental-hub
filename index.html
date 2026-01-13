@@ -386,11 +386,16 @@ async function loadClinicsFromSupabase() {
       DATA[cityKey] = { label: cityName, featured: [], clinics: [] };
     }
 
-    const clinic = {
-      name: c.name,
-      address: c.address,
-      phone: c.phone || ''
-    };
+  const clinic = {
+  name: c.name,
+  address: c.address,
+  phone: c.phone || '',
+  services: c.services,
+  insurances: c.insurances,
+  accepts_new_patients: c.accepts_new_patients,
+  emergency_available: c.emergency_available
+};
+
 
     (c.featured ? DATA[cityKey].featured : DATA[cityKey].clinics).push(clinic);
   });
@@ -480,23 +485,32 @@ function renderCity(cityKey) {
 }
 
 /* ================= CARD ================= */
-function card(c, featured) {
+function card(c, isFeatured) {
+  const services = (c.services || []).join(' ');
+  const insurances = (c.insurances || []).join(' ');
+  const availability = [
+    c.accepts_new_patients ? 'today' : '',
+    c.emergency_available ? 'emergency' : ''
+  ].join(' ').trim();
+
   const action = c.phone
-    ? `<button class="btn" onclick="location.href='tel:${c.phone}'">Call</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request</button>`;
+    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
+    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
 
   return `
-    <div class="card ${featured ? 'featured' : ''}"
-      data-service="general family"
-      data-insurance="delta"
-      data-availability="today">
-      <span class="badge">${featured ? '⭐ Featured' : 'Clinic'}</span>
+    <div class="card ${isFeatured ? 'featured' : ''}"
+      data-service="${services}"
+      data-insurance="${insurances}"
+      data-availability="${availability}">
+      
+      <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
       <h3>${c.name}</h3>
       <div class="address">📍 ${c.address}</div>
       ${action}
     </div>
   `;
 }
+
 
 /* ================= CITY SWITCH ================= */
 function activateCity(cityKey, initial = false) {
