@@ -625,7 +625,16 @@ function openLead(name) {
   document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
   document.getElementById('leadModal').style.display = 'flex';
 }
+  
+function closeLead() {
+  document.getElementById('leadModal').style.display = 'none';
+}
 
+  document.getElementById('leadModal').addEventListener('click', e => {
+  if (e.target.id === 'leadModal') closeLead();
+});
+
+  
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
   activateCity(e.target.value);
@@ -633,6 +642,21 @@ document.getElementById('citySelect').addEventListener('change', e => {
 
 /* ================= START ================= */
 loadClinicsFromSupabase();
+
+
+function callClinic(phone, clinic) {
+  if (!phone) return;
+
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    window.location.href = `tel:${phone}`;
+  } else {
+    alert(
+      `Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`
+    );
+  }
+}
+
+  
 </script>
 
   
