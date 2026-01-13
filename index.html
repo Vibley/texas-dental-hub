@@ -348,168 +348,58 @@
 
 <script>
 // ---------------- DATA ----------------
-const DATA={ 
-  houston:{
-    label:'Houston',
-    featured:[
-      {name:'Lovett Dental – Midtown',address:'410 Pierce St, Houston, TX 77002',phone:'7136509500'},
-      {name:'URBN Dental – Heights',address:'1911 Taylor St Ste D, Houston, TX 77007',phone:'7138623939'},
-      {name:'Mint Dentistry – River Oaks',address:'3335 Westheimer Rd, Houston, TX 77098',phone:'7135876458'}
-    ],
-    clinics:[
-      {name:'Garden Oaks Dental',address:'331 W 34th St, Houston, TX 77018',phone:''},
-      {name:'Mint Dentistry – Midtown',address:'1213 Binz St, Houston, TX 77004',phone:''},
-      {name:'Bellaire Family Dentistry',address:'6700 West Loop S Ste 300, Bellaire, TX 77401',phone:''},
-      {name:'Heights Dental Center',address:'107 E 11th St, Houston, TX 77008',phone:''},
-      {name:'Memorial Family Dentistry',address:'9630 Westheimer Rd Ste 100, Houston, TX 77063',phone:''},
-      {name:'Westchase Family Dentistry',address:'10503 Westheimer Rd Ste A, Houston, TX 77042',phone:''},
-      {name:'Galleria Dental Group',address:'5757 Woodway Dr Ste 250, Houston, TX 77057',phone:''},
-      {name:'Spring Branch Dental',address:'9020 Long Point Rd, Houston, TX 77055',phone:''},
-      {name:'Upper Kirby Dental',address:'3300 Kirby Dr Ste 5, Houston, TX 77098',phone:''},
-      {name:'Greenway Dental',address:'3800 Southwest Fwy Ste 120, Houston, TX 77027',phone:''},
-      {name:'Town & Country Family Dentistry',address:'12850 Memorial Dr Ste 700, Houston, TX 77024',phone:''},
-      {name:'Clear Lake Dental Care',address:'16850 Buccaneer Ln Ste 100, Houston, TX 77058',phone:''}
-    ]
-  },
+const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
 
-  katy:{
-    label:'Katy',
-    featured:[
-      {name:'Cinco Ranch Dental',address:'23000 Cinco Ranch Blvd Ste 200, Katy, TX 77494',phone:'2813952110'},
-      {name:'Katy Family Dentistry',address:'1510 S Mason Rd Ste C, Katy, TX 77450',phone:'2813950888'},
-      {name:'Falcon Point Dental',address:'9910 Gaston Rd Ste 150, Katy, TX 77494',phone:'2813948686'}
-    ],
-    clinics:[
-      {name:'Westgreen Dental',address:'25700 Westheimer Pkwy Ste 120, Katy, TX 77494',phone:''},
-      {name:'Elyson Family Dentistry',address:'7307 Katy Hockley Cut Off Rd, Katy, TX 77493',phone:''},
-      {name:'Morton Ranch Dental',address:'2501 N Mason Rd Ste 400, Katy, TX 77449',phone:''},
-      {name:'Katy Modern Dentistry',address:'20725 Katy Fwy Ste 800, Katy, TX 77450',phone:''},
-      {name:'Spring Green Family Dental',address:'9910 Gaston Rd Ste 200, Katy, TX 77494',phone:''},
-      {name:'Seven Meadows Dental',address:'7600 Seven Meadows Dr Ste 110, Katy, TX 77494',phone:''},
-      {name:'Grand Lakes Dental',address:'4020 FM 1463 Ste 100, Katy, TX 77494',phone:''},
-      {name:'Katy Park Dental Care',address:'2707 Commercial Center Blvd Ste E, Katy, TX 77494',phone:''},
-      {name:'Cross Creek Ranch Dental',address:'6745 FM 1463 Rd Ste 300, Katy, TX 77494',phone:''},
-      {name:'Cinco Smile Center',address:'23501 Cinco Ranch Blvd Ste H120, Katy, TX 77494',phone:''},
-      {name:'Firethorne Family Dentistry',address:'22206 Westheimer Pkwy Ste 108, Katy, TX 77450',phone:''},
-      {name:'Mason Creek Dental',address:'532 S Mason Rd Ste 105, Katy, TX 77450',phone:''}
-    ]
-  },
+let DATA = {};
 
-  sugarland:{
-    label:'Sugar Land',
-    featured:[
-      {name:'My Dental of Sugar Land',address:'4965 Sweetwater Blvd, Sugar Land, TX 77479',phone:'2814947777'},
-      {name:'Sugar Creek Smile Dentistry',address:'4645 Hwy 6 Ste G, Sugar Land, TX 77478',phone:'2813132000'},
-      {name:'Riverstone Dental',address:'4501 Riverstone Blvd, Sugar Land, TX 77479',phone:'8325321400'}
-    ],
-    clinics:[
-      {name:'Apollonia Dental',address:'4427 Hwy 6 Ste A, Sugar Land, TX 77478',phone:''},
-      {name:'Delight Dental',address:'3524 Hwy 6, Sugar Land, TX 77478',phone:''},
-      {name:'Greatwood Dental Care',address:'110 Greatwood Pkwy, Sugar Land, TX 77479',phone:''},
-      {name:'First Colony Dental',address:'1550 First Colony Blvd, Sugar Land, TX 77479',phone:''},
-      {name:'Imperial Dental Associates',address:'14090 Southwest Fwy, Sugar Land, TX 77478',phone:''},
-      {name:'Fort Bend Dental',address:'1850 Eldridge Rd, Sugar Land, TX 77478',phone:''},
-      {name:'Greatwood Family Dentistry',address:'1990 Greatwood Pkwy Ste 100, Sugar Land, TX 77479',phone:''},
-      {name:'Sugar Land Dental Group',address:'13551 Murphy Rd Ste 100, Sugar Land, TX 77498',phone:''},
-      {name:'New Territory Family Dentistry',address:'6420 Homeward Way, Sugar Land, TX 77479',phone:''},
-      {name:'Commonwealth Dental',address:'1489 Hwy 6 Ste 500, Sugar Land, TX 77478',phone:''},
-      {name:'Lakeside Dental Care',address:'1540 Lake Pointe Pkwy Ste 200, Sugar Land, TX 77478',phone:''},
-      {name:'Town Square Dental',address:'2150 Town Square Pl Ste 110, Sugar Land, TX 77479',phone:''}
-    ]
-  },
+async function loadClinicsFromSupabase() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/clinics?select=*`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      }
+    }
+  );
 
-  richmond:{
-    label:'Richmond',
-    featured:[
-      {name:'Richmond Family Dentistry',address:'10111 FM 762 Rd Ste 200, Richmond, TX 77469',phone:'2813422200'},
-      {name:'Aliana Family Dental',address:'18450 W Airport Blvd Ste 500, Richmond, TX 77407',phone:'8329397777'},
-      {name:'Long Meadow Farms Dental',address:'5310 FM 359 Rd Ste 100, Richmond, TX 77406',phone:'2817620560'}
-    ],
-    clinics:[
-      {name:'Pecan Grove Dental',address:'10703 FM 359 Rd, Richmond, TX 77406',phone:''},
-      {name:'Grand Parkway Dental Care',address:'10235 Grand Pkwy Ste 300, Richmond, TX 77407',phone:''},
-      {name:'Waterview Dental',address:'19100 W Bellfort Blvd Ste 200, Richmond, TX 77407',phone:''},
-      {name:'Harvest Green Dental',address:'4515 Harvest Corner Dr Ste 100, Richmond, TX 77406',phone:''},
-      {name:'Williams Way Dental',address:'19110 FM 1093 Rd Ste 200, Richmond, TX 77407',phone:''},
-      {name:'River Pointe Dental',address:'18410 W Airport Blvd Ste 300, Richmond, TX 77407',phone:''},
-      {name:'Fulshear Family Dentistry',address:'8410 FM 359 Rd Ste 200, Fulshear, TX 77441',phone:''},
-      {name:'Mission Bend Dental',address:'7100 Hwy 6 S Ste 300, Richmond, TX 77407',phone:''},
-      {name:'Westpark Dental',address:'10613 W Grand Pkwy S Ste 200, Richmond, TX 77407',phone:''},
-      {name:'Grand Mission Dental',address:'6800 Grand Mission Blvd, Richmond, TX 77407',phone:''},
-      {name:'Lakemont Dental',address:'19720 W Bellfort Blvd Ste 200, Richmond, TX 77407',phone:''},
-      {name:'Grand Parkway Smiles',address:'18234 W Airport Blvd Ste 200, Richmond, TX 77407',phone:''}
-    ]
-  },
+  const rows = await res.json();
 
-  rosenberg:{
-    label:'Rosenberg',
-    featured:[
-      {name:'Rosenberg Family Dentistry',address:'23901 Commercial Dr Ste 100, Rosenberg, TX 77471',phone:'2812390600'},
-      {name:'Fort Bend Family Dental',address:'2224 1st St, Rosenberg, TX 77471',phone:'2813423350'},
-      {name:'Town Center Dental',address:'25111 FM 2218 Rd Ste 200, Rosenberg, TX 77471',phone:'2813411600'}
-    ],
-    clinics:[
-      {name:'Rosenberg Dental Care',address:'24401 Brazos Town Crossing, Rosenberg, TX 77471',phone:''},
-      {name:'Brazos Valley Dental',address:'2300 Avenue H Ste B, Rosenberg, TX 77471',phone:''},
-      {name:'Needville Family Dentistry',address:'14400 Main St Ste 200, Needville, TX 77461',phone:''},
-      {name:'Fort Bend Dental Group',address:'25200 Southwest Fwy Ste 100, Rosenberg, TX 77471',phone:''},
-      {name:'Richmond Rosenberg Dental',address:'24008 Southwest Fwy Ste 100, Rosenberg, TX 77471',phone:''},
-      {name:'Townsend Dental',address:'1906 Avenue G, Rosenberg, TX 77471',phone:''},
-      {name:'Heritage Family Dentistry',address:'1719 3rd St Ste 101, Rosenberg, TX 77471',phone:''},
-      {name:'Sunset Dental',address:'2127 Avenue H, Rosenberg, TX 77471',phone:''},
-      {name:'First Street Dental',address:'1325 1st St, Rosenberg, TX 77471',phone:''},
-      {name:'Brazos Dental Care',address:'27030 FM 2218 Rd Ste 100, Rosenberg, TX 77471',phone:''},
-      {name:'Southwest Dental Care',address:'24103 Southwest Fwy, Rosenberg, TX 77471',phone:''},
-      {name:'Village Dental Rosenberg',address:'5340 FM 2218 Rd Ste 200, Rosenberg, TX 77471',phone:''}
-    ]
-  },
+  DATA = {}; // reset
 
-  woodlands:{
-    label:'The Woodlands',
-    featured:[
-      {name:'Woodlands Family Dentistry',address:'179 Vision Park Blvd Ste 100, The Woodlands, TX 77384',phone:'2812920123'},
-      {name:'Creekside Dental',address:'8708 Creekside Forest Dr Ste 100, The Woodlands, TX 77375',phone:'2814199300'},
-      {name:'Alden Bridge Dental',address:'8000 Research Forest Dr Ste 115, The Woodlands, TX 77382',phone:'2812983700'}
-    ],
-    clinics:[
-      {name:'Sterling Ridge Dental',address:'6700 Woodlands Pkwy Ste 230-224, The Woodlands, TX 77382',phone:''},
-      {name:'Indian Springs Dental',address:'25114 Grogans Park Dr, The Woodlands, TX 77380',phone:''},
-      {name:'Panther Creek Dental',address:'4775 W Panther Creek Dr Ste 150, The Woodlands, TX 77381',phone:''},
-      {name:'Hughes Landing Dental',address:'1900 Hughes Landing Blvd Ste 600, The Woodlands, TX 77380',phone:''},
-      {name:'Magnolia Family Dentistry',address:'4223 Research Forest Dr Ste 300, The Woodlands, TX 77381',phone:''},
-      {name:'Creekside Park Dental',address:'26505 Kuykendahl Rd Ste 200, The Woodlands, TX 77389',phone:''},
-      {name:'North Woods Dental',address:'3600 FM 1488 Rd Ste 120, The Woodlands, TX 77384',phone:''},
-      {name:'Grogan’s Mill Dental',address:'4755 W Panther Creek Dr Ste 100, The Woodlands, TX 77381',phone:''},
-      {name:'Research Forest Dental',address:'3335 College Park Dr Ste 300, The Woodlands, TX 77384',phone:''},
-      {name:'Lake Woodlands Dental',address:'1020 Lake Front Cir Ste 180, The Woodlands, TX 77380',phone:''},
-      {name:'Woodlands Smiles',address:'107 Vision Park Blvd Ste 200, The Woodlands, TX 77384',phone:''},
-      {name:'Timber Ridge Dental',address:'4840 W Panther Creek Dr Ste 102, The Woodlands, TX 77381',phone:''}
-    ]
-  },
+  rows.forEach(c => {
+    const cityKey = c.city
+      .toLowerCase()
+      .replace(/\s+/g, '');
 
-  spring:{
-    label:'Spring',
-    featured:[
-      {name:'Spring Family Dentistry',address:'23221 Aldine Westfield Rd Ste 300, Spring, TX 77373',phone:'2812881700'},
-      {name:'Harmony Dental – Spring',address:'16806 Stuebner Airline Rd Ste 200, Spring, TX 77379',phone:'2813532273'},
-      {name:'Spring Cypress Modern Dentistry',address:'2150 Spring Stuebner Rd Ste 600, Spring, TX 77389',phone:'8322996900'}
-    ],
-    clinics:[
-      {name:'Klein Family Dental',address:'7310 Louetta Rd Ste 200, Spring, TX 77379',phone:''},
-      {name:'Champions Dental',address:'5211 FM 1960 Rd W Ste 100, Houston, TX 77069',phone:''},
-      {name:'Spring Cypress Dental',address:'21212 Kuykendahl Rd Ste 500, Spring, TX 77379',phone:''},
-      {name:'Northampton Dental',address:'20003 Champion Forest Dr Ste 200, Spring, TX 77379',phone:''},
-      {name:'Stuebner Airline Dental',address:'16000 Stuebner Airline Rd Ste 100, Spring, TX 77379',phone:''},
-      {name:'Spring Trails Dental',address:'21606 Gosling Rd Ste 200, Spring, TX 77388',phone:''},
-      {name:'Harmony Smiles',address:'7310 Louetta Rd Ste 220, Spring, TX 77379',phone:''},
-      {name:'Benders Landing Dental',address:'20227 Gosling Rd Ste 100, Spring, TX 77388',phone:''},
-      {name:'Spring Creek Dental',address:'10100 Spring Cypress Rd Ste 500, Spring, TX 77379',phone:''},
-      {name:'Champion Forest Dental',address:'19333 Champion Forest Dr Ste 300, Spring, TX 77379',phone:''},
-      {name:'Springwoods Dental',address:'17171 St Luke’s Way Ste 120, Spring, TX 77379',phone:''},
-      {name:'Woodlands Parkway Dental',address:'107 Vision Park Blvd Ste 110, Spring, TX 77384',phone:''}
-    ]
-  }
-};
+    if (!DATA[cityKey]) {
+      DATA[cityKey] = {
+        label: c.city,
+        featured: [],
+        clinics: []
+      };
+    }
+
+    const clinic = {
+      name: c.name,
+      address: c.address,
+      phone: c.phone || ''
+    };
+
+    if (c.featured) {
+      DATA[cityKey].featured.push(clinic);
+    } else {
+      DATA[cityKey].clinics.push(clinic);
+    }
+  });
+
+  // Render all cities once data is ready
+  Object.keys(DATA).forEach(renderCity);
+
+  // Default city
+  document.getElementById('citySelect').value = 'houston';
+}
 
 
 // --------------- RENDERING ----------------
@@ -604,7 +494,7 @@ function card(c,isFeatured){
 
   
 
-Object.keys(DATA).forEach(renderCity);
+loadClinicsFromSupabase();
 document.getElementById('citySelect').value = 'houston';
 
   // --------------- STICKY FILTER SCROLL ----------------
