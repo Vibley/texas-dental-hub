@@ -368,31 +368,45 @@ async function loadClinicsFromSupabase() {
 
   DATA = {}; // reset
 
-  rows.forEach(c => {
-    const cityKey = c.city
-      .toLowerCase()
-      .replace(/\s+/g, '');
+  const CITY_KEY_MAP = {
+  'Houston': 'houston',
+  'Katy': 'katy',
+  'Sugar Land': 'sugarland',
+  'Richmond': 'richmond',
+  'Spring': 'spring',
+  'The Woodlands': 'woodlands'
+};
 
-    if (!DATA[cityKey]) {
-      DATA[cityKey] = {
-        label: c.city,
-        featured: [],
-        clinics: []
-      };
-    }
+rows.forEach(c => {
+  const cityKey = CITY_KEY_MAP[c.city?.trim()];
 
-    const clinic = {
-      name: c.name,
-      address: c.address,
-      phone: c.phone || ''
+  // 🛡️ SAFETY GUARD (THIS IS THE MISSING PIECE)
+  if (!cityKey || !document.getElementById(cityKey)) {
+    console.warn('No matching page for city:', c.city);
+    return;
+  }
+
+  if (!DATA[cityKey]) {
+    DATA[cityKey] = {
+      label: c.city,
+      featured: [],
+      clinics: []
     };
+  }
 
-    if (c.featured) {
-      DATA[cityKey].featured.push(clinic);
-    } else {
-      DATA[cityKey].clinics.push(clinic);
-    }
-  });
+  const clinic = {
+    name: c.name,
+    address: c.address,
+    phone: c.phone || ''
+  };
+
+  if (c.featured) {
+    DATA[cityKey].featured.push(clinic);
+  } else {
+    DATA[cityKey].clinics.push(clinic);
+  }
+});
+
 
   // Render all cities once data is ready
   Object.keys(DATA).forEach(renderCity);
