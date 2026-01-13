@@ -406,10 +406,29 @@ function renderCity(cityKey) {
   if (!city || !page) return;
 
   page.innerHTML = `
-    <div class="hero">
-      <h1>General & Family Dentists in ${city.label}</h1>
-      <p>Find trusted dental clinics in ${city.label}.</p>
-    </div>
+  <div class="hero">
+  <h1>General & Family Dentists in ${city.label}</h1>
+
+  <p>
+    Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you
+    discover verified general and family dental clinics across ${city.label}
+    and nearby areas. Browse local providers, call featured clinics directly,
+    or request an appointment online with confidence.
+  </p>
+
+  <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
+    <li>✅ Verified local dental clinics in and around ${city.label}</li>
+    <li>📞 Call featured clinics directly — no middlemen</li>
+    <li>🗓️ Request appointments online in seconds</li>
+    <li>🦷 General, family, cosmetic & emergency care options</li>
+    <li>📍 Focused on your city — not a national spam directory</li>
+  </ul>
+
+  <h3 style="margin-top:14px;">
+    Skip ads, skip fake reviews — find trusted Texas dentists faster.
+  </h3>
+</div>
+
 
     <div class="filters sticky-filter">
 
