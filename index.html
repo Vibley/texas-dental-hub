@@ -346,12 +346,11 @@
   </div>
 </div>
 
+
 <script>
-<script>
+/* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
-
-let DATA = {};
 
 const CITY_KEY_MAP = {
   'Houston': 'houston',
@@ -363,10 +362,16 @@ const CITY_KEY_MAP = {
   'The Woodlands': 'woodlands'
 };
 
-// ---------------- SUPABASE LOAD ----------------
+let DATA = {};
+let filters = {};
+
+/* ================= LOAD DATA ================= */
 async function loadClinicsFromSupabase() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/clinics?select=*`, {
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
   });
 
   const rows = await res.json();
@@ -375,114 +380,86 @@ async function loadClinicsFromSupabase() {
   rows.forEach(c => {
     const cityName = (c.city || '').trim();
     const cityKey = CITY_KEY_MAP[cityName];
-
-    // Safety guard
-    if (!cityKey || !document.getElementById(cityKey)) {
-      console.warn('No matching page for city:', c.city);
-      return;
-    }
+    if (!cityKey) return;
 
     if (!DATA[cityKey]) {
       DATA[cityKey] = { label: cityName, featured: [], clinics: [] };
     }
 
-    const clinic = { name: c.name, address: c.address, phone: c.phone || '' };
+    const clinic = {
+      name: c.name,
+      address: c.address,
+      phone: c.phone || ''
+    };
 
-    if (c.featured) DATA[cityKey].featured.push(clinic);
-    else DATA[cityKey].clinics.push(clinic);
+    (c.featured ? DATA[cityKey].featured : DATA[cityKey].clinics).push(clinic);
   });
 
-  // Render only the default/active city first (prevents weird hidden-DOM timing)
-  const citySelect = document.getElementById('citySelect');
-  const defaultCity = 'houston';
-  citySelect.value = defaultCity;
-
-  activateCity(defaultCity, { renderIfNeeded: true, resetFilters: true });
+  console.log('Loaded cities:', Object.keys(DATA));
+  activateCity('houston', true);
 }
 
-// ---------------- RENDERING ----------------
-function renderCity(key) {
-  const city = DATA[key] || { label: key, featured: [], clinics: [] };
-  const host = document.getElementById(key);
-  if (!host) return;
+/* ================= RENDER ================= */
+function renderCity(cityKey) {
+  const city = DATA[cityKey];
+  const page = document.getElementById(cityKey);
+  if (!city || !page) return;
 
-  host.innerHTML = `
-    <div class="hero"><h1>General & Family Dentists in ${city.label}</h1>
-      <p>
-        Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you discover verified general and family dental clinics across ${city.label} and nearby areas. Browse local providers, call featured clinics directly, or request an appointment online with confidence.
-      </p>
-      <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
-        <p>✅ Verified local dental clinics in and around ${city.label}</p>
-        <p>📞 Call featured clinics directly — no middlemen</p>
-        <p>🗓️ Request appointments online in seconds</p>
-        <p>🦷 General, family, cosmetic & emergency care options</p>
-        <p>📍 Focused on your city — not a national spam directory</p>
-        <h3>Skip ads, skip fake reviews — find trusted Texas dentists faster.</h3>
-      </ul>
+  page.innerHTML = `
+    <div class="hero">
+      <h1>General & Family Dentists in ${city.label}</h1>
+      <p>Find trusted dental clinics in ${city.label}.</p>
     </div>
 
-    <div class="filters sticky-filter">
-      <div class="filter-row">
-        <div class="filter-count">
-          <span class="count-text">Showing all clinics</span>
-          <button class="clear-filters" onclick="resetFilters()" style="display:none;">Clear filters</button>
-        </div>
-      </div>
-
+    <div class="filters">
       <select id="filter-service">
         <option value="">All Services</option>
-        <option value="general">General Dentistry</option>
-        <option value="family">Family Dentistry</option>
-        <option value="cosmetic">Cosmetic</option>
-        <option value="emergency">Emergency</option>
-        <option value="pediatric">Pediatric</option>
+        <option value="general">General</option>
+        <option value="family">Family</option>
       </select>
 
       <select id="filter-insurance">
         <option value="">All Insurance</option>
-        <option value="delta">Delta Dental</option>
-        <option value="aetna">Aetna</option>
-        <option value="cigna">Cigna</option>
-        <option value="metlife">MetLife</option>
-        <option value="selfpay">No Insurance / Self-Pay</option>
+        <option value="delta">Delta</option>
       </select>
 
       <select id="filter-availability">
         <option value="">Any Availability</option>
-        <option value="today">Open Today</option>
-        <option value="weekend">Weekend</option>
-        <option value="evening">Evenings</option>
+        <option value="today">Today</option>
       </select>
     </div>
 
     <div class="section">
       <h2>⭐ Featured Clinics</h2>
-      <div class="grid">${city.featured.map(c => card(c, true)).join('')}</div>
+      <div class="grid">
+        ${city.featured.map(c => card(c, true)).join('')}
+      </div>
     </div>
 
     <div class="section">
       <h2>🏥 All Clinics</h2>
-      <div class="grid">${city.clinics.map(c => card(c, false)).join('')}</div>
+      <div class="grid">
+        ${city.clinics.map(c => card(c, false)).join('')}
+      </div>
     </div>
   `;
 
-  // mark rendered and wire filters for THIS page
-  host.dataset.rendered = 'true';
-  wireFiltersForActivePage();
-  applyFilters(); // apply once after render
+  page.dataset.rendered = 'true';
+  wireFilters();
 }
 
-function card(c, isFeatured) {
+/* ================= CARD ================= */
+function card(c, featured) {
   const action = c.phone
-    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
+    ? `<button class="btn" onclick="location.href='tel:${c.phone}'">Call</button>`
+    : `<button class="btn" onclick="openLead('${c.name}')">Request</button>`;
 
   return `
-    <div class="card ${isFeatured ? 'featured' : ''}"
-      data-service="general family cosmetic emergency pediatric"
-      data-insurance="delta aetna cigna metlife selfpay"
-      data-availability="today weekend evening">
-      <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
+    <div class="card ${featured ? 'featured' : ''}"
+      data-service="general family"
+      data-insurance="delta"
+      data-availability="today">
+      <span class="badge">${featured ? '⭐ Featured' : 'Clinic'}</span>
       <h3>${c.name}</h3>
       <div class="address">📍 ${c.address}</div>
       ${action}
@@ -490,174 +467,77 @@ function card(c, isFeatured) {
   `;
 }
 
-// ---------------- CITY SWITCH ----------------
-function activateCity(cityKey, { renderIfNeeded = true, resetFilters = false } = {}) {
+/* ================= CITY SWITCH ================= */
+function activateCity(cityKey, initial = false) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const page = document.getElementById(cityKey);
   if (!page) return;
 
   page.classList.add('active');
 
-  if (renderIfNeeded && !page.dataset.rendered) {
+  if (!page.dataset.rendered) {
     renderCity(cityKey);
-  } else {
-    // Still re-wire filters because the active page changed
-    wireFiltersForActivePage();
-    if (resetFilters) resetFilters();
-    else applyFilters();
   }
 
-  window.dispatchEvent(new Event('scroll'));
+  if (!initial) resetFilters();
 }
 
-// ---------------- FILTERS (ACTIVE PAGE ONLY) ----------------
-let filters = { service: null, insurance: null, availability: null };
-
-function wireFiltersForActivePage() {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
+/* ================= FILTERS ================= */
+function wireFilters() {
+  const page = document.querySelector('.page.active');
+  if (!page) return;
 
   filters = {
-    service: activePage.querySelector('#filter-service'),
-    insurance: activePage.querySelector('#filter-insurance'),
-    availability: activePage.querySelector('#filter-availability')
+    service: page.querySelector('#filter-service'),
+    insurance: page.querySelector('#filter-insurance'),
+    availability: page.querySelector('#filter-availability')
   };
 
-  // bind change events fresh (prevents stale references)
   Object.values(filters).forEach(f => {
-    if (!f) return;
-    f.onchange = applyFilters;
+    if (f) f.onchange = applyFilters;
   });
 }
 
 function applyFilters() {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
+  const page = document.querySelector('.page.active');
+  if (!page) return;
 
-  const cards = activePage.querySelectorAll('.card');
-  let visibleCount = 0;
+  page.querySelectorAll('.card').forEach(card => {
+    let show = true;
 
-  cards.forEach(card => {
-    let visible = true;
+    if (filters.service?.value &&
+        !card.dataset.service.includes(filters.service.value)) show = false;
 
-    if (filters.service?.value && !card.dataset.service.includes(filters.service.value)) visible = false;
-    if (filters.insurance?.value && !card.dataset.insurance.includes(filters.insurance.value)) visible = false;
-    if (filters.availability?.value && !card.dataset.availability.includes(filters.availability.value)) visible = false;
+    if (filters.insurance?.value &&
+        !card.dataset.insurance.includes(filters.insurance.value)) show = false;
 
-    card.style.display = visible ? 'flex' : 'none';
-    if (visible) visibleCount++;
+    if (filters.availability?.value &&
+        !card.dataset.availability.includes(filters.availability.value)) show = false;
+
+    card.style.display = show ? 'flex' : 'none';
   });
-
-  updateFilterCount(visibleCount);
-}
-
-function updateFilterCount(count) {
-  const activePage = document.querySelector('.page.active');
-  const container = activePage?.querySelector('.filter-count');
-  if (!container) return;
-
-  const text = container.querySelector('.count-text');
-  const clearBtn = container.querySelector('.clear-filters');
-
-  const hasFilters = (filters.service?.value || filters.insurance?.value || filters.availability?.value);
-
-  if (!hasFilters) {
-    text.textContent = `Showing all ${count} clinics`;
-    clearBtn.style.display = 'none';
-    return;
-  }
-
-  clearBtn.style.display = 'inline';
-  text.textContent =
-    count === 0 ? 'No clinics match your filters' :
-    count === 1 ? 'Showing 1 clinic' :
-    `Showing ${count} clinics`;
 }
 
 function resetFilters() {
-  Object.values(filters).forEach(f => { if (f) f.value = ''; });
+  Object.values(filters).forEach(f => f && (f.value = ''));
   applyFilters();
 }
 
-// ---------------- STICKY FILTER SCROLL ----------------
-window.addEventListener('scroll', () => {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
-
-  const filter = activePage.querySelector('.sticky-filter');
-  if (!filter) return;
-
-  const isMobile = window.innerWidth <= 768;
-  const rect = filter.getBoundingClientRect();
-
-  if (!isMobile) {
-    if (rect.top <= 64) filter.classList.add('is-stuck');
-    else filter.classList.remove('is-stuck');
-  } else {
-    if (window.scrollY > 120) filter.classList.add('mobile-fixed', 'is-stuck');
-    else filter.classList.remove('mobile-fixed', 'is-stuck');
-  }
-});
-
-// ---------------- LEAD / CALL ----------------
-function callClinic(phone, clinic) {
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    window.location.href = `tel:${phone}`;
-  } else {
-    alert(`Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`);
-  }
-}
-
+/* ================= LEADS ================= */
 function openLead(name) {
   document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
   document.getElementById('leadModal').style.display = 'flex';
 }
 
-function closeLead() {
-  document.getElementById('leadModal').style.display = 'none';
-}
-
-function submitLead(e) {
-  e.preventDefault();
-  const form = e.target;
-  const citySelect = document.getElementById('citySelect');
-
-  const data = {
-    clinic: document.getElementById('leadClinic').innerText.replace('Clinic: ', ''),
-    name: form.querySelector('input[placeholder="Your Name"]').value,
-    email: form.querySelector('input[type="email"]').value,
-    phone: form.querySelector('input[placeholder="Phone"]').value,
-    message: form.querySelector('textarea').value,
-    city: citySelect.options[citySelect.selectedIndex].text,
-    timestamp: new Date().toISOString()
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxUQduaVzN-YlniJvAJ9M8oIn1Yw6lWWdMDRxHBLSTs65YIX7C5VJi6MZlvXS3XJSe-Yg/exec", {
-    method: "POST",
-    mode: "no-cors",
-    body: JSON.stringify(data)
-  });
-
-  alert("Appointment request submitted. We will contact you shortly.");
-  form.reset();
-  closeLead();
-}
-
-// ---------------- NAV ----------------
-const citySelect = document.getElementById('citySelect');
-citySelect.addEventListener('change', () => {
-  const city = citySelect.value;
-  activateCity(city, { renderIfNeeded: true, resetFilters: true });
+/* ================= NAV ================= */
+document.getElementById('citySelect').addEventListener('change', e => {
+  activateCity(e.target.value);
 });
 
-// start
+/* ================= START ================= */
 loadClinicsFromSupabase();
 </script>
 
-
-
-  
-</script>
   
 </body>
 </html>
