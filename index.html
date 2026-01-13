@@ -573,20 +573,21 @@ function activateCity(cityKey, initial = false) {
 
 /* ================= FILTERS ================= */
 function wireFilters() {
-  const page = document.querySelector('.page.active');
-  if (!page) return;
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return;
 
   filters = {
     zip: activePage.querySelector('#filter-zip'),
-    service: page.querySelector('#filter-service'),
-    insurance: page.querySelector('#filter-insurance'),
-    availability: page.querySelector('#filter-availability')
+    service: activePage.querySelector('#filter-service'),
+    insurance: activePage.querySelector('#filter-insurance'),
+    availability: activePage.querySelector('#filter-availability')
   };
 
   Object.values(filters).forEach(f => {
     if (f) f.onchange = applyFilters;
   });
 }
+
 
 function applyFilters() {
   const page = document.querySelector('.page.active');
