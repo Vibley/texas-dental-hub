@@ -390,6 +390,7 @@ async function loadClinicsFromSupabase() {
   name: c.name,
   address: c.address,
   phone: c.phone || '',
+  zip: c.zip,
   services: c.services,
   insurances: c.insurances,
   accepts_new_patients: c.accepts_new_patients,
@@ -436,6 +437,10 @@ function renderCity(cityKey) {
 
 
     <div class="filters sticky-filter">
+    
+<select id="filter-zip">
+  <option value="">All ZIP Codes</option>
+</select>
 
   <select id="filter-service">
     <option value="">All Services</option>
@@ -480,10 +485,41 @@ function renderCity(cityKey) {
     </div>
   `;
 
+  populateZipFilter(key);
   page.dataset.rendered = 'true';
   wireFilters();
 }
 
+
+function populateZipFilter(cityKey) {
+  const city = DATA[cityKey];
+  if (!city) return;
+
+  const page = document.getElementById(cityKey);
+  if (!page) return;
+
+  const zipSelect = page.querySelector('#filter-zip');
+  if (!zipSelect) return;
+
+  // Collect unique ZIPs (ignore nulls)
+  const zips = new Set();
+
+  [...city.featured, ...city.clinics].forEach(c => {
+    if (c.zip) zips.add(c.zip);
+  });
+
+  // Reset dropdown
+  zipSelect.innerHTML = `<option value="">All ZIP Codes</option>`;
+
+  [...zips].sort().forEach(zip => {
+    const opt = document.createElement('option');
+    opt.value = zip;
+    opt.textContent = zip;
+    zipSelect.appendChild(opt);
+  });
+}
+
+  
 /* ================= CARD ================= */
 function card(c, isFeatured) {
   const services = (c.services || []).join(' ');
@@ -499,6 +535,7 @@ function card(c, isFeatured) {
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
+      data-zip="${c.zip || ''}"
       data-service="${services}"
       data-insurance="${insurances}"
       data-availability="${availability}">
@@ -533,6 +570,7 @@ function wireFilters() {
   if (!page) return;
 
   filters = {
+    zip: activePage.querySelector('#filter-zip'),
     service: page.querySelector('#filter-service'),
     insurance: page.querySelector('#filter-insurance'),
     availability: page.querySelector('#filter-availability')
@@ -550,6 +588,12 @@ function applyFilters() {
   page.querySelectorAll('.card').forEach(card => {
     let show = true;
 
+if (filters.zip?.value &&
+    card.dataset.zip !== filters.zip.value) {
+  visible = false;
+}
+
+    
     if (filters.service?.value &&
         !card.dataset.service.includes(filters.service.value)) show = false;
 
