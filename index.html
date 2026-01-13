@@ -485,7 +485,7 @@ function renderCity(cityKey) {
     </div>
   `;
 
-  populateZipFilter(key);
+
   page.dataset.rendered = 'true';
   wireFilters();
 }
@@ -563,8 +563,20 @@ function activateCity(cityKey, initial = false) {
     renderCity(cityKey);
   }
 
-  if (!initial) resetFilters();
+  console.log(
+  'ZIP DEBUG',
+  cityKey,
+  DATA[cityKey].clinics.map(c => c.zip)
+);
+
+
+  // ✅ ZIP POPULATION MUST HAPPEN HERE
+  populateZipFilter(cityKey);
+
+  wireFilters();
+  applyFilters();
 }
+
 
 /* ================= FILTERS ================= */
 function wireFilters() {
