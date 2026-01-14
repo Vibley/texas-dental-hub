@@ -334,7 +334,8 @@
   <div class="modal">
     <h3>Request Appointment</h3>
     <p id="leadClinic" style="font-size:14px;color:#475569"></p>
-    <form onsubmit="submitLead(event)">
+   <form onsubmit="return submitLead(event)">
+
       <input required placeholder="Your Name" />
       <input required type="email" placeholder="Email" />
       <input required placeholder="Phone" />
@@ -704,6 +705,7 @@ async function submitLead(e) {
     console.error(err);
     alert('❌ Network error. Please try again.');
   }
+  return false;
 }
 
 
