@@ -334,16 +334,44 @@
   <div class="modal">
     <h3>Request Appointment</h3>
     <p id="leadClinic" style="font-size:14px;color:#475569"></p>
-  <form id="leadForm">
 
+<form id="leadForm">
+  <input
+    name="patient_name"
+    required
+    placeholder="Your Name"
+  />
 
-      <input required placeholder="Your Name" />
-      <input required type="email" placeholder="Email" />
-      <input required placeholder="Phone" />
-      <textarea required placeholder="Preferred time / message"></textarea>
-      <button class="btn" type="submit">Submit Request</button>
-      <button type="button" onclick="closeLead()" style="margin-left:10px">Cancel</button>
-    </form>
+  <input
+    name="email"
+    type="email"
+    required
+    placeholder="Email"
+  />
+
+  <input
+    name="phone"
+    required
+    placeholder="Phone"
+  />
+
+  <textarea
+    name="message"
+    required
+    placeholder="Preferred time / message"
+  ></textarea>
+
+  <button class="btn" type="submit">Submit Request</button>
+  <button
+    type="button"
+    onclick="closeLead()"
+    style="margin-left:10px"
+  >
+    Cancel
+  </button>
+</form>
+
+    
   </div>
 </div>
 
