@@ -229,7 +229,7 @@
 }
     
 .sticky-filter {
-  
+  position: sticky;
   top: 64px; /* below your topbar */
   z-index: 9;
 }
@@ -243,29 +243,27 @@
 }
 
 
-/* Desktop only sticky filters */
-@media (min-width: 769px) {
-  .sticky-filter {
-    position: sticky;
-    top: 64px;
-    z-index: 9;
-  }
-
-  .sticky-filter.is-stuck {
-    background: rgba(255,255,255,.96);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 12px 26px rgba(2,6,23,.14);
-  }
+    /* Desktop sticky (already exists above) */
+.sticky-filter {
+  position: sticky;
+  top: 64px;
+  z-index: 9;
 }
 
-/* Mobile: disable sticky entirely */
+/* App-like sticky state */
+.sticky-filter.is-stuck {
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px rgba(2,6,23,.14);
+}
+
+
+/* 👇 ADD THIS BELOW (Mobile override) 👇 */
 @media (max-width: 768px) {
   .sticky-filter {
-    position: static !important;
-    top: auto !important;
+    position: relative; /* disable sticky */
+    top: auto;
   }
-}
-
 
   .sticky-filter.mobile-fixed {
     position: fixed;
@@ -293,55 +291,6 @@
   background: #fff;
   cursor: pointer;
 }
-
-    /* 🚑 iOS SAFETY FIX — prevents filter freeze */
-@media (max-width: 768px) {
-  .filters {
-    position: static !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    box-shadow: none !important;
-    transform: none !important;
-  }
-
-  select {
-    -webkit-appearance: menulist;
-    appearance: menulist;
-  }
-}
-
-    /* ================= MOBILE FILTER FIX (ANDROID SAFE) ================= */
-@media (max-width: 768px) {
-
-  /* Make filters plain and touch-safe */
-  .filters {
-    position: static !important;
-    background: #ffffff !important;
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 12px 0 !important;
-    margin: 16px 0 !important;
-    z-index: auto !important;
-  }
-
-  /* Make selects fully native */
-  .filters select {
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    appearance: menulist !important;
-    -webkit-appearance: menulist !important;
-    background: #fff !important;
-  }
-
-  /* Kill ANY transforms that block touch */
-  .filters,
-  .filters * {
-    transform: none !important;
-  }
-}
-
 
     
   </style>
