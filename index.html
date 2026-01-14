@@ -372,6 +372,9 @@ async function loadClinicsFromSupabase() {
       Authorization: `Bearer ${SUPABASE_KEY}`
     }
   });
+  
+  alert("✅ Appointment request submitted successfully.\nWe will contact you shortly.");
+
 
   const rows = await res.json();
   DATA = {};
@@ -661,6 +664,39 @@ function closeLead() {
   if (e.target.id === 'leadModal') closeLead();
 });
 
+
+
+function submitLead(e) {
+  e.preventDefault();
+  const form = e.target;
+
+  const data = {
+    clinic: document.getElementById('leadClinic').innerText.replace('Clinic: ', ''),
+    name: form.querySelector('input[placeholder="Your Name"]').value,
+    email: form.querySelector('input[type="email"]').value,
+    phone: form.querySelector('input[placeholder="Phone"]').value,
+    message: form.querySelector('textarea').value,
+    city: document.getElementById('citySelect').value,
+    timestamp: new Date().toISOString()
+  };
+
+  fetch(
+    "https://script.google.com/macros/s/AKfycbxUQduaVzN-YlniJvAJ9M8oIn1Yw6lWWdMDRxHBLSTs65YIX7C5VJi6MZlvXS3XJSe-Yg/exec",
+    {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify(data)
+    }
+  );
+
+  alert("✅ Appointment request submitted. We will contact you shortly.");
+  form.reset();
+  closeLead();
+}
+
+
+
+  
   
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
