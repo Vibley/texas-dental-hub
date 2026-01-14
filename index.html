@@ -696,22 +696,28 @@ function closeLead() {
 
 
 
+
 async function submitLead(e) {
-  e.preventDefault();
+  e.preventDefault(); // ⛔ stop page reload
+
   const form = e.target;
 
   const payload = {
-    clinic_name: document.getElementById('leadClinic').innerText.replace('Clinic: ', ''),
+    clinic_name: document
+      .getElementById('leadClinic')
+      .innerText.replace('Clinic: ', ''),
+
     city: document.getElementById('citySelect').value,
-    patient_name: form.querySelector('input[placeholder="Your Name"]').value,
-    email: form.querySelector('input[type="email"]').value,
-    phone: form.querySelector('input[placeholder="Phone"]').value,
-    message: form.querySelector('textarea').value
+
+    patient_name: form.querySelector('input[placeholder="Your Name"]').value.trim(),
+    email: form.querySelector('input[type="email"]').value.trim(),
+    phone: form.querySelector('input[placeholder="Phone"]').value.trim(),
+    message: form.querySelector('textarea').value.trim()
   };
 
   try {
-    // 1️⃣ Insert lead into Supabase
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+    /* 1️⃣ Save lead to Supabase */
+    const dbRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
       method: 'POST',
       headers: {
         apikey: SUPABASE_KEY,
@@ -721,38 +727,37 @@ async function submitLead(e) {
       body: JSON.stringify(payload)
     });
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Lead submit failed:', err);
+    if (!dbRes.ok) {
+      const err = await dbRes.text();
+      console.error('DB insert failed:', err);
       alert('❌ Failed to submit request. Please try again.');
       return;
     }
 
-    // 2️⃣ Notify via Edge Function (best-effort)
-    try {
-      await fetch(
-        'https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-lead-email',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }
-      );
-    } catch (emailErr) {
-      // Do NOT block the user if email fails
-      console.warn('Email notification failed:', emailErr);
-    }
+    /* 2️⃣ Trigger email (Edge Function) */
+    fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }).catch(err => {
+      // 🚨 Do NOT block user if email fails
+      console.warn('Email notification failed:', err);
+    });
 
-    // 3️⃣ UX success
+    /* 3️⃣ UX success */
     alert('✅ Appointment request submitted successfully!');
     form.reset();
     closeLead();
 
   } catch (err) {
-    console.error(err);
+    console.error('Submit error:', err);
     alert('❌ Network error. Please try again.');
   }
 }
+
+
 
 
 
