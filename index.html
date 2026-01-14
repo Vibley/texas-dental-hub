@@ -334,7 +334,8 @@
   <div class="modal">
     <h3>Request Appointment</h3>
     <p id="leadClinic" style="font-size:14px;color:#475569"></p>
-   <form onsubmit="return submitLead(event)">
+  <form id="leadForm">
+
 
       <input required placeholder="Your Name" />
       <input required type="email" placeholder="Email" />
@@ -705,7 +706,7 @@ async function submitLead(e) {
     console.error(err);
     alert('❌ Network error. Please try again.');
   }
-  return false;
+  
 }
 
 
@@ -734,6 +735,15 @@ function callClinic(phone, clinic) {
   }
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('leadForm');
+  if (form) {
+    form.addEventListener('submit', submitLead);
+  }
+});
+
+  
   
 </script>
 
