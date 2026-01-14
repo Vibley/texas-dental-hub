@@ -469,6 +469,13 @@ function renderCity(cityKey) {
 </div>
 
 
+<div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
+  <h3>😕 No clinics match your filters</h3>
+  <p>Try adjusting or clearing your filters to see more clinics.</p>
+  <button class="btn" onclick="resetFilters()">Clear Filters</button>
+</div>
+
+
     <div class="section">
       <h2>⭐ Featured Clinics</h2>
       <div class="grid">
@@ -592,15 +599,17 @@ function applyFilters() {
   const page = document.querySelector('.page.active');
   if (!page) return;
 
-  page.querySelectorAll('.card').forEach(card => {
+  const cards = page.querySelectorAll('.card');
+  const emptyState = page.querySelector('.no-results');
+
+  let visibleCount = 0;
+
+  cards.forEach(card => {
     let show = true;
 
-if (filters.zip?.value &&
-    card.dataset.zip !== filters.zip.value) {
-  show = false;
-}
+    if (filters.zip?.value &&
+        card.dataset.zip !== filters.zip.value) show = false;
 
-    
     if (filters.service?.value &&
         !card.dataset.service.includes(filters.service.value)) show = false;
 
@@ -611,8 +620,16 @@ if (filters.zip?.value &&
         !card.dataset.availability.includes(filters.availability.value)) show = false;
 
     card.style.display = show ? 'flex' : 'none';
+    if (show) visibleCount++;
   });
+
+  // ✅ Empty state toggle
+  if (emptyState) {
+    emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
 }
+
+  
 
 function resetFilters() {
   Object.values(filters).forEach(f => f && (f.value = ''));
