@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TexasDentalHub | Houston Metro Dentists</title>
   <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
-  <style>
+<style>
 
 :root {
   --bg: radial-gradient(circle at top, #f8fbff 0%, #eef4ff 35%, #eaf0fb 100%);
@@ -295,26 +295,23 @@
 
     
   </style>
-  
 </head>
+
 <body>
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand"><span>🦷</span>TexasDentalHub</div>
-   
-<div class="nav">
-  <select id="citySelect" class="city-select">
-    <option value="houston">Houston</option>
-    <option value="katy">Katy</option>
-    <option value="sugarland">Sugar Land</option>
-    <option value="richmond">Richmond</option>
-    <option value="rosenberg">Rosenberg</option>
-    <option value="woodlands">The Woodlands</option>
-    <option value="spring">Spring</option>
-  </select>
-</div>
-
-    
+    <div class="nav">
+      <select id="citySelect" class="city-select">
+        <option value="houston">Houston</option>
+        <option value="katy">Katy</option>
+        <option value="sugarland">Sugar Land</option>
+        <option value="richmond">Richmond</option>
+        <option value="rosenberg">Rosenberg</option>
+        <option value="woodlands">The Woodlands</option>
+        <option value="spring">Spring</option>
+      </select>
+    </div>
   </div>
 </div>
 
@@ -330,51 +327,26 @@
 
 <div class="footer">© 2026 TexasDentalHub</div>
 
+<!-- ================= LEAD MODAL ================= -->
 <div id="leadModal">
   <div class="modal">
     <h3>Request Appointment Online</h3>
     <p id="leadClinic" style="font-size:14px;color:#475569"></p>
 
-<form id="leadForm">
-  <input
-    name="patient_name"
-    required
-    placeholder="Your Name"
-  />
+    <form id="leadForm">
+      <!-- 🔒 SOURCE OF TRUTH -->
+      <input type="hidden" id="clinicNameInput" name="clinic_name" />
 
-  <input
-    name="email"
-    type="email"
-    required
-    placeholder="Email"
-  />
+      <input name="patient_name" required placeholder="Your Name" />
+      <input name="email" type="email" required placeholder="Email" />
+      <input name="phone" required placeholder="Phone" />
+      <textarea name="message" required placeholder="Preferred time / message"></textarea>
 
-  <input
-    name="phone"
-    required
-    placeholder="Phone"
-  />
-
-  <textarea
-    name="message"
-    required
-    placeholder="Preferred time / message"
-  ></textarea>
-
-  <button class="btn" type="submit">Submit Request</button>
-  <button
-    type="button"
-    onclick="closeLead()"
-    style="margin-left:10px"
-  >
-    Cancel
-  </button>
-</form>
-
-    
+      <button class="btn" type="submit">Submit Request</button>
+      <button type="button" onclick="closeLead()" style="margin-left:10px">Cancel</button>
+    </form>
   </div>
 </div>
-
 
 <script>
 /* ================= CONFIG ================= */
@@ -394,7 +366,7 @@ const CITY_KEY_MAP = {
 let DATA = {};
 let filters = {};
 
-/* ================= LOAD DATA ================= */
+/* ================= LOAD CLINICS ================= */
 async function loadClinicsFromSupabase() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/clinics?select=*`, {
     headers: {
@@ -402,321 +374,66 @@ async function loadClinicsFromSupabase() {
       Authorization: `Bearer ${SUPABASE_KEY}`
     }
   });
-  
- 
-
 
   const rows = await res.json();
   DATA = {};
 
   rows.forEach(c => {
-    const cityName = (c.city || '').trim();
-    const cityKey = CITY_KEY_MAP[cityName];
+    const cityKey = CITY_KEY_MAP[(c.city || '').trim()];
     if (!cityKey) return;
 
     if (!DATA[cityKey]) {
-      DATA[cityKey] = { label: cityName, featured: [], clinics: [] };
+      DATA[cityKey] = { label: c.city, featured: [], clinics: [] };
     }
 
-  const clinic = {
-  name: c.name,
-  address: c.address,
-  phone: c.phone || '',
-  zip: c.zip,
-  services: c.services,
-  insurances: c.insurances,
-  accepts_new_patients: c.accepts_new_patients,
-  emergency_available: c.emergency_available
-};
-
+    const clinic = {
+      name: c.name,
+      address: c.address,
+      phone: c.phone || '',
+      zip: c.zip,
+      services: c.services,
+      insurances: c.insurances,
+      accepts_new_patients: c.accepts_new_patients,
+      emergency_available: c.emergency_available
+    };
 
     (c.featured ? DATA[cityKey].featured : DATA[cityKey].clinics).push(clinic);
   });
 
-  console.log('Loaded cities:', Object.keys(DATA));
   activateCity('houston', true);
-}
-
-/* ================= RENDER ================= */
-function renderCity(cityKey) {
-  const city = DATA[cityKey];
-  const page = document.getElementById(cityKey);
-  if (!city || !page) return;
-
-  page.innerHTML = `
-  <div class="hero">
-  <h1>General & Family Dentists in ${city.label}</h1>
-
-  <p>
-    Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you
-    discover verified general and family dental clinics across ${city.label}
-    and nearby areas. Browse local providers, call featured clinics directly,
-    or request an appointment online with confidence.
-  </p>
-
-  <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
-    <li>✅ Verified local dental clinics in and around ${city.label}</li>
-    <li>📞 Call featured clinics directly — no middlemen</li>
-    <li>🗓️ Request appointments online in seconds</li>
-    <li>🦷 General, family, cosmetic & emergency care options</li>
-    <li>📍 Focused on your city — not a national spam directory</li>
-  </ul>
-
-  <h3 style="margin-top:14px;">
-    Skip ads, skip fake reviews — find trusted Texas dentists faster.
-  </h3>
-</div>
-
-
-    <div class="filters sticky-filter">
-    
-<select id="filter-zip">
-  <option value="">All ZIP Codes</option>
-</select>
-
-  <select id="filter-service">
-    <option value="">All Services</option>
-    <option value="general">General Dentistry</option>
-    <option value="family">Family Dentistry</option>
-    <option value="cosmetic">Cosmetic</option>
-    <option value="emergency">Emergency</option>
-    <option value="pediatric">Pediatric</option>
-  </select>
-
-  <select id="filter-insurance">
-    <option value="">All Insurance</option>
-    <option value="delta">Delta Dental</option>
-    <option value="aetna">Aetna</option>
-    <option value="cigna">Cigna</option>
-    <option value="metlife">MetLife</option>
-    <option value="selfpay">No Insurance / Self-Pay</option>
-  </select>
-
-  <select id="filter-availability">
-    <option value="">Any Availability</option>
-    <option value="today">Open Today</option>
-    <option value="weekend">Weekend</option>
-    <option value="evening">Evenings</option>
-  </select>
-
-</div>
-
-
-<div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
-  <h3>No clinics match your filters</h3>
-  <p>Try adjusting or clearing your filters to see more clinics.</p>
-  <button class="btn" onclick="resetFilters()">Clear Filters</button>
-</div>
-
-
-    <div class="section featured-section">
-      <h2>⭐ Featured Clinics</h2>
-      <div class="grid">
-        ${city.featured.map(c => card(c, true)).join('')}
-      </div>
-    </div>
-
-    <div class="section all-section">
-      <h2>🏥 All Clinics</h2>
-      <div class="grid">
-        ${city.clinics.map(c => card(c, false)).join('')}
-      </div>
-    </div>
-  `;
-
-
-  page.dataset.rendered = 'true';
-  
-}
-
-
-function populateZipFilter(cityKey) {
-  const city = DATA[cityKey];
-  if (!city) return;
-
-  const page = document.getElementById(cityKey);
-  if (!page) return;
-
-  const zipSelect = page.querySelector('#filter-zip');
-  if (!zipSelect) return;
-
-  // Collect unique ZIPs (ignore nulls)
-  const zips = new Set();
-
-  [...city.featured, ...city.clinics].forEach(c => {
- if (c.zip) zips.add(String(c.zip));
-
-  });
-
-  // Reset dropdown
-  zipSelect.innerHTML = `<option value="">All ZIP Codes</option>`;
-
-  [...zips].sort().forEach(zip => {
-    const opt = document.createElement('option');
-    opt.value = zip;
-    opt.textContent = zip;
-    zipSelect.appendChild(opt);
-  });
-}
-
-  
-/* ================= CARD ================= */
-function card(c, isFeatured) {
-  const services = (c.services || []).join(' ');
-  const insurances = (c.insurances || []).join(' ');
-  const availability = [
-    c.accepts_new_patients ? 'today' : '',
-    c.emergency_available ? 'emergency' : ''
-  ].join(' ').trim();
-
-  const action = c.phone
-    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
-
-  return `
-    <div class="card ${isFeatured ? 'featured' : ''}"
-      data-zip="${c.zip ? String(c.zip) : ''}"
-
-      data-service="${services}"
-      data-insurance="${insurances}"
-      data-availability="${availability}">
-      
-      <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
-      <h3>${c.name}</h3>
-      <div class="address">📍 ${c.address}</div>
-      ${action}
-    </div>
-  `;
-}
-
-
-/* ================= CITY SWITCH ================= */
-function activateCity(cityKey, initial = false) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const page = document.getElementById(cityKey);
-  if (!page) return;
-
-  page.classList.add('active');
-
-  if (!page.dataset.rendered) {
-    renderCity(cityKey);
-  }
-
-  // ✅ ZIPs must be populated AFTER activation
-  populateZipFilter(cityKey);
-
-  wireFilters();
-  applyFilters();
-}
-
-
-/* ================= FILTERS ================= */
-function wireFilters() {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
-
-  filters = {
-    zip: activePage.querySelector('#filter-zip'),
-    service: activePage.querySelector('#filter-service'),
-    insurance: activePage.querySelector('#filter-insurance'),
-    availability: activePage.querySelector('#filter-availability')
-  };
-
-  Object.values(filters).forEach(f => {
-    if (f) f.onchange = applyFilters;
-  });
-}
-
-
-function applyFilters() {
-  const page = document.querySelector('.page.active');
-  if (!page) return;
-
-  const cards = page.querySelectorAll('.card');
-
-
-  let visibleCount = 0;
-
-  cards.forEach(card => {
-    let show = true;
-
-    if (filters.zip?.value &&
-        card.dataset.zip !== filters.zip.value) show = false;
-
-    if (filters.service?.value &&
-        !card.dataset.service.includes(filters.service.value)) show = false;
-
-    if (filters.insurance?.value &&
-        !card.dataset.insurance.includes(filters.insurance.value)) show = false;
-
-    if (filters.availability?.value &&
-        !card.dataset.availability.includes(filters.availability.value)) show = false;
-
-    card.style.display = show ? 'flex' : 'none';
-    if (show) visibleCount++;
-  });
-
-  // ✅ Empty state toggle
-const emptyState = page.querySelector('.no-results');
-const featuredSection = page.querySelector('.featured-section');
-const allSection = page.querySelector('.all-section');
-
-if (visibleCount === 0) {
-  if (emptyState) emptyState.style.display = 'block';
-  if (featuredSection) featuredSection.style.display = 'none';
-  if (allSection) allSection.style.display = 'none';
-} else {
-  if (emptyState) emptyState.style.display = 'none';
-  if (featuredSection) featuredSection.style.display = '';
-  if (allSection) allSection.style.display = '';
-}
-
-}
-
-  
-
-function resetFilters() {
-  Object.values(filters).forEach(f => f && (f.value = ''));
-  applyFilters();
 }
 
 /* ================= LEADS ================= */
 function openLead(name) {
   document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
+  document.getElementById('clinicNameInput').value = name; // 🔒 STATE
   document.getElementById('leadModal').style.display = 'flex';
 }
-  
+
 function closeLead() {
   document.getElementById('leadModal').style.display = 'none';
 }
 
-  document.getElementById('leadModal').addEventListener('click', e => {
-  if (e.target.id === 'leadModal') closeLead();
-});
-
-
-
-
 async function submitLead(e) {
-  e.preventDefault(); // ⛔ stop page reload
+  e.preventDefault();
 
   const form = e.target;
 
   const payload = {
-    clinic_name: document
-      .getElementById('leadClinic')
-      .innerText.replace('Clinic: ', ''),
-
+    clinic_name: document.getElementById('clinicNameInput').value,
     city: document.getElementById('citySelect').value,
-
-    patient_name: form.querySelector('input[placeholder="Your Name"]').value.trim(),
-    email: form.querySelector('input[type="email"]').value.trim(),
-    phone: form.querySelector('input[placeholder="Phone"]').value.trim(),
-    message: form.querySelector('textarea').value.trim()
+    patient_name: form.patient_name.value.trim(),
+    email: form.email.value.trim(),
+    phone: form.phone.value.trim(),
+    message: form.message.value.trim()
   };
 
+  if (!payload.clinic_name) {
+    alert('❌ Please select a clinic first.');
+    return;
+  }
+
   try {
-    /* 1️⃣ Save lead to Supabase */
     const dbRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -728,74 +445,40 @@ async function submitLead(e) {
     });
 
     if (!dbRes.ok) {
-      const err = await dbRes.text();
-      console.error('DB insert failed:', err);
-      alert('❌ Failed to submit request. Please try again.');
+      console.error(await dbRes.text());
+      alert('❌ Failed to submit request.');
       return;
     }
 
-    /* 2️⃣ Trigger email (Edge Function) */
+    // 🔔 Email notification (non-blocking)
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(err => {
-      // 🚨 Do NOT block user if email fails
-      console.warn('Email notification failed:', err);
-    });
+    }).catch(() => {});
 
-    /* 3️⃣ UX success */
     alert('✅ Appointment request submitted successfully!');
     form.reset();
+    document.getElementById('clinicNameInput').value = '';
     closeLead();
 
   } catch (err) {
-    console.error('Submit error:', err);
-    alert('❌ Network error. Please try again.');
+    console.error(err);
+    alert('❌ Network error.');
   }
 }
 
+/* ================= EVENTS ================= */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('leadForm').addEventListener('submit', submitLead);
+});
 
-
-
-
- 
-  
-/* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
   activateCity(e.target.value);
 });
 
 /* ================= START ================= */
 loadClinicsFromSupabase();
-
-
-function callClinic(phone, clinic) {
-  if (!phone) return;
-
-  if (/Mobi|Android/i.test(navigator.userAgent)) {
-    window.location.href = `tel:${phone}`;
-  } else {
-    alert(
-      `Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`
-    );
-  }
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('leadForm');
-  if (form) {
-    form.addEventListener('submit', submitLead);
-  }
-});
-
-  
-  
 </script>
-
-  
 </body>
 </html>
