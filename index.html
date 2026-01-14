@@ -682,6 +682,7 @@ async function submitLead(e) {
   };
 
   try {
+    // 1️⃣ Insert lead into Supabase
     const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -699,20 +700,35 @@ async function submitLead(e) {
       return;
     }
 
+    // 2️⃣ Notify via Edge Function (best-effort)
+    try {
+      await fetch(
+        'https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-lead-email',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }
+      );
+    } catch (emailErr) {
+      // Do NOT block the user if email fails
+      console.warn('Email notification failed:', emailErr);
+    }
+
+    // 3️⃣ UX success
     alert('✅ Appointment request submitted successfully!');
     form.reset();
     closeLead();
+
   } catch (err) {
     console.error(err);
     alert('❌ Network error. Please try again.');
   }
-  
 }
 
 
 
-
-  
+ 
   
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
