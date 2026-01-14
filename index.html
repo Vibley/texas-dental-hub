@@ -476,14 +476,14 @@ function renderCity(cityKey) {
 </div>
 
 
-    <div class="section">
+    <div class="section featured-section">
       <h2>⭐ Featured Clinics</h2>
       <div class="grid">
         ${city.featured.map(c => card(c, true)).join('')}
       </div>
     </div>
 
-    <div class="section">
+    <div class="section all-section">
       <h2>🏥 All Clinics</h2>
       <div class="grid">
         ${city.clinics.map(c => card(c, false)).join('')}
@@ -624,9 +624,20 @@ function applyFilters() {
   });
 
   // ✅ Empty state toggle
-  if (emptyState) {
-    emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
-  }
+const emptyState = page.querySelector('.no-results');
+const featuredSection = page.querySelector('.featured-section');
+const allSection = page.querySelector('.all-section');
+
+if (visibleCount === 0) {
+  if (emptyState) emptyState.style.display = 'block';
+  if (featuredSection) featuredSection.style.display = 'none';
+  if (allSection) allSection.style.display = 'none';
+} else {
+  if (emptyState) emptyState.style.display = 'none';
+  if (featuredSection) featuredSection.style.display = '';
+  if (allSection) allSection.style.display = '';
+}
+
 }
 
   
