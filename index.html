@@ -229,7 +229,7 @@
 }
     
 .sticky-filter {
-  position: sticky;
+  
   top: 64px; /* below your topbar */
   z-index: 9;
 }
@@ -309,6 +309,39 @@
     appearance: menulist;
   }
 }
+
+    /* ================= MOBILE FILTER FIX (ANDROID SAFE) ================= */
+@media (max-width: 768px) {
+
+  /* Make filters plain and touch-safe */
+  .filters {
+    position: static !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 12px 0 !important;
+    margin: 16px 0 !important;
+    z-index: auto !important;
+  }
+
+  /* Make selects fully native */
+  .filters select {
+    width: 100%;
+    display: block;
+    margin-bottom: 10px;
+    appearance: menulist !important;
+    -webkit-appearance: menulist !important;
+    background: #fff !important;
+  }
+
+  /* Kill ANY transforms that block touch */
+  .filters,
+  .filters * {
+    transform: none !important;
+  }
+}
+
 
     
   </style>
