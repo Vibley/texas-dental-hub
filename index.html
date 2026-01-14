@@ -336,40 +336,24 @@
     <p id="leadClinic" style="font-size:14px;color:#475569"></p>
 
 <form id="leadForm">
-  <input
-    name="patient_name"
-    required
-    placeholder="Your Name"
-  />
 
-  <input
-    name="email"
-    type="email"
-    required
-    placeholder="Email"
-  />
+  <!-- 🔒 SOURCE OF TRUTH -->
+  <input type="hidden" id="clinicNameInput" name="clinic_name" />
 
-  <input
-    name="phone"
-    required
-    placeholder="Phone"
-  />
+  <input name="patient_name" required placeholder="Your Name" />
 
-  <textarea
-    name="message"
-    required
-    placeholder="Preferred time / message"
-  ></textarea>
+  <input name="email" type="email" required placeholder="Email" />
+
+  <input name="phone" required placeholder="Phone" />
+
+  <textarea name="message" required placeholder="Preferred time / message"></textarea>
 
   <button class="btn" type="submit">Submit Request</button>
-  <button
-    type="button"
-    onclick="closeLead()"
-    style="margin-left:10px"
-  >
+  <button type="button" onclick="closeLead()" style="margin-left:10px">
     Cancel
   </button>
 </form>
+
 
     
   </div>
@@ -683,8 +667,13 @@ function resetFilters() {
 /* ================= LEADS ================= */
 function openLead(name) {
   document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
+
+  // 🔒 Persist clinic name safely
+  document.getElementById('clinicNameInput').value = name;
+
   document.getElementById('leadModal').style.display = 'flex';
 }
+
   
 function closeLead() {
   document.getElementById('leadModal').style.display = 'none';
@@ -698,25 +687,27 @@ function closeLead() {
 
 
 async function submitLead(e) {
-  e.preventDefault(); // ⛔ stop page reload
+  e.preventDefault();
 
   const form = e.target;
 
   const payload = {
-    clinic_name: document
-      .getElementById('leadClinic')
-      .innerText.replace('Clinic: ', ''),
-
+    clinic_name: document.getElementById('clinicNameInput').value,
     city: document.getElementById('citySelect').value,
 
-    patient_name: form.querySelector('input[placeholder="Your Name"]').value.trim(),
-    email: form.querySelector('input[type="email"]').value.trim(),
-    phone: form.querySelector('input[placeholder="Phone"]').value.trim(),
-    message: form.querySelector('textarea').value.trim()
+    patient_name: form.querySelector('[name="patient_name"]').value.trim(),
+    email: form.querySelector('[name="email"]').value.trim(),
+    phone: form.querySelector('[name="phone"]').value.trim(),
+    message: form.querySelector('[name="message"]').value.trim()
   };
 
+  if (!payload.clinic_name) {
+    alert('❌ Please select a clinic first.');
+    return;
+  }
+
   try {
-    /* 1️⃣ Save lead to Supabase */
+    /* 1️⃣ Save lead */
     const dbRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -728,35 +719,29 @@ async function submitLead(e) {
     });
 
     if (!dbRes.ok) {
-      const err = await dbRes.text();
-      console.error('DB insert failed:', err);
-      alert('❌ Failed to submit request. Please try again.');
+      console.error(await dbRes.text());
+      alert('❌ Failed to submit request.');
       return;
     }
 
-    /* 2️⃣ Trigger email (Edge Function) */
+    /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(err => {
-      // 🚨 Do NOT block user if email fails
-      console.warn('Email notification failed:', err);
-    });
+    }).catch(() => {});
 
-    /* 3️⃣ UX success */
+    /* 3️⃣ UX */
     alert('✅ Appointment request submitted successfully!');
     form.reset();
+    document.getElementById('clinicNameInput').value = '';
     closeLead();
 
   } catch (err) {
-    console.error('Submit error:', err);
-    alert('❌ Network error. Please try again.');
+    console.error(err);
+    alert('❌ Network error.');
   }
 }
-
 
 
 
