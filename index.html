@@ -243,27 +243,29 @@
 }
 
 
-    /* Desktop sticky (already exists above) */
-.sticky-filter {
-  position: sticky;
-  top: 64px;
-  z-index: 9;
+/* Desktop only sticky filters */
+@media (min-width: 769px) {
+  .sticky-filter {
+    position: sticky;
+    top: 64px;
+    z-index: 9;
+  }
+
+  .sticky-filter.is-stuck {
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 12px 26px rgba(2,6,23,.14);
+  }
 }
 
-/* App-like sticky state */
-.sticky-filter.is-stuck {
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 12px 26px rgba(2,6,23,.14);
-}
-
-
-/* 👇 ADD THIS BELOW (Mobile override) 👇 */
+/* Mobile: disable sticky entirely */
 @media (max-width: 768px) {
   .sticky-filter {
-    position: relative; /* disable sticky */
-    top: auto;
+    position: static !important;
+    top: auto !important;
   }
+}
+
 
   .sticky-filter.mobile-fixed {
     position: fixed;
