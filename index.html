@@ -407,6 +407,23 @@
   display: none;
 }
 
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+    /* Sticky header shadow on scroll */
+.topbar.scrolled {
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+}
+
     
   </style>
   
@@ -1026,6 +1043,19 @@ window.addEventListener("hashchange", () => {
 </footer>
 
 
+<script>
+  const topbar = document.querySelector(".topbar");
+
+  if (topbar) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        topbar.classList.add("scrolled");
+      } else {
+        topbar.classList.remove("scrolled");
+      }
+    });
+  }
+</script>
 
 
   
