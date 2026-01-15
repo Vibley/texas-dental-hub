@@ -916,6 +916,21 @@ window.addEventListener("hashchange", () => {
     Send us a message and we’ll get back to you.
   </p>
 
+
+
+<script>
+  function openContactForm(e) {
+    e.preventDefault();
+
+    const section = document.getElementById("contact");
+    if (!section) return;
+
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
+    
   <form class="contact-form">
     <div class="form-group">
       <label for="name">Full Name</label>
@@ -969,17 +984,7 @@ window.addEventListener("hashchange", () => {
     </div>
 
 
-<script>
-  function openContactForm(e) {
-    e.preventDefault();
 
-    const section = document.getElementById("contact");
-    if (!section) return;
-
-    section.style.display = "block";
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-</script>
 
 
     
