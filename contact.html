@@ -1,48 +1,186 @@
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("contactForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const successMsg = document.getElementById("successMsg");
-    const errorMsg = document.getElementById("errorMsg");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | TexasDentalHub</title>
 
-    if (!form) {
-      console.error("contactForm not found");
-      return;
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f7fb;
     }
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    .contact-section {
+      max-width: 700px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 18px 40px rgba(2,6,23,.10);
+    }
 
-      successMsg.style.display = "none";
-      errorMsg.style.display = "none";
-      submitBtn.disabled = true;
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-      const payload = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        message: form.message.value.trim()
-      };
+    .subtext {
+      text-align: center;
+      color: #475569;
+      margin-bottom: 30px;
+    }
 
-      try {
-        const res = await fetch(
-          "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          }
-        );
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-        if (!res.ok) throw new Error("Request failed");
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
 
-        form.reset();
-        successMsg.style.display = "block";
-      } catch (err) {
-        console.error(err);
-        errorMsg.style.display = "block";
-      } finally {
-        submitBtn.disabled = false;
-      }
+    input, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .success, .error {
+      display: none;
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .error {
+      background: #fef2f2;
+      color: #7f1d1d;
+      border: 1px solid #fecaca;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="contact-section">
+    <h2>Contact Us</h2>
+    <p class="subtext">
+      Have a question or want to list your dental clinic on TexasDentalHub?
+      Send us a message and we’ll get back to you.
+    </p>
+
+    <!-- ✅ THIS FORM WAS MISSING -->
+    <form id="contactForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input name="email" type="email" required />
+      </div>
+
+      <div class="form-group">
+        <label>Message</label>
+        <textarea name="message" rows="5" required></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn">Send Message</button>
+    </form>
+
+    <!-- ✅ THESE DIVS WERE MISSING -->
+    <div class="success" id="successMsg">
+      ✅ Your message has been sent successfully.
+    </div>
+
+    <div class="error" id="errorMsg">
+      ❌ Failed to send message. Please try again.
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">← Back to TexasDentalHub</a>
+    </div>
+  </section>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contactForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const successMsg = document.getElementById("successMsg");
+      const errorMsg = document.getElementById("errorMsg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        successMsg.style.display = "none";
+        errorMsg.style.display = "none";
+        submitBtn.disabled = true;
+
+        const payload = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          message: form.message.value.trim()
+        };
+
+        try {
+          const res = await fetch(
+            "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }
+          );
+
+          if (!res.ok) throw new Error("Request failed");
+
+          form.reset();
+          successMsg.style.display = "block";
+
+        } catch (err) {
+          console.error(err);
+          errorMsg.style.display = "block";
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
     });
-  });
-</script>
+  </script>
+
+</body>
+</html>
