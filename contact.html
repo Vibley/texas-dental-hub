@@ -138,58 +138,63 @@
 
   <!-- ================= SCRIPT ================= -->
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("contactForm");
-      const submitBtn = document.getElementById("submitBtn");
-      const successMsg = document.getElementById("successMsg");
-      const errorMsg = document.getElementById("errorMsg");
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+    if (!form) {
+      console.error("contactForm not found");
+      return;
+    }
 
-        successMsg.style.display = "none";
-        errorMsg.style.display = "none";
-        submitBtn.disabled = true;
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs";
 
-        const payload = {
-          name: form.name.value.trim(),
-          email: form.email.value.trim(),
-          message: form.message.value.trim()
-        };
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-   
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs";
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+      submitBtn.disabled = true;
 
-const res = await fetch(
-  "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-    },
-    body: JSON.stringify(payload)
-  }
-);
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
 
+      try {
+        const res = await fetch(
+          "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "apikey": SUPABASE_ANON_KEY,
+              "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify(payload)
+          }
+        );
 
-          
-
-          if (!res.ok) throw new Error("Request failed");
-
-          form.reset();
-          successMsg.style.display = "block";
-
-        } catch (err) {
-          console.error(err);
-          errorMsg.style.display = "block";
-        } finally {
-          submitBtn.disabled = false;
+        if (!res.ok) {
+          throw new Error("Request failed");
         }
-      });
+
+        form.reset();
+        successMsg.style.display = "block";
+
+      } catch (err) {
+        console.error(err);
+        errorMsg.style.display = "block";
+      } finally {
+        submitBtn.disabled = false;
+      }
     });
-  </script>
+  });
+</script>
+
 
 </body>
 </html>
