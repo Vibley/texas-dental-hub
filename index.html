@@ -892,8 +892,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-  
+  /* Show Form When Linked (Clean JS)  */
+window.addEventListener("hashchange", () => {
+    if (location.hash === "#contact") {
+      const section = document.getElementById("contact");
+      if (section) section.style.display = "block";
+    }
+  });
 
+  if (location.hash === "#contact") {
+    const section = document.getElementById("contact");
+    if (section) section.style.display = "block";
+  }
   
 </script>
 
