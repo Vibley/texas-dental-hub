@@ -968,6 +968,21 @@ window.addEventListener("hashchange", () => {
       </ul>
     </div>
 
+
+<script>
+  function openContactForm(e) {
+    e.preventDefault();
+
+    const section = document.getElementById("contact");
+    if (!section) return;
+
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
+
+    
     <!-- Links -->
     <div>
   <h4>Quick Links</h4>
@@ -1004,17 +1019,7 @@ window.addEventListener("hashchange", () => {
 </footer>
 
 
-<script>
-  function openContactForm(e) {
-    e.preventDefault();
 
-    const section = document.getElementById("contact");
-    if (!section) return;
-
-    section.style.display = "block";
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-</script>
 
   
 </body>
