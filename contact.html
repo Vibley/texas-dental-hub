@@ -1,42 +1,48 @@
 <script>
-  const form = document.getElementById("contactForm");
-  const submitBtn = document.getElementById("submitBtn");
-  const successMsg = document.getElementById("successMsg");
-  const errorMsg = document.getElementById("errorMsg");
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const successMsg = document.getElementById("successMsg");
+    const errorMsg = document.getElementById("errorMsg");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    successMsg.style.display = "none";
-    errorMsg.style.display = "none";
-    submitBtn.disabled = true;
-
-    const payload = {
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      message: form.message.value.trim()
-    };
-
-    try {
-      const res = await fetch(
-        "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        }
-      );
-
-      if (!res.ok) throw new Error("Request failed");
-
-      form.reset();
-      successMsg.style.display = "block";
-
-    } catch (err) {
-      console.error(err);
-      errorMsg.style.display = "block";
-    } finally {
-      submitBtn.disabled = false;
+    if (!form) {
+      console.error("contactForm not found");
+      return;
     }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      successMsg.style.display = "none";
+      errorMsg.style.display = "none";
+      submitBtn.disabled = true;
+
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
+
+      try {
+        const res = await fetch(
+          "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          }
+        );
+
+        if (!res.ok) throw new Error("Request failed");
+
+        form.reset();
+        successMsg.style.display = "block";
+      } catch (err) {
+        console.error(err);
+        errorMsg.style.display = "block";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
   });
 </script>
