@@ -909,7 +909,7 @@ window.addEventListener("hashchange", () => {
 
   <div id="clinics"></div>
 
-  <section id="contact" class="contact-section contact-hidden">
+  <section id="contact" class="contact-section" style="display:none;">
   <h2>Contact Us</h2>
   <p class="contact-subtext">
     Have a question or want to list your dental clinic on TexasDentalHub?
@@ -974,7 +974,7 @@ window.addEventListener("hashchange", () => {
   <ul>
     <li><a href="#home">Home</a></li>
     <li><a href="#clinics">Browse Dentists</a></li>
-    <li><a href="#contact">Contact Us</a></li>
+    <li><a href="#" onclick="openContactForm(event)">Contact Us</a></li>
   </ul>
 </div>
 
@@ -1002,6 +1002,20 @@ window.addEventListener("hashchange", () => {
     </p>
   </div>
 </footer>
+
+
+<script>
+  function openContactForm(e) {
+    e.preventDefault();
+
+    const section = document.getElementById("contact");
+    if (!section) return;
+
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+
   
 </body>
 </html>
