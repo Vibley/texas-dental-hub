@@ -291,6 +291,52 @@
   cursor: pointer;
 }
 
+    .site-footer {
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 60px 20px 30px;
+}
+
+.site-footer h3,
+.site-footer h4 {
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.footer-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.site-footer li {
+  margin-bottom: 8px;
+}
+
+.site-footer a {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #38bdf8;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 40px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
     
   </style>
   
@@ -775,7 +821,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-  
+  <footer class="site-footer">
+  <div class="footer-grid">
+    
+    <!-- Brand -->
+    <div>
+      <h3>TexasDentalHub</h3>
+      <p>
+        Your trusted directory for finding verified dentists across Texas.
+        We help patients connect with local dental clinics for quality, affordable dental care.
+      </p>
+    </div>
+
+    <!-- Cities -->
+    <div>
+      <h4>Popular Cities</h4>
+      <ul>
+        <li>Houston</li>
+        <li>Katy</li>
+        <li>Sugar Land</li>
+        <li>Richmond</li>
+        <li>Rosenberg</li>
+        <li>The Woodlands</li>
+        <li>Spring</li>
+      </ul>
+    </div>
+
+    <!-- Links -->
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="#clinics">Browse Dentists</a></li>
+        <li><a href="#add">Add Your Clinic</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Dentists -->
+    <div>
+      <h4>For Dentists</h4>
+      <ul>
+        <li>Claim Your Listing</li>
+        <li>Get More Patient Leads</li>
+        <li>Advertising Opportunities</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 TexasDentalHub. All rights reserved.</p>
+    <p>
+      <a href="#privacy">Privacy Policy</a> |
+      <a href="#terms">Terms of Service</a> |
+      <a href="#disclaimer">Disclaimer</a>
+    </p>
+  </div>
+</footer>
+
   
 </script>
 
