@@ -1,164 +1,42 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us | TexasDentalHub</title>
-
-  <style>
-    :root {
-      --border: rgba(15,23,42,.10);
-      --radius: 14px;
-      --shadow: 0 18px 40px rgba(2,6,23,.10);
-      --accent: #0b5ed7;
-      --muted: #475569;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f7fb;
-    }
-
-    .contact-section {
-      max-width: 700px;
-      margin: 80px auto;
-      padding: 40px 30px;
-      background: #ffffff;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .contact-section h2 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .contact-subtext {
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 30px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      font-size: 15px;
-    }
-
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .back-link {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .back-link a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-  </style>
-</head>
-
-<body>
-
-  <section class="contact-section">
-    <h2>Contact Us</h2>
-    <p class="contact-subtext">
-      Have a question or want to list your dental clinic on TexasDentalHub?
-      Send us a message and we’ll get back to you.
-    </p>
-
-    <form>
-      <div class="form-group">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required />
-      </div>
-
-      <div class="form-group">
-        <label for="message">Message</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-      </div>
-
-      <button type="submit">Send Message</button>
-    </form>
-
-    <div class="back-link">
-      <a href="index.html">← Back to TexasDentalHub</a>
-    </div>
-  </section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-  const supabaseClient = supabase.createClient(
-    "https://wehhvavlbhdbcmgvdaxj.supabase.co",
-    "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV"
-  );
-
-  const form = document.querySelector("form");
+  const form = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const successMsg = document.getElementById("successMsg");
+  const errorMsg = document.getElementById("errorMsg");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const { error } = await supabaseClient
-      .from("contact_leads")
-      .insert([
-        {
-          name: form.name.value,
-          email: form.email.value,
-          message: form.message.value
-        }
-      ]);
+    successMsg.style.display = "none";
+    errorMsg.style.display = "none";
+    submitBtn.disabled = true;
 
-    if (error) {
-      console.error(error);
-      alert("Failed to send message.");
-    } else {
-      alert("Message sent successfully!");
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      message: form.message.value.trim()
+    };
+
+    try {
+      const res = await fetch(
+        "https://wehhvavlbhdbcmgvdaxj.supabase.co/functions/v1/send-contact-email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      if (!res.ok) throw new Error("Request failed");
+
       form.reset();
+      successMsg.style.display = "block";
+
+    } catch (err) {
+      console.error(err);
+      errorMsg.style.display = "block";
+    } finally {
+      submitBtn.disabled = false;
     }
   });
 </script>
-
-
-  
-</body>
-</html>
