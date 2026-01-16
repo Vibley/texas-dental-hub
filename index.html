@@ -492,6 +492,20 @@
   border-color: #0b5ed7;
 }
 
+
+/* Google Maps address link */
+.map-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.map-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
     
   </style>
   
@@ -785,7 +799,17 @@ function card(c, isFeatured) {
       
       <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
       <h3>${c.name}</h3>
-      <div class="address">📍 ${c.address}</div>
+<div class="address">
+  <a
+    href="https://maps.google.com/?q=${encodeURIComponent(c.address)}"
+    class="map-link"
+    target="_blank"
+    rel="noopener"
+  >
+    📍 ${c.address}
+  </a>
+</div>
+
       ${action}
     </div>
   `;
