@@ -34,6 +34,48 @@
       text-decoration: none;
       font-weight: 500;
     }
+
+.site-footer {
+  background: #0b5ed7;
+  color: #ffffff;
+  padding: 50px 20px 30px;
+}
+
+.site-footer a {
+  color: #dbeafe;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Logo override for footer */
+.site-footer .brand-name {
+  color: #ffffff;
+}
+
+.site-footer .brand-hub {
+  color: #93c5fd;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #c7d2fe;
+}
+
+
+    
   </style>
 </head>
 
@@ -92,5 +134,43 @@
       <a href="index.html">← Back to TexasDentalHub</a>
     </div>
   </main>
+
+  <footer class="site-footer">
+  <div class="footer-grid">
+
+    <div class="footer-brand">
+      <div class="brand">
+        <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
+      </div>
+      <p>
+        Your trusted directory for finding verified dentists across Texas.
+      </p>
+    </div>
+
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About TexasDentalHub</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="disclaimer.html">Disclaimer</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 TexasDentalHub. All rights reserved.</p>
+  </div>
+</footer>
+
 </body>
 </html>
