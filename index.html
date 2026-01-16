@@ -424,6 +424,19 @@
   box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
 }
 
+    .filters input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  min-width: 140px;
+}
+
+.filters input:focus {
+  outline: none;
+  border-color: #0b5ed7;
+}
+
     
   </style>
   
@@ -612,10 +625,17 @@ function renderCity(cityKey) {
     <option value="weekend">Weekend</option>
     <option value="evening">Evenings</option>
   </select>
-  
-  <select id="filter-zip">
-  <option value="">All ZIP Codes</option>
-</select>
+
+
+<input
+  type="text"
+  id="filter-zip"
+  placeholder="ZIP Code"
+  inputmode="numeric"
+  maxlength="5"
+/>
+
+
 
 </div>
 
@@ -724,7 +744,7 @@ function activateCity(cityKey, initial = false) {
   populateZipFilter(cityKey);
 
   wireFilters();
-  applyFilters();
+  apply();
 }
 
 
@@ -1053,6 +1073,47 @@ window.addEventListener("hashchange", () => {
       }
     });
   }
+</script>
+
+
+  <script>
+  const serviceFilter = document.getElementById("filter-service");
+  const insuranceFilter = document.getElementById("filter-insurance");
+  const availabilityFilter = document.getElementById("filter-availability");
+  const zipInput = document.getElementById("filter-zip");
+
+  function applyFilters() {
+    const service = serviceFilter.value;
+    const insurance = insuranceFilter.value;
+    const availability = availabilityFilter.value;
+    const zip = zipInput.value.trim();
+
+   document.querySelectorAll(".card").forEach(card => {
+
+      const cardService = card.dataset.service;
+      const cardInsurance = card.dataset.insurance;
+      const cardAvailability = card.dataset.availability;
+      const cardZip = card.dataset.zip;
+
+      const matchesService = !service || cardService === service;
+      const matchesInsurance = !insurance || cardInsurance === insurance;
+      const matchesAvailability = !availability || cardAvailability === availability;
+      const matchesZip = !zip || cardZip?.startsWith(zip);
+
+      card.style.display =
+        matchesService &&
+        matchesInsurance &&
+        matchesAvailability &&
+        matchesZip
+          ? "block"
+          : "none";
+    });
+  }
+
+  serviceFilter.addEventListener("change", applyFilters);
+  insuranceFilter.addEventListener("change", applyFilters);
+  availabilityFilter.addEventListener("change", applyFilters);
+  zipInput.addEventListener("input", applyFilters);
 </script>
 
 
