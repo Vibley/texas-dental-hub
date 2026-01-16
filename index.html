@@ -771,45 +771,60 @@ function applyFilters() {
   if (!page) return;
 
   const cards = page.querySelectorAll('.card');
-
-
   let visibleCount = 0;
 
   cards.forEach(card => {
     let show = true;
 
-    if (filters.zip?.value &&
-        card.dataset.zip !== filters.zip.value) show = false;
+    // ✅ FIXED ZIP FILTER (partial match)
+    if (
+      filters.zip?.value &&
+      !card.dataset.zip?.startsWith(filters.zip.value)
+    ) {
+      show = false;
+    }
 
-    if (filters.service?.value &&
-        !card.dataset.service.includes(filters.service.value)) show = false;
+    if (
+      filters.service?.value &&
+      !card.dataset.service.includes(filters.service.value)
+    ) {
+      show = false;
+    }
 
-    if (filters.insurance?.value &&
-        !card.dataset.insurance.includes(filters.insurance.value)) show = false;
+    if (
+      filters.insurance?.value &&
+      !card.dataset.insurance.includes(filters.insurance.value)
+    ) {
+      show = false;
+    }
 
-    if (filters.availability?.value &&
-        !card.dataset.availability.includes(filters.availability.value)) show = false;
+    if (
+      filters.availability?.value &&
+      !card.dataset.availability.includes(filters.availability.value)
+    ) {
+      show = false;
+    }
 
     card.style.display = show ? 'flex' : 'none';
     if (show) visibleCount++;
   });
 
   // ✅ Empty state toggle
-const emptyState = page.querySelector('.no-results');
-const featuredSection = page.querySelector('.featured-section');
-const allSection = page.querySelector('.all-section');
+  const emptyState = page.querySelector('.no-results');
+  const featuredSection = page.querySelector('.featured-section');
+  const allSection = page.querySelector('.all-section');
 
-if (visibleCount === 0) {
-  if (emptyState) emptyState.style.display = 'block';
-  if (featuredSection) featuredSection.style.display = 'none';
-  if (allSection) allSection.style.display = 'none';
-} else {
-  if (emptyState) emptyState.style.display = 'none';
-  if (featuredSection) featuredSection.style.display = '';
-  if (allSection) allSection.style.display = '';
+  if (visibleCount === 0) {
+    if (emptyState) emptyState.style.display = 'block';
+    if (featuredSection) featuredSection.style.display = 'none';
+    if (allSection) allSection.style.display = 'none';
+  } else {
+    if (emptyState) emptyState.style.display = 'none';
+    if (featuredSection) featuredSection.style.display = '';
+    if (allSection) allSection.style.display = '';
+  }
 }
 
-}
 
   
 
