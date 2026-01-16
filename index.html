@@ -1094,13 +1094,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const service = serviceFilter.value;
       const insurance = insuranceFilter.value;
       const availability = availabilityFilter.value;
-      const zip = zipInput.value.trim();
+      //const zip = zipInput.value.trim();
+      const zip = document.getElementById("filter-zip")?.value.trim();
+
+      
 
       document.querySelectorAll(".card").forEach(card => {
         const cardService = card.dataset.service || "";
         const cardInsurance = card.dataset.insurance || "";
         const cardAvailability = card.dataset.availability || "";
         const cardZip = card.dataset.zip || "";
+        // added the below on 01/16/2026
+        const matchesZip = !zip || cardZip.startsWith(zip);
+
+        
 
         const matchesService = !service || cardService.includes(service);
         const matchesInsurance = !insurance || cardInsurance.includes(insurance);
