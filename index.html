@@ -1097,7 +1097,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const availability = availabilityFilter.value;
     const zip = zipInput.value.trim();
 
-    document.querySelectorAll(".page.active .card").forEach(card => {
+    document.querySelectorAll(".card").forEach(card => {
+  if (card.closest(".page") && !card.closest(".page").classList.contains("active")) {
+    return;
+  }
+
       const cardService = card.dataset.service || "";
       const cardInsurance = card.dataset.insurance || "";
       const cardAvailability = card.dataset.availability || "";
