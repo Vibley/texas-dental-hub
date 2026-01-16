@@ -742,8 +742,8 @@ function activateCity(cityKey, initial = false) {
   // ✅ ZIPs must be populated AFTER activation
   populateZipFilter(cityKey);
 
-  wireFilters();
-applyFilters();
+window.initFilters?.();
+
 
 }
 
@@ -1075,7 +1075,9 @@ window.addEventListener("hashchange", () => {
   }
 </script>
 
-<script>
+
+
+  <script>
 document.addEventListener("DOMContentLoaded", () => {
 
   function initFilters() {
@@ -1085,8 +1087,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const zipInput = document.getElementById("filter-zip");
 
     if (!serviceFilter || !insuranceFilter || !availabilityFilter || !zipInput) {
-      console.warn("Filters not ready yet — retrying...");
-      setTimeout(() => document.dispatchEvent(new Event("initFilters")), 300);
+      console.warn("Filters not found — skipping init");
       return;
     }
 
@@ -1122,14 +1123,17 @@ document.addEventListener("DOMContentLoaded", () => {
     availabilityFilter.addEventListener("change", applyFilters);
     zipInput.addEventListener("input", applyFilters);
 
-    console.log("Filters initialized successfully");
+    console.log("Filters initialized");
   }
 
-  document.addEventListener("initFilters", initFilters);
-  initFilters();
+  // ⬇️ REMOVE retry loop
+  // initFilters();
 
+  // ⬇️ CALL THIS AFTER filters are rendered
+  window.initFilters = initFilters;
 });
 </script>
+
 
 
 
