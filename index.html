@@ -906,10 +906,21 @@ document.getElementById('citySelect').addEventListener('change', e => {
 
   /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
 document.addEventListener("input", (e) => {
-  if (e.target && e.target.id === "filter-zip") {
+  if (!e.target || e.target.id !== "filter-zip") return;
+
+  const zip = e.target.value.trim();
+
+  // 🔥 Auto-filter ONLY when ZIP is complete
+  if (zip.length === 5) {
+    applyFilters();
+  }
+
+  // Optional: clear filter when ZIP is erased
+  if (zip.length === 0) {
     applyFilters();
   }
 });
+
 
   
 
