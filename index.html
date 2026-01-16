@@ -903,6 +903,16 @@ document.getElementById('citySelect').addEventListener('change', e => {
   activateCity(e.target.value);
 });
 
+
+  /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
+document.addEventListener("input", (e) => {
+  if (e.target && e.target.id === "filter-zip") {
+    applyFilters();
+  }
+});
+
+  
+
 /* ================= START ================= */
 loadClinicsFromSupabase();
 
