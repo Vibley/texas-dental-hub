@@ -685,6 +685,8 @@ function populateZipFilter(cityKey) {
 
   });
 
+  
+
   // Reset dropdown
   zipSelect.innerHTML = `<option value="">All ZIP Codes</option>`;
 
@@ -741,8 +743,10 @@ function activateCity(cityKey, initial = false) {
 
   // ✅ ZIPs must be populated AFTER activation
   populateZipFilter(cityKey);
-
-window.initFilters?.();
+  // 🔥 CRITICAL FIX
+  filters.zip = document.getElementById("filter-zip");
+  
+  applyFilters();
 
 
 }
