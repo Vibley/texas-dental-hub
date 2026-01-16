@@ -744,7 +744,8 @@ function activateCity(cityKey, initial = false) {
   populateZipFilter(cityKey);
 
   wireFilters();
-  apply();
+applyFilters();
+
 }
 
 
@@ -1076,11 +1077,19 @@ window.addEventListener("hashchange", () => {
 </script>
 
 
-  <script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
   const serviceFilter = document.getElementById("filter-service");
   const insuranceFilter = document.getElementById("filter-insurance");
   const availabilityFilter = document.getElementById("filter-availability");
   const zipInput = document.getElementById("filter-zip");
+
+  // Guard clause (prevents crashes)
+  if (!serviceFilter || !insuranceFilter || !availabilityFilter || !zipInput) {
+    console.warn("One or more filter elements not found");
+    return;
+  }
 
   function applyFilters() {
     const service = serviceFilter.value;
@@ -1088,24 +1097,23 @@ window.addEventListener("hashchange", () => {
     const availability = availabilityFilter.value;
     const zip = zipInput.value.trim();
 
-   document.querySelectorAll(".card").forEach(card => {
+    document.querySelectorAll(".card").forEach(card => {
+      const cardService = card.dataset.service || "";
+      const cardInsurance = card.dataset.insurance || "";
+      const cardAvailability = card.dataset.availability || "";
+      const cardZip = card.dataset.zip || "";
 
-      const cardService = card.dataset.service;
-      const cardInsurance = card.dataset.insurance;
-      const cardAvailability = card.dataset.availability;
-      const cardZip = card.dataset.zip;
-
-      const matchesService = !service || cardService === service;
-      const matchesInsurance = !insurance || cardInsurance === insurance;
-      const matchesAvailability = !availability || cardAvailability === availability;
-      const matchesZip = !zip || cardZip?.startsWith(zip);
+      const matchesService = !service || cardService.includes(service);
+      const matchesInsurance = !insurance || cardInsurance.includes(insurance);
+      const matchesAvailability = !availability || cardAvailability.includes(availability);
+      const matchesZip = !zip || cardZip.startsWith(zip);
 
       card.style.display =
         matchesService &&
         matchesInsurance &&
         matchesAvailability &&
         matchesZip
-          ? "block"
+          ? ""
           : "none";
     });
   }
@@ -1114,7 +1122,10 @@ window.addEventListener("hashchange", () => {
   insuranceFilter.addEventListener("change", applyFilters);
   availabilityFilter.addEventListener("change", applyFilters);
   zipInput.addEventListener("input", applyFilters);
+
+});
 </script>
+
 
 
   
