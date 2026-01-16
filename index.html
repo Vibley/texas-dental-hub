@@ -92,6 +92,27 @@
     .nav button{background:none;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px}
     .nav button.active{background:rgba(37,99,235,.12);color:#1e88ff}
     .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+
+
+
+    
+.hero-points {
+  margin-top: 14px;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.hero-points li {
+  margin-bottom: 6px;
+}
+
+.hero-tagline {
+  margin-top: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
     
 .hero {
   background: linear-gradient(180deg, #ffffff, #f3f7ff);
@@ -613,20 +634,29 @@ function renderCity(cityKey) {
   <div class="hero">
   <h1>General & Family Dentists in ${city.label}</h1>
 
+  
   <p>
-    Looking for a trusted dentist in ${city.label}? TexasDentalHub helps you
-    discover verified general and family dental clinics across ${city.label}
-    and nearby areas. Browse local providers, call featured clinics directly,
-    or request an appointment online with confidence.
-  </p>
+  Looking for a trusted dentist in ${city.label} <strong>TexasDental Hub</strong> connects you
+  with verified general and family dental clinics across Houston and surrounding communities.
+  Easily compare local providers, contact featured clinics directly, or request an appointment
+  online — all in one place.
+</p>
 
-  <ul style="margin-top:14px;color:#475569;line-height:1.6;padding-left:18px;">
-    <li>✅ Verified local dental clinics in and around ${city.label}</li>
-    <li>📞 Call featured clinics directly — no middlemen</li>
-    <li>🗓️ Request appointments online in seconds</li>
-    <li>🦷 General, family, cosmetic & emergency care options</li>
-    <li>📍 Focused on your city — not a national spam directory</li>
-  </ul>
+
+ 
+
+<ul class="hero-points">
+  <li>Verified dental clinics serving ${city.label} and nearby areas</li>
+  <li>Direct phone access to featured clinics — no middlemen</li>
+  <li>Fast online appointment requests</li>
+  <li>General, family, cosmetic, and emergency dental care options</li>
+  <li>City-focused listings — not a national spam directory</li>
+</ul>
+
+<p class="hero-tagline">
+  Skip ads and fake reviews. Find trusted Texas dentists with confidence.
+</p>
+
 
   <h3 style="margin-top:14px;">
     Skip ads, skip fake reviews — find trusted Texas dentists faster.
@@ -1219,7 +1249,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
-
 
 
 
