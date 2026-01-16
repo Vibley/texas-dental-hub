@@ -38,36 +38,83 @@
 
   /* ================= FOOTER ================= */
 
+.site-footer {
+  background: #0a3f8f; /* SAME dark blue as main site */
+  color: #ffffff;
+  padding: 60px 20px 35px;
+  margin-top: 80px;
+}
+
+.footer-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.footer-brand p {
+  color: #dbeafe;
+  margin-top: 12px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Logo */
 .brand {
   font-size: 1.35rem;
-  font-weight: 600;
   letter-spacing: -0.3px;
-  display: flex;
-  align-items: center;
 }
 
-.brand-name {
-  color: #0f172a; /* professional dark text */
-}
-
-.brand-hub {
-  color: #0b5ed7; /* your blue accent */
-  margin-left: 2px;
-}
-
-    .footer-brand .brand {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-/* Footer logo color override */
-.site-footer .brand-name {
+.brand-texas {
+  font-weight: 500;
   color: #ffffff;
 }
 
-.site-footer .brand-hub {
-  color: #93c5fd; /* soft light blue for contrast */
+.brand-dentalhub {
+  font-weight: 700; /* 🔥 DentalHub BOLD */
+  color: #93c5fd;   /* Soft light blue */
+  margin-left: 2px;
 }
+
+/* Footer headings */
+.site-footer h4 {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Footer links */
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer li {
+  margin-bottom: 8px;
+}
+
+.site-footer a {
+  color: #dbeafe;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #c7d2fe;
+}
+
+
 
     
   </style>
@@ -131,91 +178,43 @@
 
   <footer class="site-footer">
   <div class="footer-grid">
-    
+
     <!-- Brand -->
-  <div class="footer-brand">
-  <div class="brand">
-    <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
-  </div>
+    <div class="footer-brand">
+      <div class="brand">
+        <span class="brand-texas">TexasDental</span>
+        <span class="brand-dentalhub">Hub</span>
+      </div>
 
-  <p>
-    Your trusted directory for finding verified dentists across Texas.
-    We help patients connect with local dental clinics for quality, affordable dental care.
-  </p>
-</div>
+      <p>
+      Your trusted directory for finding verified dentists across Texas. We help patients connect with local dental clinics for quality, affordable dental care.
+      </p>
+    </div>
 
-
-    <!-- Cities -->
+    <!-- Quick Links -->
     <div>
-      <h4>Popular Cities</h4>
+      <h4>Quick Links</h4>
       <ul>
-        <li>Houston</li>
-        <li>Katy</li>
-        <li>Sugar Land</li>
-        <li>Richmond</li>
-        <li>Rosenberg</li>
-        <li>The Woodlands</li>
-        <li>Spring</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About TexasDentalHub</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
       </ul>
     </div>
 
-
-
-
-
-    
-    <!-- Links -->
+    <!-- Legal -->
     <div>
-  <h4>Quick Links</h4>
-  <ul>
-    <li><a href="#home">Home</a></li>
-    <li><a href="#clinics">Browse Dentists</a></li>
-    <li><a href="contact.html">Contact Us</a></li>
-    <li><a href="about.html">About TexasDentalHub</a></li>
-
-  </ul>
-</div>
-
-
-    
-
-    <!-- Dentists -->
-  <div>
-  <h4>For Dentists</h4>
-  <ul>
-    <li>
-      <a href="contact.html">
-        List Your Dental Practice
-      </a>
-    </li>
-    <li>
-      <a href="contact.html">
-        Claim an Existing Listing
-      </a>
-    </li>
-    <li>
-      <a href="contact.html">
-        Get More Patient Leads
-      </a>
-    </li>
-    <li>
-      <a href="contact.html">
-        Advertising & Featured Listings
-      </a>
-    </li>
-  </ul>
-</div>
-
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="disclaimer.html">Disclaimer</a></li>
+      </ul>
+    </div>
 
   </div>
 
   <div class="footer-bottom">
-    <p>© 2026 TexasDentalHub. All rights reserved.</p>
-    <p>
-      <a href="privacy.html">Privacy Policy</a> |
-      <a href="terms.html">Terms of Service</a> |
-      <a href="disclaimer.html">Disclaimer</a>
-    </p>
+    © 2026 TexasDentalHub. All rights reserved.
   </div>
 </footer>
 
