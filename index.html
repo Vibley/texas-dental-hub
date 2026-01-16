@@ -667,25 +667,7 @@ function renderCity(cityKey) {
 }
 
 
-function populateZipFilter(cityKey) {
-  const city = DATA[cityKey];
-  if (!city) return;
-
-  const page = document.getElementById(cityKey);
-  if (!page) return;
-
-  const zipSelect = page.querySelector('#filter-zip');
-  if (!zipSelect) return;
-
-  // Collect unique ZIPs (ignore nulls)
-  const zips = new Set();
-
-  [...city.featured, ...city.clinics].forEach(c => {
- if (c.zip) zips.add(String(c.zip));
-
-  });
-
-  
+ 
 
   // Reset dropdown
   zipSelect.innerHTML = `<option value="">All ZIP Codes</option>`;
@@ -729,6 +711,28 @@ function card(c, isFeatured) {
 }
 
 
+
+/* ================= FILTER WIRING ================= */
+function wireFiltersOnce() {
+  const service = document.getElementById("filter-service");
+  const insurance = document.getElementById("filter-insurance");
+  const availability = document.getElementById("filter-availability");
+  const zip = document.getElementById("filter-zip");
+
+  if (!service || !insurance || !availability || !zip) return;
+
+  service.addEventListener("change", applyFilters);
+  insurance.addEventListener("change", applyFilters);
+  availability.addEventListener("change", applyFilters);
+  zip.addEventListener("input", applyFilters);
+
+  zip.addEventListener("keydown", e => {
+    if (e.key === "Enter") e.preventDefault();
+  });
+
+  console.log("✅ Filters wired");
+}
+  
 /* ================= CITY SWITCH ================= */
 function activateCity(cityKey, initial = false) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -739,40 +743,25 @@ function activateCity(cityKey, initial = false) {
 
   if (!page.dataset.rendered) {
     renderCity(cityKey);
+    wireFiltersOnce(); // 🔥 wire AFTER render
   }
 
-  // ✅ ZIPs must be populated AFTER activation
- 
-  // 🔥 CRITICAL FIX
-  filters.zip = document.getElementById("filter-zip");
-  
   applyFilters();
-
-
 }
 
 
-/* ================= FILTERS ================= */
-function wireFilters() {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
 
-  filters = {
-    zip: activePage.querySelector('#filter-zip'),
-    service: activePage.querySelector('#filter-service'),
-    insurance: activePage.querySelector('#filter-insurance'),
-    availability: activePage.querySelector('#filter-availability')
-  };
 
-  Object.values(filters).forEach(f => {
-    if (f) f.onchange = applyFilters;
-  });
-}
 
 
 function applyFilters() {
   const page = document.querySelector('.page.active');
   if (!page) return;
+
+  const service = document.getElementById("filter-service")?.value || "";
+  const insurance = document.getElementById("filter-insurance")?.value || "";
+  const availability = document.getElementById("filter-availability")?.value || "";
+  const zip = document.getElementById("filter-zip")?.value.trim() || "";
 
   const cards = page.querySelectorAll('.card');
   let visibleCount = 0;
@@ -780,54 +769,35 @@ function applyFilters() {
   cards.forEach(card => {
     let show = true;
 
-    // ✅ FIXED ZIP FILTER (partial match)
-    if (
-      filters.zip?.value &&
-      !card.dataset.zip?.startsWith(filters.zip.value)
-    ) {
-      show = false;
-    }
+    const cardService = card.dataset.service || "";
+    const cardInsurance = card.dataset.insurance || "";
+    const cardAvailability = card.dataset.availability || "";
+    const cardZip = card.dataset.zip || "";
 
-    if (
-      filters.service?.value &&
-      !card.dataset.service.includes(filters.service.value)
-    ) {
-      show = false;
-    }
-
-    if (
-      filters.insurance?.value &&
-      !card.dataset.insurance.includes(filters.insurance.value)
-    ) {
-      show = false;
-    }
-
-    if (
-      filters.availability?.value &&
-      !card.dataset.availability.includes(filters.availability.value)
-    ) {
-      show = false;
-    }
+    if (service && !cardService.includes(service)) show = false;
+    if (insurance && !cardInsurance.includes(insurance)) show = false;
+    if (availability && !cardAvailability.includes(availability)) show = false;
+    if (zip && !cardZip.startsWith(zip)) show = false;
 
     card.style.display = show ? 'flex' : 'none';
     if (show) visibleCount++;
   });
 
-  // ✅ Empty state toggle
   const emptyState = page.querySelector('.no-results');
   const featuredSection = page.querySelector('.featured-section');
   const allSection = page.querySelector('.all-section');
 
   if (visibleCount === 0) {
-    if (emptyState) emptyState.style.display = 'block';
-    if (featuredSection) featuredSection.style.display = 'none';
-    if (allSection) allSection.style.display = 'none';
+    emptyState && (emptyState.style.display = 'block');
+    featuredSection && (featuredSection.style.display = 'none');
+    allSection && (allSection.style.display = 'none');
   } else {
-    if (emptyState) emptyState.style.display = 'none';
-    if (featuredSection) featuredSection.style.display = '';
-    if (allSection) allSection.style.display = '';
+    emptyState && (emptyState.style.display = 'none');
+    featuredSection && (featuredSection.style.display = '');
+    allSection && (allSection.style.display = '');
   }
 }
+
 
 
   
@@ -1096,74 +1066,7 @@ window.addEventListener("hashchange", () => {
 
 
 
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-
   
-  function initFilters() {
-  const serviceFilter = document.getElementById("filter-service");
-  const insuranceFilter = document.getElementById("filter-insurance");
-  const availabilityFilter = document.getElementById("filter-availability");
-  const zipInput = document.getElementById("filter-zip");
-
-  if (!serviceFilter || !insuranceFilter || !availabilityFilter || !zipInput) {
-    return;
-  }
-
-  function applyFilters() {
-    const service = serviceFilter.value;
-    const insurance = insuranceFilter.value;
-    const availability = availabilityFilter.value;
-    const zip = zipInput.value.trim();
-
-    document.querySelectorAll(".card").forEach(card => {
-  if (card.closest(".page") && !card.closest(".page").classList.contains("active")) {
-    return;
-  }
-
-      const cardService = card.dataset.service || "";
-      const cardInsurance = card.dataset.insurance || "";
-      const cardAvailability = card.dataset.availability || "";
-      const cardZip = card.dataset.zip || "";
-
-      const matchesService = !service || cardService.includes(service);
-      const matchesInsurance = !insurance || cardInsurance.includes(insurance);
-      const matchesAvailability = !availability || cardAvailability.includes(availability);
-      const matchesZip = !zip || cardZip.startsWith(zip);
-
-      card.style.display =
-        matchesService &&
-        matchesInsurance &&
-        matchesAvailability &&
-        matchesZip
-          ? ""
-          : "none";
-    });
-  }
-
-  serviceFilter.addEventListener("change", applyFilters);
-  insuranceFilter.addEventListener("change", applyFilters);
-  availabilityFilter.addEventListener("change", applyFilters);
-  zipInput.addEventListener("input", applyFilters);
-
-  // ✅ Prevent Enter key from breaking live filtering
-  zipInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  });
-
-  console.log("Filters initialized");
-}
-
-
-  // ⬇️ REMOVE retry loop
-  // initFilters();
-
-  // ⬇️ CALL THIS AFTER filters are rendered
-  window.initFilters = initFilters;
-});
-</script>
 
 
 
