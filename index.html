@@ -1142,16 +1142,16 @@ function callClinic(phone, clinicName, city = null) {
     })
   })
   .then(async res => {
-    const text = await res.text();
     console.log('CALL LEAD STATUS:', res.status);
-    console.log('CALL LEAD RESPONSE:', text);
   })
   .catch(err => {
-    console.error('CALL LEAD FETCH ERROR:', err);
+    console.error('CALL LEAD ERROR:', err);
   });
 
-  // Keep call UX
-  window.location.href = `tel:${phone}`;
+  // ⏳ allow request to start before navigating
+  setTimeout(() => {
+    window.location.href = `tel:${phone}`;
+  }, 300);
 }
 
 
