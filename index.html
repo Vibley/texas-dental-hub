@@ -1120,7 +1120,7 @@ async function submitLead(e) {
     }
 
 
-
+/*
 
 function callClinic(phone, clinicName, city = null) {
   fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
@@ -1153,8 +1153,19 @@ function callClinic(phone, clinicName, city = null) {
     window.location.href = `tel:${phone}`;
   }, 300);
 }
+*/
 
 
+    /*this is temp*/
+
+    function callClinic(phone, clinicName, city = null) {
+  alert('callClinic fired');
+  console.log('callClinic fired', phone, clinicName, city);
+}
+
+
+
+    
     
     /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
