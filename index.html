@@ -580,6 +580,24 @@
   border-color: var(--accent);
 }
 
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn.secondary:hover {
+  background: rgba(11, 94, 215, 0.08);
+}
+
     
     
   </style>
@@ -858,9 +876,21 @@ function card(c, isFeatured) {
     c.emergency_available ? 'emergency' : ''
   ].join(' ').trim();
 
-  const action = c.phone
-    ? `<button class="btn" onclick="callClinic('${c.phone}','${c.name}')">Call to Schedule</button>`
-    : `<button class="btn" onclick="openLead('${c.name}')">Request Appointment</button>`;
+const action = `
+  <div class="actions">
+    ${c.phone ? `
+      <button class="btn"
+        onclick="callClinic('${c.phone}','${c.name}')">
+        Call to Schedule
+      </button>
+    ` : ''}
+
+    <button class="btn secondary"
+      onclick="openLead('${c.name}')">
+      Request Appointment
+    </button>
+  </div>
+`;
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
