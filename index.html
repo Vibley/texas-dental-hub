@@ -1122,28 +1122,35 @@ async function submitLead(e) {
 
 
 
-    function callClinic(phone, clinicName, city = null) {
-  fetch(`https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads?select=*`, {
+function callClinic(phone, clinicName, city = null) {
+  fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey':'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
-      'Authorization': `Bearer sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV`
+      'apikey': 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
+      'Authorization': 'Bearer sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
+      'Prefer': 'return=representation'
     },
     body: JSON.stringify({
       clinic_name: clinicName,
       city: city,
-      patient_name: 'Phone Call',   // ✅ REQUIRED
-      email: 'noreply@texasdentalhub.com',           // ✅ placeholder
+      patient_name: 'Phone Call',
+      email: 'noreply@texasdentalhub.com',
       phone: 'N/A',
       message: 'Call to Schedule click',
       source: 'call'
     })
-  }).catch(() => {
-    // Fail silently — never block the call
+  })
+  .then(async res => {
+    const text = await res.text();
+    console.log('CALL LEAD STATUS:', res.status);
+    console.log('CALL LEAD RESPONSE:', text);
+  })
+  .catch(err => {
+    console.error('CALL LEAD FETCH ERROR:', err);
   });
 
-  // Open phone dialer
+  // Keep call UX
   window.location.href = `tel:${phone}`;
 }
 
