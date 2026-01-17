@@ -913,7 +913,7 @@ const action = `
   <div class="actions">
     ${c.phone ? `
       <button class="btn"
-  onclick="callClinic('${c.phone}','${c.name}','${c.city || ''}')">
+  onclick="callClinic('${c.phone}','${c.name}','${c.city || 'No City Name'}')">
 
         Call to Schedule
       </button>
