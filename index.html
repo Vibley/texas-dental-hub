@@ -1120,12 +1120,12 @@ async function submitLead(e) {
 
 
     function callClinic(phone, clinicName, city = null) {
-  fetch(`${SUPABASE_URL}/rest/v1/leads?select=*`, {
+  fetch(`https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads?select=*`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey':SUPABASE_KEY ,
-      'Authorization': `Bearer ${SUPABASE_KEY}`
+      'apikey':'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
+      'Authorization': `Bearer sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV`
     },
     body: JSON.stringify({
       clinic_name: clinicName,
