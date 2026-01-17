@@ -1120,7 +1120,7 @@ async function submitLead(e) {
     }
 
 
-/*
+
 
 function callClinic(phone, clinicName, city = null) {
   fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
@@ -1153,20 +1153,10 @@ function callClinic(phone, clinicName, city = null) {
     window.location.href = `tel:${phone}`;
   }, 300);
 }
-*/
 
+ 
 
-    /*this is temp*/
-
-    function callClinic(phone, clinicName, city = null) {
-  alert('callClinic fired');
-  console.log('callClinic fired', phone, clinicName, city);
-}
-
-
-
-    
-    
+   
     /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
       method: 'POST',
@@ -1213,9 +1203,7 @@ document.addEventListener("input", (e) => {
 });
 
 
-  
-
-/* ================= START ================= */
+  /* ================= START ================= */
 loadClinicsFromSupabase();
 
 
@@ -1274,7 +1262,6 @@ window.addEventListener("hashchange", () => {
     Have a question or want to list your dental clinic on TexasDentalHub?
     Send us a message and we’ll get back to you.
   </p>
-
 
 
 
@@ -1339,7 +1326,6 @@ window.addEventListener("hashchange", () => {
 
 
 
-
     
     <!-- Links -->
     <div>
@@ -1353,8 +1339,7 @@ window.addEventListener("hashchange", () => {
   </ul>
 </div>
 
-
-    
+   
 
     <!-- Dentists -->
   <div>
@@ -1500,8 +1485,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 </script>
-
-
 
 
   
