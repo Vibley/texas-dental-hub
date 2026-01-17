@@ -912,10 +912,10 @@ function card(c, isFeatured) {
 const action = `
   <div class="actions">
     ${c.phone ? `
-      <button class="btn"
-onclick="callClinic('${c.phone}','${c.name}',\"${c.city || 'No City Name'}\")">
-
-
+      <button class="btn call-btn"
+        data-phone="${c.phone}"
+        data-name="${c.name}"
+        data-city="${c.city || 'No City Name'}">
         Call to Schedule
       </button>
     ` : ''}
@@ -926,6 +926,7 @@ onclick="callClinic('${c.phone}','${c.name}',\"${c.city || 'No City Name'}\")">
     </button>
   </div>
 `;
+
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
@@ -1450,6 +1451,19 @@ document.addEventListener("DOMContentLoaded", () => {
   initFilters();
 
 });
+
+
+  document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.call-btn');
+  if (!btn) return;
+
+  const phone = btn.dataset.phone;
+  const name = btn.dataset.name;
+  const city = btn.dataset.city;
+
+  callClinic(phone, name, city);
+});
+
 </script>
 
 
