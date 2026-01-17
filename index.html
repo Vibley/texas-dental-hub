@@ -913,7 +913,8 @@ const action = `
   <div class="actions">
     ${c.phone ? `
       <button class="btn"
-        onclick="callClinic('${c.phone}','${c.name}')">
+  onclick="callClinic('${c.phone}','${c.name}','${c.city || ''}')">
+
         Call to Schedule
       </button>
     ` : ''}
@@ -1115,6 +1116,33 @@ async function submitLead(e) {
       return;
     }
 
+
+
+    function callClinic(phone, clinicName, city = null) {
+  fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/leads', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey':SUPABASE_KEY ,
+      'Authorization': 'Bearer ${SUPABASE_KEY}'
+    },
+    body: JSON.stringify({
+      clinic_name: clinicName,
+      city: city,
+      phone: phone,
+      message: 'Call to Schedule click',
+      source: 'call'
+    })
+  }).catch(() => {
+    // Fail silently — never block the call
+  });
+
+  // Open phone dialer
+  window.location.href = `tel:${phone}`;
+}
+
+
+    
     /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
       method: 'POST',
