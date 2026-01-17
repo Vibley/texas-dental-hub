@@ -928,6 +928,7 @@ const action = `
 `;
 
 
+
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
       data-zip="${c.zip ? String(c.zip) : ''}"
@@ -1463,6 +1464,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   callClinic(phone, name, city);
 });
+
+  document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.call-btn');
+  if (!btn) return;
+
+  const phone = btn.dataset.phone;
+  const name = btn.dataset.name;
+  const city = btn.dataset.city;
+
+  console.log('Calling clinic:', phone, name, city); // 👈 debug
+
+  callClinic(phone, name, city);
+});
+
 
 </script>
 
