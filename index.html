@@ -1133,7 +1133,9 @@ async function submitLead(e) {
     body: JSON.stringify({
       clinic_name: clinicName,
       city: city,
-      phone: phone,
+      patient_name: 'Phone Call',   // ✅ REQUIRED
+      email: 'noreply@texasdentalhub.com',           // ✅ placeholder
+      phone: 'N/A',
       message: 'Call to Schedule click',
       source: 'call'
     })
