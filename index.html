@@ -1426,29 +1426,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-  document.addEventListener('click', function (e) {
+let callInProgress = false;
+
+document.addEventListener('click', function (e) {
   const btn = e.target.closest('.call-btn');
   if (!btn) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Prevent double-fire
+  if (callInProgress) return;
+  callInProgress = true;
 
   const phone = btn.dataset.phone;
   const name = btn.dataset.name;
   const city = btn.dataset.city;
 
   callClinic(phone, name, city);
+
+  // Release lock shortly after
+  setTimeout(() => {
+    callInProgress = false;
+  }, 1500);
 });
 
-  document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.call-btn');
-  if (!btn) return;
-
-  const phone = btn.dataset.phone;
-  const name = btn.dataset.name;
-  const city = btn.dataset.city;
-
-  console.log('Calling clinic:', phone, name, city); // 👈 debug
-
-  callClinic(phone, name, city);
-});
 
 
 </script>
