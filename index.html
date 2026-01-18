@@ -1486,6 +1486,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
+<script>
+  const _origCallClinic = window.callClinic;
+
+  window.callClinic = function (...args) {
+    console.log('🔥 FINAL callClinic EXECUTED', args);
+    return _origCallClinic.apply(this, args);
+  };
+</script>
 
   
 </body>
