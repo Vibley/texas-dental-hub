@@ -1364,6 +1364,8 @@ window.addEventListener("hashchange", () => {
 </script>
 
 <script>
+
+  
 document.addEventListener("DOMContentLoaded", () => {
 
   function initFilters() {
@@ -1426,6 +1428,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
+  /*
 let callInProgress = false;
 
 document.addEventListener('click', function (e) {
@@ -1450,8 +1454,16 @@ document.addEventListener('click', function (e) {
     callInProgress = false;
   }, 1500);
 });
+*/
 
+document.addEventListener('click', function (e) { 
+  const btn = e.target.closest('.call-btn'); if (!btn) return; 
+  const phone = btn.dataset.phone; 
+  const name = btn.dataset.name; 
+  const city = btn.dataset.city; callClinic(phone, name, city); }); 
+  
 
+  
 
 </script>
 
