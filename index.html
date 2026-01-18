@@ -1121,7 +1121,7 @@ async function submitLead(e) {
 
 
 
-
+/* commented out for now
 function callClinic(phone, clinicName, city = null) {
   fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
     method: 'POST',
@@ -1153,7 +1153,7 @@ function callClinic(phone, clinicName, city = null) {
     window.location.href = `tel:${phone}`;
   }, 300);
 }
-
+*/
  
 
    
@@ -1486,14 +1486,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
-<script>
-  const _origCallClinic = window.callClinic;
 
-  window.callClinic = function (...args) {
-    console.log('🔥 FINAL callClinic EXECUTED', args);
-    return _origCallClinic.apply(this, args);
-  };
+  <script>
+  function callClinic(phone, clinicName, city) {
+    console.log('CALLCLINIC ACTIVE VERSION', phone, clinicName, city);
+
+    fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
+        'Authorization': 'Bearer sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify({
+        clinic_name: clinicName,
+        city: city,
+        patient_name: 'Phone Call',
+        email: 'noreply@texasdentalhub.com',
+        phone: phone || 'N/A',
+        message: 'Call to Schedule click',
+        source: 'call'
+      })
+    })
+    .then(async res => {
+      console.log('✅ SUPABASE STATUS:', res.status);
+      console.log('✅ SUPABASE RESPONSE:', await res.text());
+    })
+    .catch(err => console.error('❌ SUPABASE ERROR:', err));
+
+    setTimeout(() => {
+      window.location.href = `tel:${phone}`;
+    }, 300);
+  }
 </script>
+
 
   
 </body>
