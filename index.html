@@ -658,15 +658,7 @@
   </div>
 </div>
 
-<div class="container">
-  <div id="houston" class="page active"></div>
-  <div id="katy" class="page"></div>
-  <div id="sugarland" class="page"></div>
-  <div id="richmond" class="page"></div>
-  <div id="rosenberg" class="page"></div>
-  <div id="woodlands" class="page"></div>
-  <div id="spring" class="page"></div>
-</div>
+<div class="container"></div>
 
 
 
@@ -783,7 +775,7 @@ function ensureCityPages() {
   const container = document.querySelector('.container');
 
   if (!container) {
-    console.error('❌ .container not found — cannot create city pages');
+    console.error('❌ .container not found');
     return;
   }
 
@@ -794,7 +786,7 @@ function ensureCityPages() {
     page.id = cityKey;
     page.className = 'page';
 
-    container.appendChild(page); // ✅ correct parent
+    container.appendChild(page);
   });
 }
 
