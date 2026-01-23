@@ -843,11 +843,13 @@ async function loadClinicsFromSupabase() {
 
   // Added on 01/23/2025 to build combined DATA for “All Cities”
 
-  function buildAllCitiesData() {
+function buildAllCitiesData() {
   const allFeatured = [];
   const allClinics = [];
 
-  Object.values(DATA).forEach(city => {
+  Object.entries(DATA).forEach(([key, city]) => {
+    if (key === ALL_CITIES_KEY) return;
+
     allFeatured.push(...city.featured);
     allClinics.push(...city.clinics);
   });
@@ -857,7 +859,10 @@ async function loadClinicsFromSupabase() {
     featured: allFeatured,
     clinics: allClinics
   };
+
+  console.log('✅ All Cities built:', DATA[ALL_CITIES_KEY]);
 }
+
  // Added on 01/23/2025 to build combined DATA for “All Cities”
 
   
@@ -1287,6 +1292,8 @@ document.addEventListener("input", (e) => {
   await loadCitiesFromSupabase();
   ensureCityPages();
   await loadClinicsFromSupabase();
+    // 🔥 Build combined All Cities view
+  buildAllCitiesData();
 
   // ✅ Default to Houston if it exists
   if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
