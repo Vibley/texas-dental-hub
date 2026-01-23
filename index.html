@@ -713,15 +713,71 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
 
-const CITY_KEY_MAP = {
-  'Houston': 'houston',
-  'Katy': 'katy',
-  'Sugar Land': 'sugarland',
-  'Richmond': 'richmond',
-  'Rosenberg': 'rosenberg',
-  'Spring': 'spring',
-  'The Woodlands': 'woodlands'
-};
+
+
+let CITY_KEY_MAP = {};
+let CITY_ORDER = [];
+
+/* 🔹 Utility: city → key */
+function toCityKey(city) {
+  return city
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '')
+    .trim();
+}
+
+/* 🔹 Load cities dynamically */
+async function loadCitiesFromSupabase() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/clinics?select=city`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      }
+    }
+  );
+
+  const rows = await res.json();
+
+  const cities = [...new Set(
+    rows.map(r => (r.city || '').trim()).filter(Boolean)
+  )].sort();
+
+  const select = document.getElementById('citySelect');
+  if (!select) {
+    console.error('❌ citySelect not found');
+    return;
+  }
+
+  // Reset dropdown (keep All Cities)
+  select.length = 1;
+
+  cities.forEach(city => {
+    const key = toCityKey(city);
+
+    CITY_KEY_MAP[city] = key;
+    CITY_ORDER.push(key);
+
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = city;
+    select.appendChild(opt);
+  });
+
+  console.log('✅ Dynamic cities loaded:', CITY_KEY_MAP);
+}
+
+
+
+
+
+
+
+  
+
+
+  
 
 let DATA = {};
 let filters = {};
@@ -764,7 +820,8 @@ async function loadClinicsFromSupabase() {
   });
 
   console.log('Loaded cities:', Object.keys(DATA));
-  activateCity('houston', true);
+  activateCity(CITY_ORDER[0], true);
+
 }
 
 /* ================= RENDER ================= */
@@ -1177,7 +1234,11 @@ document.addEventListener("input", (e) => {
 
 
   /* ================= START ================= */
-loadClinicsFromSupabase();
+(async () => {
+  await loadCitiesFromSupabase();
+  await loadClinicsFromSupabase();
+})();
+
 
 
 function callClinic(phone, clinic) {
