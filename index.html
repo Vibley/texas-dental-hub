@@ -726,10 +726,10 @@ function toCityKey(city) {
     .trim();
 }
 
-/* 🔹 Load cities dynamically */
-   select.innerHTML = '<option value="">All Cities</option>';
-  
+
 async function loadCitiesFromSupabase() {
+  console.log('▶ loadCitiesFromSupabase called');
+
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/clinics?select=city`,
     {
@@ -752,10 +752,11 @@ async function loadCitiesFromSupabase() {
     return;
   }
 
-  // Reset dropdown (keep All Cities)
+  // ✅ RESET DROPDOWN — MUST BE HERE
+  select.innerHTML = '<option value="">All Cities</option>';
 
-CITY_KEY_MAP = {};
-CITY_ORDER = [];
+  CITY_KEY_MAP = {};
+  CITY_ORDER = [];
 
   cities.forEach(city => {
     const key = toCityKey(city);
@@ -769,9 +770,11 @@ CITY_ORDER = [];
     select.appendChild(opt);
   });
 
-  console.log('✅ Dynamic cities loaded:', CITY_KEY_MAP);
+  console.log('✅ Cities populated:', CITY_ORDER);
 }
 
+
+  
   
 
 let DATA = {};
