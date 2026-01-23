@@ -751,7 +751,9 @@ async function loadCitiesFromSupabase() {
   }
 
   // Reset dropdown (keep All Cities)
-  select.length = 1;
+ select.innerHTML = '<option value="">All Cities</option>';
+CITY_KEY_MAP = {};
+CITY_ORDER = [];
 
   cities.forEach(city => {
     const key = toCityKey(city);
