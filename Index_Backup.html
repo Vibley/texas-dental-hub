@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TexasDentalHub | Houston Metro Dentists</title>
+  <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
+  <style>
+
+.brand {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+}
+
+.brand-name {
+  color: #0f172a; /* professional dark text */
+}
+
+.brand-hub {
+  color: #0b5ed7; /* your blue accent */
+  margin-left: 2px;
+}
+
+    .footer-brand .brand {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Footer logo color override */
+.site-footer .brand-name {
+  color: #ffffff;
+}
+
+.site-footer .brand-hub {
+  color: #93c5fd; /* soft light blue for contrast */
+}
+
+
+        
+:root {
+  --bg: radial-gradient(circle at top, #f8fbff 0%, #eef4ff 35%, #eaf0fb 100%);
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15,23,42,.08);
+
+  --shadow-soft: 0 8px 20px rgba(2,6,23,.06);
+  --shadow: 0 18px 40px rgba(2,6,23,.10);
+  --shadow2: 0 12px 28px rgba(2,6,23,.12);
+
+  --accent: #2563eb;
+  --accentSoft: #eef4ff;
+
+  --radius: 18px;
+}
+
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15,23,42,.08);
+
+  --shadow-soft: 0 8px 20px rgba(2,6,23,.06);
+  --shadow: 0 18px 40px rgba(2,6,23,.10);
+  --shadow2: 0 12px 28px rgba(2,6,23,.12);
+
+  --accent: #2563eb;
+  --accentSoft: #eef4ff;
+
+  --radius: 18px;
+}
+
+    
+    *{box-sizing:border-box}
+    
+    body {
+  margin: 0;
+  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+    
+    .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
+    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
+    .brand span{font-size:22px}
+    .nav button{background:none;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px}
+    .nav button.active{background:rgba(37,99,235,.12);color:#1e88ff}
+    .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
+
+
+
+    
+.hero-points {
+  margin-top: 14px;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.hero-points li {
+  margin-bottom: 6px;
+}
+
+.hero-tagline {
+  margin-top: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+    
+.hero {
+  background: linear-gradient(180deg, #ffffff, #f3f7ff);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+    
+.hero h1 {
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+     .hero p{margin:0;color:var(--muted)}
+    .section{margin-top:28px}
+    .section h2{display:flex;align-items:center;gap:8px;font-size:20px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.grid{grid-template-columns:1fr}}
+    
+  .card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+   
+    .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(2,6,23,.18)}
+    
+    .card.featured {
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(180deg, #ffffff, #f5f9ff);
+}
+
+    
+    .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;align-self:flex-start;display:flex;align-items:center;gap:6px}
+    .address{color:var(--muted);font-size:14px;display:flex;gap:6px;margin:6px 0 10px 0}
+    
+
+/* App-like primary buttons */
+.btn {
+  margin-top: auto;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: none;
+
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  color: #fff;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  cursor: pointer;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+/* Hover / focus (desktop & keyboard) */
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37,99,235,.35);
+}
+
+/* Press feedback (mobile & desktop) */
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+    
+    
+    .page{display:none}.page.active{display:block}
+    .footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+    #leadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center}
+    #leadModal .modal{background:#fff;max-width:420px;width:90%;border-radius:16px;padding:22px}
+    #leadModal input,#leadModal textarea{width:100%;padding:10px;margin:8px 0;border-radius:10px;border:1px solid var(--border)}
+    
+.filters {
+  margin: 20px 0;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 8px 20px rgba(2,6,23,.08);
+  border: 1px solid var(--border);
+}
+
+
+.filter-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.filters select {
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 12px 38px 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background:
+    #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2364758b'%3E%3Cpath d='M3 5l4 4 4-4'/%3E%3C/svg%3E")
+    no-repeat right 14px center;
+  cursor: pointer;
+}
+
+/* Subtle press feedback (app-like feel) */
+.filters select {
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.filters select:active {
+  transform: scale(0.985);
+}
+
+
+
+@media (max-width: 700px) {
+  .filter-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.filter-count {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-top: 24px;
+  padding-top: 6px;
+
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clear-filters:hover {
+  text-decoration: underline;
+}
+    
+.sticky-filter {
+  position: sticky;
+  top: 64px; /* below your topbar */
+  z-index: 9;
+}
+
+/* Visual polish when stuck */
+/* App-like sticky state */
+.sticky-filter.is-stuck {
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px rgba(2,6,23,.14);
+}
+
+
+    /* Desktop sticky (already exists above) */
+.sticky-filter {
+  position: sticky;
+  top: 64px;
+  z-index: 9;
+}
+
+/* App-like sticky state */
+.sticky-filter.is-stuck {
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px rgba(2,6,23,.14);
+}
+
+
+/* 👇 ADD THIS BELOW (Mobile override) 👇 */
+@media (max-width: 768px) {
+  .sticky-filter {
+    position: relative; /* disable sticky */
+    top: auto;
+  }
+
+  .sticky-filter.mobile-fixed {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    max-width: 1100px;
+    z-index: 20;
+    border-radius: 0 0 16px 16px;
+  }
+}
+
+    @media (max-width: 768px) {
+  .filters-spacer {
+    height: 88px; /* reserve space for fixed filter bar */
+  }
+}
+
+    .city-select {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: #fff;
+  cursor: pointer;
+}
+
+    .site-footer {
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 60px 20px 30px;
+}
+
+.site-footer h3,
+.site-footer h4 {
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.footer-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+}
+
+.site-footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.site-footer li {
+  margin-bottom: 8px;
+}
+
+.site-footer a {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: #38bdf8;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 40px;
+  padding-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+    html {
+  scroll-behavior: smooth;
+}
+
+
+    .contact-section {
+  max-width: 700px;
+  margin: 80px auto;
+  padding: 40px 30px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.contact-section h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.contact-subtext {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 30px;
+}
+
+.contact-form .form-group {
+  margin-bottom: 20px;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 15px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.contact-hidden {
+  display: none;
+}
+
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+    /* Sticky header shadow on scroll */
+.topbar.scrolled {
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+}
+
+    .filters input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  min-width: 140px;
+}
+
+.filters input:focus {
+  outline: none;
+  border-color: #0b5ed7;
+}
+
+
+/* Google Maps address link */
+.map-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.map-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+
+.address {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Map link */
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.map-link:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+/* SVG pin */
+.map-pin {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Address text */
+.address-text {
+  line-height: 1.3;
+}
+
+/* Directions button */
+.directions-btn {
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accentSoft, rgba(11,94,215,0.12));
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.directions-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+
+/* Card hover highlight */
+.card {
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  background: rgba(11, 94, 215, 0.06);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
+}
+
+
+/* Card hover highlight */
+.card {
+  transition: background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  background: rgba(11, 94, 215, 0.06);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
+  border-color: var(--accent);
+}
+
+
+
+
+    .actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.btn.secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn.secondary:hover {
+  background: rgba(11, 94, 215, 0.08);
+}
+
+
+ /* Actions container (side-by-side CTAs) */
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Override full-width buttons ONLY inside cards */
+.actions .btn {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+    /* Force CTA buttons side-by-side inside cards */
+.actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.actions .btn {
+  width: auto !important;
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+
+    
+    
+  </style>
+  
+</head>
+<body id="home">
+
+<div class="topbar">
+  <div class="topbar-inner">
+   <div class="brand">
+  <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
+</div>
+
+   
+<div class="nav">
+  <select id="citySelect" class="city-select">
+    <option value="houston">Houston</option>
+    <option value="katy">Katy</option>
+    <option value="sugarland">Sugar Land</option>
+    <option value="richmond">Richmond</option>
+    <option value="rosenberg">Rosenberg</option>
+    <option value="woodlands">The Woodlands</option>
+    <option value="spring">Spring</option>
+  </select>
+</div>
+
+    
+  </div>
+</div>
+
+<div class="container">
+  <div id="houston" class="page active"></div>
+  <div id="katy" class="page"></div>
+  <div id="sugarland" class="page"></div>
+  <div id="richmond" class="page"></div>
+  <div id="rosenberg" class="page"></div>
+  <div id="woodlands" class="page"></div>
+  <div id="spring" class="page"></div>
+</div>
+
+
+
+<div id="leadModal">
+  <div class="modal">
+    <h3>Request Appointment Online</h3>
+    <p id="leadClinic" style="font-size:14px;color:#475569"></p>
+
+<form id="leadForm">
+
+  <!-- 🔒 SOURCE OF TRUTH -->
+  <input type="hidden" id="clinicNameInput" name="clinic_name" />
+
+  <input name="patient_name" required placeholder="Your Name" />
+
+  <input name="email" type="email" required placeholder="Email" />
+
+  <input name="phone" required placeholder="Phone" />
+
+  <textarea name="message" required placeholder="Please include a brief message (e.g. preferred time/ insurance)"></textarea>
+
+  <button class="btn" type="submit">Submit Request</button>
+  <button type="button" onclick="closeLead()" style="margin-left:10px">
+    Cancel
+  </button>
+</form>
+
+    
+  </div>
+</div>
+
+
+<script>
+/* ================= CONFIG ================= */
+const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
+
+const CITY_KEY_MAP = {
+  'Houston': 'houston',
+  'Katy': 'katy',
+  'Sugar Land': 'sugarland',
+  'Richmond': 'richmond',
+  'Rosenberg': 'rosenberg',
+  'Spring': 'spring',
+  'The Woodlands': 'woodlands'
+};
+
+let DATA = {};
+let filters = {};
+
+/* ================= LOAD DATA ================= */
+async function loadClinicsFromSupabase() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/clinics?select=*`, {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  });
+  
+ 
+  const rows = await res.json();
+  DATA = {};
+
+  rows.forEach(c => {
+    const cityName = (c.city || '').trim();
+    const cityKey = CITY_KEY_MAP[cityName];
+    if (!cityKey) return;
+
+    if (!DATA[cityKey]) {
+      DATA[cityKey] = { label: cityName, featured: [], clinics: [] };
+    }
+
+  const clinic = {
+  name: c.name,
+  address: c.address,
+  phone: c.phone || '',
+  zip: c.zip,
+  services: c.services,
+  insurances: c.insurances,
+  accepts_new_patients: c.accepts_new_patients,
+  emergency_available: c.emergency_available
+};
+
+
+    (c.featured ? DATA[cityKey].featured : DATA[cityKey].clinics).push(clinic);
+  });
+
+  console.log('Loaded cities:', Object.keys(DATA));
+  activateCity('houston', true);
+}
+
+/* ================= RENDER ================= */
+function renderCity(cityKey) {
+  const city = DATA[cityKey];
+  const page = document.getElementById(cityKey);
+  if (!city || !page) return;
+
+  page.innerHTML = `
+  <div class="hero">
+  <h1>General & Family Dentists in ${city.label}</h1>
+
+  
+  <p>
+  Looking for a trusted dentist in ${city.label}, <strong> TexasDental Hub</strong> connects you
+  with verified general and family dental clinics across Houston and surrounding communities.
+  Easily compare local providers, contact featured clinics directly, or request an appointment
+  online — all in one place.
+</p>
+
+
+ 
+
+<ul class="hero-points">
+  <li>Verified dental clinics serving ${city.label} and nearby areas</li>
+  <li>Direct phone access to featured clinics — no middlemen</li>
+  <li>Fast online appointment requests</li>
+  <li>General, family, cosmetic, and emergency dental care options</li>
+  <li>City-focused listings — not a national spam directory</li>
+</ul>
+
+<p class="hero-tagline">
+  Skip ads and fake reviews. Find trusted Texas dentists with confidence.
+</p>
+
+
+
+</div>
+
+
+    <div class="filters sticky-filter">
+    
+
+
+  <select id="filter-service">
+    <option value="">All Services</option>
+    <option value="general">General Dentistry</option>
+    <option value="family">Family Dentistry</option>
+    <option value="cosmetic">Cosmetic</option>
+    <option value="emergency">Emergency</option>
+    <option value="pediatric">Pediatric</option>
+  </select>
+
+  <select id="filter-insurance">
+    <option value="">All Insurance</option>
+    <option value="delta">Delta Dental</option>
+    <option value="aetna">Aetna</option>
+    <option value="cigna">Cigna</option>
+    <option value="metlife">MetLife</option>
+    <option value="selfpay">No Insurance / Self-Pay</option>
+  </select>
+
+  <select id="filter-availability">
+    <option value="">Any Availability</option>
+    <option value="today">Open Today</option>
+    <option value="weekend">Weekend</option>
+    <option value="evening">Evenings</option>
+  </select>
+
+
+<input
+  type="text"
+  id="filter-zip"
+  placeholder="ZIP Code"
+  inputmode="numeric"
+  maxlength="5"
+/>
+
+
+
+</div>
+
+
+<div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
+  <h3>No clinics match your filters</h3>
+  <p>Try adjusting or clearing your filters to see more clinics.</p>
+  <button class="btn" onclick="resetFilters()">Clear Filters</button>
+</div>
+
+
+    <div class="section featured-section">
+      <h2>⭐ Featured Clinics</h2>
+      <div class="grid">
+        ${city.featured.map(c => card(c, true)).join('')}
+      </div>
+    </div>
+
+    <div class="section all-section">
+      <h2>🏥 All Clinics</h2>
+      <div class="grid">
+        ${city.clinics.map(c => card(c, false)).join('')}
+      </div>
+    </div>
+  `;
+
+
+  page.dataset.rendered = 'true';
+  
+}
+
+
+function populateZipFilter(cityKey) {
+  const city = DATA[cityKey];
+  if (!city) return;
+
+  const page = document.getElementById(cityKey);
+  if (!page) return;
+
+  const zipSelect = page.querySelector('#filter-zip');
+  if (!zipSelect) return;
+
+  // Collect unique ZIPs (ignore nulls)
+  const zips = new Set();
+
+  [...city.featured, ...city.clinics].forEach(c => {
+ if (c.zip) zips.add(String(c.zip));
+
+  });
+
+  // Reset dropdown
+  zipSelect.innerHTML = `<option value="">All ZIP Codes</option>`;
+
+  [...zips].sort().forEach(zip => {
+    const opt = document.createElement('option');
+    opt.value = zip;
+    opt.textContent = zip;
+    zipSelect.appendChild(opt);
+  });
+}
+
+  
+/* ================= CARD ================= */
+function card(c, isFeatured) {
+  const services = (c.services || []).join(' ');
+  const insurances = (c.insurances || []).join(' ');
+  const availability = [
+    c.accepts_new_patients ? 'today' : '',
+    c.emergency_available ? 'emergency' : ''
+  ].join(' ').trim();
+
+const action = `
+  <div class="actions">
+    ${c.phone ? `
+      <button class="btn call-btn"
+        data-phone="${c.phone}"
+        data-name="${c.name}"
+        data-city="${c.city || 'No City Name'}">
+        Call to Schedule
+      </button>
+    ` : ''}
+
+    <button class="btn secondary"
+      onclick="openLead('${c.name}')">
+      Request Appointment
+    </button>
+  </div>
+`;
+
+
+
+  return `
+    <div class="card ${isFeatured ? 'featured' : ''}"
+      data-zip="${c.zip ? String(c.zip) : ''}"
+
+      data-service="${services}"
+      data-insurance="${insurances}"
+      data-availability="${availability}">
+      
+      <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
+      <h3>${c.name}</h3>
+
+<div class="address">
+  <a
+    href="https://maps.google.com/?q=${encodeURIComponent(c.address)}"
+    class="map-link"
+    target="_blank"
+    rel="noopener"
+    title="View on Map"
+  >
+    <svg class="map-pin" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    </svg>
+    <span class="address-text">${c.address}</span>
+  </a>
+
+  <a
+    href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.address)}"
+    class="directions-btn"
+    target="_blank"
+    rel="noopener"
+  >
+    Directions
+  </a>
+</div>
+
+
+      ${action}
+    </div>
+  `;
+}
+
+
+/* ================= CITY SWITCH ================= */
+function activateCity(cityKey, initial = false) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(cityKey);
+  if (!page) return;
+
+  page.classList.add('active');
+
+  if (!page.dataset.rendered) {
+    renderCity(cityKey);
+  }
+
+  // ✅ ZIPs must be populated AFTER activation
+  populateZipFilter(cityKey);
+
+  wireFilters();
+applyFilters();
+
+}
+
+
+/* ================= FILTERS ================= */
+function wireFilters() {
+  const activePage = document.querySelector('.page.active');
+  if (!activePage) return;
+
+  filters = {
+    zip: activePage.querySelector('#filter-zip'),
+    service: activePage.querySelector('#filter-service'),
+    insurance: activePage.querySelector('#filter-insurance'),
+    availability: activePage.querySelector('#filter-availability')
+  };
+
+  Object.values(filters).forEach(f => {
+    if (f) f.onchange = applyFilters;
+  });
+}
+
+
+function applyFilters() {
+  const page = document.querySelector('.page.active');
+  if (!page) return;
+
+  const cards = page.querySelectorAll('.card');
+
+
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    let show = true;
+
+    if (filters.zip?.value &&
+        card.dataset.zip !== filters.zip.value) show = false;
+
+    if (filters.service?.value &&
+        !card.dataset.service.includes(filters.service.value)) show = false;
+
+    if (filters.insurance?.value &&
+        !card.dataset.insurance.includes(filters.insurance.value)) show = false;
+
+    if (filters.availability?.value &&
+        !card.dataset.availability.includes(filters.availability.value)) show = false;
+
+    card.style.display = show ? 'flex' : 'none';
+    if (show) visibleCount++;
+  });
+
+  // ✅ Empty state toggle
+const emptyState = page.querySelector('.no-results');
+const featuredSection = page.querySelector('.featured-section');
+const allSection = page.querySelector('.all-section');
+
+if (visibleCount === 0) {
+  if (emptyState) emptyState.style.display = 'block';
+  if (featuredSection) featuredSection.style.display = 'none';
+  if (allSection) allSection.style.display = 'none';
+} else {
+  if (emptyState) emptyState.style.display = 'none';
+  if (featuredSection) featuredSection.style.display = '';
+  if (allSection) allSection.style.display = '';
+}
+
+}
+
+  
+function resetFilters() {
+  Object.values(filters).forEach(f => f && (f.value = ''));
+  applyFilters();
+}
+
+/* ================= LEADS ================= */
+function openLead(name) {
+  document.getElementById('leadClinic').innerText = `Clinic: ${name}`;
+
+  // 🔒 Persist clinic name safely
+  document.getElementById('clinicNameInput').value = name;
+
+  document.getElementById('leadModal').style.display = 'flex';
+}
+
+  
+function closeLead() {
+  document.getElementById('leadModal').style.display = 'none';
+}
+
+  document.getElementById('leadModal').addEventListener('click', e => {
+  if (e.target.id === 'leadModal') closeLead();
+});
+
+
+async function submitLead(e) {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const payload = {
+    clinic_name: document.getElementById('clinicNameInput').value,
+    city: document.getElementById('citySelect').value,
+
+    patient_name: form.querySelector('[name="patient_name"]').value.trim(),
+    email: form.querySelector('[name="email"]').value.trim(),
+    phone: form.querySelector('[name="phone"]').value.trim(),
+    message: form.querySelector('[name="message"]').value.trim()
+  };
+
+  if (!payload.clinic_name) {
+    alert('❌ Please select a clinic first.');
+    return;
+  }
+
+  try {
+    /* 1️⃣ Save lead */
+    const dbRes = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!dbRes.ok) {
+      console.error(await dbRes.text());
+      alert('❌ Failed to submit request.');
+      return;
+    }
+
+
+
+ 
+
+   
+    /* 2️⃣ Email notification (non-blocking) */
+    fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+
+    /* 3️⃣ UX */
+    alert('✅ Appointment request submitted successfully!');
+    form.reset();
+    document.getElementById('clinicNameInput').value = '';
+    closeLead();
+
+  } catch (err) {
+    console.error(err);
+    alert('❌ Network error.');
+  }
+}
+
+
+ 
+  
+/* ================= NAV ================= */
+document.getElementById('citySelect').addEventListener('change', e => {
+  activateCity(e.target.value);
+});
+
+
+  /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
+document.addEventListener("input", (e) => {
+  if (!e.target || e.target.id !== "filter-zip") return;
+
+  const zip = e.target.value.trim();
+
+  // 🔥 Auto-filter ONLY when ZIP is complete
+  if (zip.length === 5) {
+    applyFilters();
+  }
+
+  // Optional: clear filter when ZIP is erased
+  if (zip.length === 0) {
+    applyFilters();
+  }
+});
+
+
+  /* ================= START ================= */
+loadClinicsFromSupabase();
+
+
+function callClinic(phone, clinic) {
+  if (!phone) return;
+
+  if (/Mobi|Android/i.test(navigator.userAgent)) {
+    window.location.href = `tel:${phone}`;
+  } else {
+    alert(
+      `Call ${clinic}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`
+    );
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('leadForm');
+  if (form) {
+    form.addEventListener('submit', submitLead);
+  }
+});
+
+  /* Show Form When Linked (Clean JS)  */
+window.addEventListener("hashchange", () => {
+    if (location.hash === "#contact") {
+      const section = document.getElementById("contact");
+      if (section) section.style.display = "block";
+    }
+  });
+
+  if (location.hash === "#contact") {
+    const section = document.getElementById("contact");
+    if (section) section.style.display = "block";
+  }
+  
+</script>
+
+  <div id="clinics"></div>
+
+<script>
+  function openContactForm(e) {
+    e.preventDefault();
+
+    const section = document.getElementById("contact");
+    if (!section) return;
+
+    section.style.display = "block";
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+  
+  <section id="contact" class="contact-section" style="display:none;">
+  <h2>Contact Us</h2>
+  <p class="contact-subtext">
+    Have a question or want to list your dental clinic on TexasDentalHub?
+    Send us a message and we’ll get back to you.
+  </p>
+
+
+
+
+    
+  <form class="contact-form">
+    <div class="form-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+    </div>
+
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="5"
+        placeholder="Tell us how we can help..."
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn-primary">Send Message</button>
+  </form>
+</section>
+
+  <footer class="site-footer">
+  <div class="footer-grid">
+    
+    <!-- Brand -->
+  <div class="footer-brand">
+  <div class="brand">
+    <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
+  </div>
+
+  <p>
+    Your trusted directory for finding verified dentists across Texas.
+    We help patients connect with local dental clinics for quality, affordable dental care.
+  </p>
+</div>
+
+
+    <!-- Cities -->
+    <div>
+      <h4>Popular Cities</h4>
+      <ul>
+        <li>Houston</li>
+        <li>Katy</li>
+        <li>Sugar Land</li>
+        <li>Richmond</li>
+        <li>Rosenberg</li>
+        <li>The Woodlands</li>
+        <li>Spring</li>
+      </ul>
+    </div>
+
+
+
+
+    
+    <!-- Links -->
+    <div>
+  <h4>Quick Links</h4>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#clinics">Browse Dentists</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+    <li><a href="about.html">About TexasDentalHub</a></li>
+
+  </ul>
+</div>
+
+   
+
+    <!-- Dentists -->
+  <div>
+  <h4>For Dentists</h4>
+  <ul>
+    <li>
+      <a href="contact.html">
+        List Your Dental Practice
+      </a>
+    </li>
+    <li>
+      <a href="contact.html">
+        Claim an Existing Listing
+      </a>
+    </li>
+    <li>
+      <a href="contact.html">
+        Get More Patient Leads
+      </a>
+    </li>
+    <li>
+      <a href="contact.html">
+        Advertising & Featured Listings
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 TexasDentalHub. All rights reserved.</p>
+    <p>
+      <a href="privacy.html">Privacy Policy</a> |
+      <a href="terms.html">Terms of Service</a> |
+      <a href="disclaimer.html">Disclaimer</a>
+    </p>
+  </div>
+</footer>
+
+
+<script>
+  const topbar = document.querySelector(".topbar");
+
+  if (topbar) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 10) {
+        topbar.classList.add("scrolled");
+      } else {
+        topbar.classList.remove("scrolled");
+      }
+    });
+  }
+</script>
+
+<script>
+
+  
+document.addEventListener("DOMContentLoaded", () => {
+
+  function initFilters() {
+    const serviceFilter = document.getElementById("filter-service");
+    const insuranceFilter = document.getElementById("filter-insurance");
+    const availabilityFilter = document.getElementById("filter-availability");
+    const zipInput = document.getElementById("filter-zip");
+
+    if (!serviceFilter || !insuranceFilter || !availabilityFilter || !zipInput) {
+      console.warn("Filters not ready yet — retrying...");
+      setTimeout(() => document.dispatchEvent(new Event("initFilters")), 300);
+      return;
+    }
+
+    function applyFilters() {
+      const service = serviceFilter.value;
+      const insurance = insuranceFilter.value;
+      const availability = availabilityFilter.value;
+      //const zip = zipInput.value.trim();
+      const zip = document.getElementById("filter-zip")?.value.trim();
+
+      
+
+      document.querySelectorAll(".card").forEach(card => {
+        const cardService = card.dataset.service || "";
+        const cardInsurance = card.dataset.insurance || "";
+        const cardAvailability = card.dataset.availability || "";
+        const cardZip = card.dataset.zip || "";
+        // added the below on 01/16/2026
+        //const matchesZip = !zip || cardZip.startsWith(zip);
+
+        
+
+        const matchesService = !service || cardService.includes(service);
+        const matchesInsurance = !insurance || cardInsurance.includes(insurance);
+        const matchesAvailability = !availability || cardAvailability.includes(availability);
+        const matchesZip = !zip || cardZip.startsWith(zip);
+
+        card.style.display =
+          matchesService &&
+          matchesInsurance &&
+          matchesAvailability &&
+          matchesZip
+            ? ""
+            : "none";
+      });
+    }
+
+    serviceFilter.addEventListener("change", applyFilters);
+    insuranceFilter.addEventListener("change", applyFilters);
+    availabilityFilter.addEventListener("change", applyFilters);
+    zipInput.addEventListener("input", applyFilters);
+
+    console.log("Filters initialized successfully");
+  }
+
+  document.addEventListener("initFilters", initFilters);
+  initFilters();
+
+});
+
+
+
+
+let callInProgress = false;
+
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.call-btn');
+  if (!btn) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Prevent double-fire
+  if (callInProgress) return;
+  callInProgress = true;
+
+  const phone = btn.dataset.phone;
+  const name = btn.dataset.name;
+  const city = btn.dataset.city;
+
+  callClinic(phone, name, city);
+
+  // Release lock shortly after
+  setTimeout(() => {
+    callInProgress = false;
+  }, 1500);
+});
+
+
+
+ 
+
+</script>
+
+
+  <script>
+function callClinic(phone, clinicName, city) {
+  // 1️⃣ Open dialer immediately (user gesture preserved)
+  window.location.href = `tel:${phone}`;
+
+  // 2️⃣ Send lead in background
+  fetch('https://wehhvavlbhdbcmgvdaxj.supabase.co/rest/v1/leads', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs'
+    },
+    body: JSON.stringify({
+      clinic_name: clinicName,
+      city: city,
+      patient_name: 'Phone Call',
+      email: 'noreply@texasdentalhub.com',
+      phone: phone || 'N/A',
+      message: 'Call to Schedule click',
+      source: 'call'
+    })
+  }).catch(() => {});
+}
+
+</script>
+
+
+  
+</body>
+</html>
