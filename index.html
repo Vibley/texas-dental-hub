@@ -806,10 +806,10 @@ async function loadClinicsFromSupabase() {
   const rows = await res.json();
   DATA = {};
 
+  
   rows.forEach(c => {
     const cityName = (c.city || '').trim();
-    const cityKey = CITY_KEY_MAP[cityName];
-    if (!cityKey) return;
+  const cityKey = toCityKey(cityName);
 
     if (!DATA[cityKey]) {
       DATA[cityKey] = { label: cityName, featured: [], clinics: [] };
@@ -1162,6 +1162,7 @@ async function submitLead(e) {
 
   const payload = {
     clinic_name: document.getElementById('clinicNameInput').value,
+    
     city: document.getElementById('citySelect').value,
 
     patient_name: form.querySelector('[name="patient_name"]').value.trim(),
@@ -1221,9 +1222,11 @@ async function submitLead(e) {
  
   
 /* ================= NAV ================= */
-document.getElementById('citySelect').addEventListener('change', e => {
+  document.getElementById('citySelect').addEventListener('change', e => {
+  resetFilters();              // 🔥 THIS LINE
   activateCity(e.target.value);
 });
+
 
 
   /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
