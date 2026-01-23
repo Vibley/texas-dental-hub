@@ -1109,6 +1109,37 @@ function getUniqueInsurancesRaw(cityKey) {
 }
 
 
+function populateDynamicFilters(cityKey) {
+  const page = document.querySelector('.page.active');
+  if (!page) return;
+
+  const serviceSelect = page.querySelector('#filter-service');
+  const insuranceSelect = page.querySelector('#filter-insurance');
+
+  if (!serviceSelect || !insuranceSelect) return;
+
+  // Services
+  const services = getUniqueServicesRaw(cityKey);
+  serviceSelect.innerHTML = '<option value="">All Services</option>';
+
+  services.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s;
+    opt.textContent = s;
+    serviceSelect.appendChild(opt);
+  });
+
+  // Insurances
+  const insurances = getUniqueInsurancesRaw(cityKey);
+  insuranceSelect.innerHTML = '<option value="">All Insurance</option>';
+
+  insurances.forEach(i => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = i;
+    insuranceSelect.appendChild(opt);
+  });
+}
 
 
   
@@ -1116,46 +1147,25 @@ function getUniqueInsurancesRaw(cityKey) {
 function activateCity(cityKey, initial = false) {
   document.querySelectorAll('.page').forEach(p => {
     p.classList.remove('active');
-    p.style.display = 'none';          // 🔥 hide all pages
+    p.style.display = 'none';
   });
 
   const page = document.getElementById(cityKey);
   if (!page) return;
 
   page.classList.add('active');
-  page.style.display = 'block';        // 🔥 show selected city
-
-  
+  page.style.display = 'block';
 
   if (!page.dataset.rendered) {
     renderCity(cityKey);
   }
 
-  // ✅ ZIPs must be populated AFTER activation
   populateZipFilter(cityKey);
-populateDynamicFilters(cityKey); // 🔥 add this
- function wireFilters() {
-  const activePage = document.querySelector('.page.active');
-  if (!activePage) return;
-
-  filters = {
-    zip: activePage.querySelector('#filter-zip'),
-    service: activePage.querySelector('#filter-service'),
-    insurance: activePage.querySelector('#filter-insurance'),
-    availability: activePage.querySelector('#filter-availability')
-  };
-
-  Object.values(filters).forEach(f => {
-    if (f) {
-      f.onchange = applyFilters;
-      f.oninput = applyFilters; // zip typing support
-    }
-  });
+  populateDynamicFilters(cityKey); // ✅ now defined
+  wireFilters();
+  applyFilters();
 }
 
-applyFilters();
-
-}
 
 
 /* ================= FILTERS ================= */
