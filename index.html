@@ -1467,7 +1467,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const zipInput = document.getElementById("filter-zip");
 
     if (!serviceFilter || !insuranceFilter || !availabilityFilter || !zipInput) {
-      console.warn("Filters not ready yet — retrying...");
+   
       setTimeout(() => document.dispatchEvent(new Event("initFilters")), 300);
       return;
     }
