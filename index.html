@@ -727,6 +727,8 @@ function toCityKey(city) {
 }
 
 /* 🔹 Load cities dynamically */
+   select.innerHTML = '<option value="">All Cities</option>';
+  
 async function loadCitiesFromSupabase() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/clinics?select=city`,
@@ -751,7 +753,7 @@ async function loadCitiesFromSupabase() {
   }
 
   // Reset dropdown (keep All Cities)
- select.innerHTML = '<option value="">All Cities</option>';
+
 CITY_KEY_MAP = {};
 CITY_ORDER = [];
 
