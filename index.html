@@ -772,16 +772,21 @@ async function loadCitiesFromSupabase() {
   console.log('✅ Cities populated:', CITY_ORDER);
 }
 
-
-  
-  
+ 
 
 let DATA = {};
 let filters = {};
 
 
+
+  
 function ensureCityPages() {
-  const main = document.querySelector('main') || document.body;
+  const container = document.querySelector('.container');
+
+  if (!container) {
+    console.error('❌ .container not found — cannot create city pages');
+    return;
+  }
 
   CITY_ORDER.forEach(cityKey => {
     if (document.getElementById(cityKey)) return;
@@ -789,13 +794,15 @@ function ensureCityPages() {
     const page = document.createElement('div');
     page.id = cityKey;
     page.className = 'page';
-    page.style.display = 'none';
 
-    main.appendChild(page);
+    container.appendChild(page); // ✅ correct parent
   });
 }
 
 
+
+
+  
   
 /* ================= LOAD DATA ================= */
 async function loadClinicsFromSupabase() {
