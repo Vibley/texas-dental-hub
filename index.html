@@ -647,15 +647,10 @@
    
 <div class="nav">
   <select id="citySelect" class="city-select">
-    <option value="houston">Houston</option>
-    <option value="katy">Katy</option>
-    <option value="sugarland">Sugar Land</option>
-    <option value="richmond">Richmond</option>
-    <option value="rosenberg">Rosenberg</option>
-    <option value="woodlands">The Woodlands</option>
-    <option value="spring">Spring</option>
+    <option value="">All Cities</option>
   </select>
 </div>
+
 
     
   </div>
@@ -1363,6 +1358,11 @@ window.addEventListener("hashchange", () => {
   }
 </script>
 
+
+
+
+  
+
 <script>
 
   
@@ -1490,6 +1490,81 @@ function callClinic(phone, clinicName, city) {
 </script>
 
 
+<script>
+const SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs";
+
+/* 🔹 Load Cities */
+async function loadCities() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/clinics?select=city`,
+    {
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      }
+    }
+  );
+
+  const data = await res.json();
+  const cities = [...new Set(data.map(r => r.city).filter(Boolean))].sort();
+
+  const select = document.getElementById("citySelect");
+
+  cities.forEach(city => {
+    const opt = document.createElement("option");
+    opt.value = city;
+    opt.textContent = city;
+    select.appendChild(opt);
+  });
+}
+
+/* 🔹 Load Clinics */
+async function loadClinics(city = "") {
+  let url = `${SUPABASE_URL}/rest/v1/clinics?select=*`;
+
+  if (city) {
+    url += `&city=eq.${encodeURIComponent(city)}`;
+  }
+
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`
+    }
+  });
+
+  const data = await res.json();
+  renderClinics(data); // 👈 your existing renderer
+}
+
+/* 🔹 City Change */
+document.getElementById("citySelect").addEventListener("change", e => {
+  loadClinics(e.target.value);
+});
+
+/* 🔹 Initial Load */
+loadCities();
+loadClinics();
+
+
+async function loadAllClinics() {
+  const { data, error } = await supabase
+    .from("clinics")
+    .select("*");
+
+  if (!error) renderClinics(data);
+}
+
+loadAllClinics();
+
+
+  
+</script>
+
+
+
+  
   
 </body>
 </html>
