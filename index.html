@@ -768,20 +768,29 @@ async function loadCitiesFromSupabase() {
   console.log('✅ Dynamic cities loaded:', CITY_KEY_MAP);
 }
 
-
-
-
-
-
-
-  
-
-
   
 
 let DATA = {};
 let filters = {};
 
+
+function ensureCityPages() {
+  const main = document.querySelector('main') || document.body;
+
+  CITY_ORDER.forEach(cityKey => {
+    if (document.getElementById(cityKey)) return;
+
+    const page = document.createElement('div');
+    page.id = cityKey;
+    page.className = 'page';
+    page.style.display = 'none';
+
+    main.appendChild(page);
+  });
+}
+
+
+  
 /* ================= LOAD DATA ================= */
 async function loadClinicsFromSupabase() {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/clinics?select=*`, {
@@ -1236,8 +1245,10 @@ document.addEventListener("input", (e) => {
   /* ================= START ================= */
 (async () => {
   await loadCitiesFromSupabase();
+  ensureCityPages();          // 🔥 THIS LINE
   await loadClinicsFromSupabase();
 })();
+
 
 
 
