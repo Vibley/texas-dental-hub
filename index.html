@@ -1061,10 +1061,6 @@ function activateCity(cityKey, initial = false) {
   page.style.display = 'block';        // 🔥 show selected city
 
   
-  const page = document.getElementById(cityKey);
-  if (!page) return;
-
-  page.classList.add('active');
 
   if (!page.dataset.rendered) {
     renderCity(cityKey);
