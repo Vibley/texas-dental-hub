@@ -699,6 +699,9 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 
   
 <script>
+  
+  const DEFAULT_CITY_KEY = 'houston';
+
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
@@ -1259,9 +1262,20 @@ document.addEventListener("input", (e) => {
   /* ================= START ================= */
 (async () => {
   await loadCitiesFromSupabase();
-  ensureCityPages();          // 🔥 THIS LINE
+  ensureCityPages();
   await loadClinicsFromSupabase();
+
+  // ✅ Default to Houston if it exists
+  if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
+    activateCity(DEFAULT_CITY_KEY, true);
+    document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
+  } else {
+    // fallback: first available city
+  
+    document.getElementById('citySelect').value = CITY_ORDER[0];
+  }
 })();
+
 
 
 
