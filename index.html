@@ -699,6 +699,8 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 <script>
   
   const DEFAULT_CITY_KEY = 'houston';
+  const ALL_CITIES_KEY = 'all';
+
 
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
@@ -770,28 +772,29 @@ let DATA = {};
 let filters = {};
 
 
-
   
 function ensureCityPages() {
   const container = document.querySelector('.container');
+  if (!container) return;
 
-  if (!container) {
-    console.error('❌ .container not found');
-    return;
+  // 🔹 Ensure All Cities page
+  if (!document.getElementById(ALL_CITIES_KEY)) {
+    const allPage = document.createElement('div');
+    allPage.id = ALL_CITIES_KEY;
+    allPage.className = 'page';
+    container.prepend(allPage); // ⬅️ keep it first
   }
 
+  // 🔹 Ensure city pages
   CITY_ORDER.forEach(cityKey => {
     if (document.getElementById(cityKey)) return;
 
     const page = document.createElement('div');
     page.id = cityKey;
     page.className = 'page';
-
     container.appendChild(page);
   });
 }
-
-
 
 
   
@@ -838,6 +841,26 @@ async function loadClinicsFromSupabase() {
 
 }
 
+  // Added on 01/23/2025 to build combined DATA for “All Cities”
+
+  function buildAllCitiesData() {
+  const allFeatured = [];
+  const allClinics = [];
+
+  Object.values(DATA).forEach(city => {
+    allFeatured.push(...city.featured);
+    allClinics.push(...city.clinics);
+  });
+
+  DATA[ALL_CITIES_KEY] = {
+    label: 'All Cities',
+    featured: allFeatured,
+    clinics: allClinics
+  };
+}
+ // Added on 01/23/2025 to build combined DATA for “All Cities”
+
+  
 /* ================= RENDER ================= */
 function renderCity(cityKey) {
   const city = DATA[cityKey];
@@ -1230,12 +1253,14 @@ async function submitLead(e) {
 
 
  
-  
 /* ================= NAV ================= */
-  document.getElementById('citySelect').addEventListener('change', e => {
-  resetFilters();              // 🔥 THIS LINE
-  activateCity(e.target.value);
+document.getElementById('citySelect').addEventListener('change', e => {
+  resetFilters();  // 🔥 important when switching cities
+
+  const key = e.target.value || ALL_CITIES_KEY;
+  activateCity(key);
 });
+
 
 
 
