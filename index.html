@@ -1495,6 +1495,31 @@ console.log("City filter script loaded");
 </script>
 
 
+
+<!-- MUST BE ABOVE loadClinics -->
+<script>
+function renderClinics(clinics) {
+  console.log("Rendering clinics:", clinics);
+
+  const container = document.getElementById("clinicsContainer");
+  container.innerHTML = "";
+
+  clinics.forEach(c => {
+    container.innerHTML += `
+      <div class="clinic-card">
+        <h3>${c.name}</h3>
+        <p>${c.city}</p>
+        <button onclick="callClinic('${c.phone}', '${c.name}', '${c.city}')">
+          Call
+        </button>
+      </div>
+    `;
+  });
+}
+</script>
+
+
+  
 <script>
 const SUPABASE_URL2 = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 const SUPABASE_KEY2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs";
