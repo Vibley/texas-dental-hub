@@ -1502,7 +1502,7 @@ const SUPABASE_KEY2 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 /* 🔹 Load Cities */
 async function loadCities() {
   const res = await fetch(
-    `${SUPABASE_URL2}/rest/v1/clinics?select=city`,
+    `${SUPABASE_URL2}/rest/v1/clinics?select=*`,
     {
       headers: {
         apikey: SUPABASE_KEY2,
@@ -1554,14 +1554,19 @@ loadClinics();
 
 
 async function loadAllClinics() {
-  const { data, error } = await supabase
-    .from("clinics")
-    .select("*");
+  const res = await fetch(
+    `${window.SUPABASE_URL}/rest/v1/clinics?select=*`,
+    {
+      headers: {
+        apikey: window.SUPABASE_KEY,
+        Authorization: `Bearer ${window.SUPABASE_KEY}`
+      }
+    }
+  );
 
-  if (!error) renderClinics(data);
+  const data = await res.json();
+  renderClinics(data);
 }
-
-loadAllClinics();
 
 
   
