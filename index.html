@@ -826,8 +826,11 @@ async function loadClinicsFromSupabase() {
   zip: c.zip,
   services: c.services,
   insurances: c.insurances,
-  accepts_new_patients: c.accepts_new_patients,
-  emergency_available: c.emergency_available
+   // 🔥 AVAILABILITY TAGS (derived from weekend_open)
+  availability: [
+    'weekday', // all clinics are open on weekdays
+    String(c.weekend_open).toUpperCase() === 'YES' ? 'weekend' : null
+  ].filter(Boolean)
 };
 
 
@@ -924,12 +927,12 @@ function renderCity(cityKey) {
     <option value="selfpay">No Insurance / Self-Pay</option>
   </select>
 
-  <select id="filter-availability">
-    <option value="">Any Availability</option>
-    <option value="today">Open Today</option>
-    <option value="weekend">Weekend</option>
-    <option value="evening">Evenings</option>
-  </select>
+<select id="filter-availability">
+  <option value="">Any Availability</option>
+  <option value="weekday">Open Weekdays</option>
+  <option value="weekend">Open Weekends</option>
+</select>
+
 
 
 <input
@@ -1007,10 +1010,11 @@ function populateZipFilter(cityKey) {
 function card(c, isFeatured) {
   const services = (c.services || []).join(' ');
   const insurances = (c.insurances || []).join(' ');
-  const availability = [
-    c.accepts_new_patients ? 'today' : '',
-    c.emergency_available ? 'emergency' : ''
-  ].join(' ').trim();
+const availability = [
+  'weekday',
+  String(c.weekend_open).toUpperCase() === 'YES' ? 'weekend' : null
+].filter(Boolean).join('|');
+
 
 const action = `
   <div class="actions">
@@ -1206,8 +1210,11 @@ function applyFilters() {
     if (filters.insurance?.value &&
         !card.dataset.insurance.includes(filters.insurance.value)) show = false;
 
-    if (filters.availability?.value &&
-        !card.dataset.availability.includes(filters.availability.value)) show = false;
+ if (filters.availability?.value) {
+  const avail = (card.dataset.availability || '').split('|');
+  if (!avail.includes(filters.availability.value)) show = false;
+}
+
 
     card.style.display = show ? 'flex' : 'none';
     if (show) visibleCount++;
