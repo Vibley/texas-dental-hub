@@ -830,7 +830,7 @@ async function loadClinicsFromSupabase() {
    // 🔥 AVAILABILITY TAGS (derived from weekend_open)
   availability: [
     'weekday', // all clinics are open on weekdays
-    String(c.weekend_open).toUpperCase() === 'YES' ? 'weekend' : null
+   String(c.weekend_open).trim().toUpperCase() === 'YES' ? 'weekend' : null
   ].filter(Boolean)
 };
 
@@ -1049,7 +1049,7 @@ const action = `
 
       data-service="${services}"
       data-insurance="${insurances}"
-      data-availability="${availability}">
+     data-availability="${c.availability.join('|')}">
       
       <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
       <h3>${c.name}</h3>
