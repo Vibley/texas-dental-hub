@@ -869,19 +869,18 @@ function buildAllCitiesData() {
 
 
 
+/* ================= RENDER ================= */
+function renderCity(cityKey) {
+  const city = DATA[cityKey];
+  const page = document.getElementById(cityKey);
+  if (!city || !page) return;
+  
 const isAllCities = cityKey === ALL_CITIES_KEY;
 
 const heroLabel = isAllCities
   ? ALL_CITIES_HERO_LABEL
   : city.label;
   
-
-/* ================= RENDER ================= */
-function renderCity(cityKey) {
-  const city = DATA[cityKey];
-  const page = document.getElementById(cityKey);
-  if (!city || !page) return;
-
   page.innerHTML = `
   <div class="hero">
  <h1>General & Family Dentists in ${heroLabel}</h1>
