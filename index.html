@@ -37,6 +37,17 @@
   opacity: 0.9;
 }
 
+.topbar-inner {
+  display: flex;
+  align-items: center;
+}
+
+.city-filter {
+  margin-left: auto;   /* 🔥 pushes it to the right */
+  display: flex;
+  align-items: center;
+}
+
 
     
     .footer-brand .brand {
@@ -649,11 +660,21 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
+    <a href="/" class="brand">
+      <span class="brand-name">TexasDental</span>
+      <span class="brand-hub">Hub</span>
     </a>
+
+    <div class="city-filter">
+      <select id="citySelect">
+        <option>Houston</option>
+        <option>Katy</option>
+        <option>Sugar Land</option>
+      </select>
+    </div>
   </div>
 </div>
+
 
 
    
