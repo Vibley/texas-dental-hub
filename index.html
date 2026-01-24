@@ -27,6 +27,19 @@
 .brand:hover {
   opacity: 0.9;
 }
+
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;            /* 🔑 critical */
+  align-items: center;
+  white-space: nowrap;      /* prevents wrapping */
+}
+
     
     .footer-brand .brand {
   font-size: 1.2rem;
