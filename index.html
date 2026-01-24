@@ -695,7 +695,9 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 
   
 <script>
-  
+
+  const ALL_CITIES_HERO_LABEL = 'Houston Metro Area';
+
   const DEFAULT_CITY_KEY = 'houston';
   const ALL_CITIES_KEY = 'all';
 
@@ -865,9 +867,15 @@ function buildAllCitiesData() {
   console.log('✅ All Cities built:', DATA[ALL_CITIES_KEY]);
 }
 
- // Added on 01/23/2025 to build combined DATA for “All Cities”
 
+
+const isAllCities = cityKey === ALL_CITIES_KEY;
+
+const heroLabel = isAllCities
+  ? ALL_CITIES_HERO_LABEL
+  : city.label;
   
+
 /* ================= RENDER ================= */
 function renderCity(cityKey) {
   const city = DATA[cityKey];
@@ -876,11 +884,12 @@ function renderCity(cityKey) {
 
   page.innerHTML = `
   <div class="hero">
-  <h1>General & Family Dentists in ${city.label}</h1>
+ <h1>General & Family Dentists in ${heroLabel}</h1>
+
 
   
   <p>
-  Looking for a trusted dentist in ${city.label}, <strong> TexasDental Hub</strong> connects you
+  Looking for a trusted dentist in ${heroLabel}, <strong>TexasDental Hub</strong> connects you
   with verified general and family dental clinics across Houston and surrounding communities.
   Easily compare local providers, contact featured clinics directly, or request an appointment
   online — all in one place.
