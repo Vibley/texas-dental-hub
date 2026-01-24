@@ -1010,10 +1010,16 @@ function populateZipFilter(cityKey) {
 function card(c, isFeatured) {
   const services = (c.services || []).join(' ');
   const insurances = (c.insurances || []).join(' ');
-const availability = [
+
+  const availability = [
   'weekday',
-  String(c.weekend_open).toUpperCase() === 'YES' ? 'weekend' : null
+  String(c.weekend_open)
+    .trim()               // 🔥 IMPORTANT
+    .toUpperCase() === 'YES'
+    ? 'weekend'
+    : null
 ].filter(Boolean).join('|');
+
 
 
 const action = `
