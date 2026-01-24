@@ -8,59 +8,33 @@
   <style>
 
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.brand {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  text-decoration: none;
-  cursor: pointer;
 }
 
 .brand-name {
-  font-weight: 700;
-  color: #ffffff;
+  color: #0f172a; /* professional dark text */
 }
 
 .brand-hub {
-  font-weight: 800;
-  color: #ffffff;
+  color: #0b5ed7; /* your blue accent */
+  margin-left: 2px;
 }
 
-.brand:hover {
-  opacity: 0.9;
-}
-
-.topbar-inner {
-  display: flex;
-  align-items: center;
-}
-
-.city-filter {
-  margin-left: auto;   /* 🔥 pushes it to the right */
-  display: flex;
-  align-items: center;
-}
-
-
-    
     .footer-brand .brand {
   font-size: 1.2rem;
   margin-bottom: 10px;
 }
 
 /* Footer logo color override */
-.site-footer .-name {
+.site-footer .brand-name {
   color: #ffffff;
 }
 
-.site-footer .-hub {
+.site-footer .brand-hub {
   color: #93c5fd; /* soft light blue for contrast */
 }
        
@@ -109,8 +83,8 @@
     
     .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
     .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-    .{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
-    . span{font-size:22px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
+    .brand span{font-size:22px}
     .nav button{background:none;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px}
     .nav button.active{background:rgba(37,99,235,.12);color:#1e88ff}
     .container{max-width:1100px;margin:0 auto;padding:22px 18px 60px}
@@ -660,22 +634,9 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <a href="/" class="brand">
-      <span class="brand-name">TexasDental</span>
-      <span class="brand-hub">Hub</span>
-    </a>
-
-    <div class="city-filter">
-      <select id="citySelect">
-        <option>Houston</option>
-        <option>Katy</option>
-        <option>Sugar Land</option>
-      </select>
-    </div>
-  </div>
+   <div class="brand">
+  <span class="brand-name">TexasDental</span><span class="brand-hub">Hub</span>
 </div>
-
-
 
    
 <div class="nav">
