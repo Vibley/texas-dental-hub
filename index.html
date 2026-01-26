@@ -967,8 +967,13 @@ const heroLabel = isAllCities
 
 
 
+
+
     <div class="section all-section">
-      <h2>🏥 All Clinics</h2>
+    <h2 id="resultsHeading">
+  <span class="section-icon">✔</span>
+  Verified Dentists in ${heroLabel}
+</h2>
       <div class="grid">
         ${city.clinics.map(c => card(c, false)).join('')}
       </div>
@@ -976,10 +981,27 @@ const heroLabel = isAllCities
   `;
 
 
+  
   page.dataset.rendered = 'true';
   
 }
 
+
+function updateResultsHeading(cityName) {
+  const heading = document.getElementById('resultsHeading');
+  if (!heading) return;
+
+  const displayCity = cityName && cityName !== 'All'
+    ? `${cityName}, TX`
+    : 'Houston Metro';
+
+  heading.innerHTML = `
+    <span class="section-icon">✔</span>
+    Verified Dentists in ${displayCity}
+  `;
+}
+
+  
 
 function populateZipFilter(cityKey) {
   const city = DATA[cityKey];
