@@ -133,7 +133,7 @@
     @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:600px){.grid{grid-template-columns:1fr}}
     
-  .card {
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -141,39 +141,41 @@
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  transition: transform .18s ease, box-shadow .18s ease;
-}
 
-.card {
-  transition: 
+  transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
 }
 
-    
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
+
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(2,6,23,0.14);
+  }
 }
 
+
+    .card:active {
+  transform: translateY(-1px);
+}
+
+
+    .card.featured {
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(180deg, #ffffff, #f5f9ff);
+}
+
+    
+ 
+    
     .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 24px 60px rgba(2,6,23,0.14);
 }
 
    
-    .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(2,6,23,.18)}
-    
-    .card.featured {
-  border: 1.5px solid var(--accent);
-  background: linear-gradient(180deg, #ffffff, #f5f9ff);
-}
-
-.card:active {
-  transform: translateY(-1px);
-}
-
-    
+      
     .badge{background:var(--accent);color:#fff;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;align-self:flex-start;display:flex;align-items:center;gap:6px}
     .address{color:var(--muted);font-size:14px;display:flex;gap:6px;margin:6px 0 10px 0}
     
