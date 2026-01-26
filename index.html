@@ -207,10 +207,10 @@
     
 .filters {
   margin: 20px 0;
-  background: #fff;
-  border-radius: 18px;
+  background: #ffffff;
+  border-radius: 14px;
   padding: 14px 14px 12px;
-  box-shadow: 0 8px 20px rgba(2,6,23,.08);
+  box-shadow: 0 10px 25px rgba(2,6,23,.08);
   border: 1px solid var(--border);
 }
 
@@ -247,8 +247,11 @@
 
 
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .filter-row {
+    position: sticky;
+    top: 0;
+    z-index: 20;
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -295,12 +298,6 @@
 }
 
 
-    /* Desktop sticky (already exists above) */
-.sticky-filter {
-  position: sticky;
-  top: 64px;
-  z-index: 9;
-}
 
 /* App-like sticky state */
 .sticky-filter.is-stuck {
@@ -313,8 +310,9 @@
 /* 👇 ADD THIS BELOW (Mobile override) 👇 */
 @media (max-width: 768px) {
   .sticky-filter {
-    position: relative; /* disable sticky */
+    position: sticky; /* disable sticky */
     top: auto;
+    z-index: 20;
   }
 
   .sticky-filter.mobile-fixed {
