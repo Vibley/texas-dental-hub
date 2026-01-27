@@ -1394,11 +1394,12 @@ document.getElementById('citySelect').addEventListener('change', e => {
   resetFilters();
   const key = e.target.value || ALL_CITIES_KEY;
 
-  if (key === ALL_CITIES_KEY) {
-    history.pushState({}, '', '/');
-  } else {
-    history.pushState({}, '', `/city/${key}`);
-  }
+if (key === ALL_CITIES_KEY) {
+  window.location.href = '/';
+} else {
+  window.location.href = `/?city=${key}`;
+}
+
 
   activateCity(key);
 });
