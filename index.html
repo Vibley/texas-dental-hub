@@ -639,6 +639,76 @@
   white-space: nowrap;
 }
 
+
+/* === Clinic Detail Page === */
+
+.clinic-hero {
+  background: linear-gradient(180deg, #f8fbff, #eef4ff);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 20px;
+}
+
+.clinic-hero-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.clinic-meta {
+  margin-top: 8px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.clinic-cta {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.clinic-content {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.clinic-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .clinic-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.pill-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill-list li {
+  background: var(--accentSoft);
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+    
       
   </style>
   
@@ -1476,22 +1546,20 @@ function getCityFromURL() {
   );
 
   // Render page
-  document.querySelector('.container').innerHTML = `
-    <div class="hero">
+document.querySelector('.container').innerHTML = `
+  <!-- Clinic Hero -->
+  <section class="clinic-hero">
+    <div class="clinic-hero-inner">
       <h1>${clinic.name}</h1>
-      <p>Verified dental clinic in ${clinic.city}, Texas</p>
-    </div>
 
-    <div class="card">
-      <p><strong>Address:</strong> ${clinic.address}</p>
-      <p><strong>Phone:</strong> ${clinic.phone || 'Call for details'}</p>
-      <p><strong>Services:</strong> ${(clinic.services || []).join(', ')}</p>
-      <p><strong>Insurance:</strong> ${(clinic.insurances || []).join(', ')}</p>
+      <div class="clinic-meta">
+        ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
+      </div>
 
-      <div class="actions">
+      <div class="clinic-cta">
         ${
           clinic.phone
-            ? `<a href="tel:${clinic.phone}" class="btn">Call to Shedule</a>`
+            ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>`
             : ''
         }
         <button class="btn secondary" onclick="openLead('${clinic.name}')">
@@ -1499,13 +1567,49 @@ function getCityFromURL() {
         </button>
       </div>
     </div>
+  </section>
 
-    <p style="margin-top:20px">
-      <a href="/" class="directions-btn">← Back to listings</a>
+  <!-- Clinic Content -->
+  <section class="clinic-content">
+    <div class="clinic-grid">
+
+      <!-- Left column -->
+      <div class="card clinic-main">
+        <h3>Clinic Information</h3>
+
+        <div class="info-row">
+          <strong>Address</strong>
+          <span>${clinic.address}</span>
+        </div>
+
+        <div class="info-row">
+          <strong>Phone</strong>
+          <span>${clinic.phone || 'Call for details'}</span>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="card clinic-side">
+        <h3>Services</h3>
+        <ul class="pill-list">
+          ${(clinic.services || []).map(s => `<li>${s}</li>`).join('')}
+        </ul>
+
+        <h3 style="margin-top:20px">Insurance</h3>
+        <ul class="pill-list">
+          ${(clinic.insurances || []).map(i => `<li>${i}</li>`).join('')}
+        </ul>
+      </div>
+
+    </div>
+
+    <p style="margin-top:32px">
+      <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
+        ← Back to listings
+      </a>
     </p>
-  `;
-}
-
+  </section>
+`;
 
   
 
