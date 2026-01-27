@@ -1563,15 +1563,19 @@ function getCityFromURL() {
   let clinic = null;
   let clinicCity = null;
 
-  Object.values(DATA).forEach(city => {
-    [...city.featured, ...city.clinics].forEach(c => {
-      if (toClinicSlug(c.name) === slug) {
-        clinic = c;
-        clinicCity = city.label;
-      }
-    });
-  });
+Object.entries(DATA).forEach(([key, city]) => {
+  // ❌ Skip the aggregated All Cities bucket
+  if (key === ALL_CITIES_KEY) return;
 
+  [...city.featured, ...city.clinics].forEach(c => {
+    if (toClinicSlug(c.name) === slug) {
+      clinic = c;
+      clinicCity = city.label;
+    }
+  });
+});
+
+   
   if (!clinic) {
     document.querySelector('.container').innerHTML = `
       <div class="hero">
