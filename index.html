@@ -1367,7 +1367,7 @@ function activateCity(cityKey, initial = false) {
   populateDynamicFilters(cityKey); // ✅ now defined
   wireFilters();
   applyFilters();
-  setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
+
 
 }
 
@@ -1603,6 +1603,8 @@ Object.entries(DATA).forEach(([key, city]) => {
       `${clinic.name} is a verified dental clinic in Texas. View services, location, and contact details.`
     );
   }
+   // 🔥 Canonical URL (clinic pages ONLY)
+setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
 
   // Render page
   document.querySelector('.container').innerHTML = `
