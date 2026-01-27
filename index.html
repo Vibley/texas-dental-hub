@@ -1434,14 +1434,11 @@ if (urlCity && CITY_ORDER.includes(urlCity)) {
   activateCity(DEFAULT_CITY_KEY, true);
   document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
 } else {
-  activateCity(CITY_ORDER[0], true);
-}
-
-} else {
   const fallbackCity = CITY_ORDER[0];
   activateCity(fallbackCity, true);
   document.getElementById('citySelect').value = fallbackCity;
 }
+
 
 })();
 
