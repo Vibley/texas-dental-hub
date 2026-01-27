@@ -1165,30 +1165,28 @@ function populateDynamicFilters(cityKey) {
 }
 
 
-  function updateSEO(cityKey) {
-  const city = DATA[cityKey];
-  if (!city) return;
+function updateSEO(cityKey) {
+  // ⛑️ SAFETY GUARD — prevents site break
+  if (!DATA || !DATA[cityKey]) return;
 
+  const city = DATA[cityKey];
   const cityName = city.label;
 
-  // 🔹 Title
   document.title =
     cityKey === ALL_CITIES_KEY
       ? 'TexasDentalHub | Houston Metro Dentists'
       : `Dentists in ${cityName}, TX | TexasDentalHub`;
 
-  // 🔹 Meta description
   const meta = document.querySelector('meta[name="description"]');
   if (meta) {
     meta.setAttribute(
       'content',
       cityKey === ALL_CITIES_KEY
-        ? 'Find trusted general and family dentists across the Houston metro area. Browse verified clinics and contact them directly.'
+        ? 'Find trusted general and family dentists across the Houston metro area.'
         : `Find trusted general and family dentists in ${cityName}, Texas. Browse verified local clinics and contact them directly.`
     );
   }
 
-  // 🔹 Canonical URL
   const canonical = document.getElementById('canonicalLink');
   if (canonical) {
     canonical.href =
@@ -1197,6 +1195,7 @@ function populateDynamicFilters(cityKey) {
         : `https://texasdentalhub.com/city/${cityKey}`;
   }
 }
+
 
  
 /* ================= CITY SWITCH ================= */
@@ -1729,8 +1728,9 @@ function callClinic(phone, clinicName, city) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndlaGh2YXZsYmhkYmNtZ3ZkYXhqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyNDQyNDksImV4cCI6MjA4MzgyMDI0OX0.zYQhiaLvHCABZhK08RznfuCzXieOf6wbpr2YcHq7Ycs'
+    apikey: SUPABASE_KEY,
+Authorization: `Bearer ${SUPABASE_KEY}`
+
     },
     body: JSON.stringify({
       clinic_name: clinicName,
