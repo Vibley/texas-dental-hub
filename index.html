@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TexasDentalHub | Houston Metro Dentists</title>
+  <link rel="canonical" id="canonicalLink" href="https://texasdentalhub.com/" />
   <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
   <style>
 
@@ -694,10 +695,9 @@
 window.SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 </script>
-
-
   
 <script>
+  
 
   const ALL_CITIES_HERO_LABEL = 'Houston Metro Area';
 
@@ -709,6 +709,16 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
 
+function getCityFromURL() {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+
+  // /city/houston
+  if (parts.length === 2 && parts[0] === 'city') {
+    return parts[1];
+  }
+
+  return null;
+}
 
 
 let CITY_KEY_MAP = {};
@@ -869,8 +879,6 @@ function buildAllCitiesData() {
   console.log('✅ All Cities built:', DATA[ALL_CITIES_KEY]);
 }
 
-
-
 /* ================= RENDER ================= */
 function renderCity(cityKey) {
   const city = DATA[cityKey];
@@ -887,8 +895,7 @@ const heroLabel = isAllCities
   <div class="hero">
  <h1>General & Family Dentists in ${heroLabel}</h1>
 
-
-  
+ 
   <p>
   Looking for a trusted dentist in ${heroLabel}, <strong>TexasDental Hub</strong> connects you
   with verified general and family dental clinics across Houston and surrounding communities.
@@ -896,10 +903,7 @@ const heroLabel = isAllCities
   online — all in one place.
 </p>
 
-
- 
-
-<ul class="hero-points">
+ <ul class="hero-points">
   <li>Verified dental clinics serving ${city.label} and nearby areas</li>
   <li>Direct phone access to featured clinics — no middlemen</li>
   <li>Fast online appointment requests</li>
@@ -911,15 +915,10 @@ const heroLabel = isAllCities
   Skip ads and fake reviews. Find trusted Texas dentists with confidence.
 </p>
 
-
-
 </div>
-
 
     <div class="filters sticky-filter">
     
-
-
   <select id="filter-service">
     <option value="">All Services</option>
     <option value="general">General Dentistry</option>
@@ -944,8 +943,6 @@ const heroLabel = isAllCities
   <option value="weekend">Open Weekends</option>
 </select>
 
-
-
 <input
   type="text"
   id="filter-zip"
@@ -955,9 +952,7 @@ const heroLabel = isAllCities
 />
 
 
-
 </div>
-
 
 <div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
   <h3>No clinics match your filters</h3>
@@ -965,11 +960,7 @@ const heroLabel = isAllCities
   <button class="btn" onclick="resetFilters()">Clear Filters</button>
 </div>
 
-
-
-
-
-    <div class="section all-section">
+   <div class="section all-section">
     <h2 id="resultsHeading">
   <span class="section-icon">✔</span>
   Verified Dentists in ${heroLabel}
@@ -1002,7 +993,6 @@ function updateResultsHeading(cityName) {
 }
 
   
-
 function populateZipFilter(cityKey) {
   const city = DATA[cityKey];
   if (!city) return;
@@ -1111,9 +1101,6 @@ const action = `
 }
 
 
-
-
-
   function getUniqueServicesRaw(cityKey) {
   const city = DATA[cityKey];
   if (!city) return [];
@@ -1178,7 +1165,40 @@ function populateDynamicFilters(cityKey) {
 }
 
 
-  
+  function updateSEO(cityKey) {
+  const city = DATA[cityKey];
+  if (!city) return;
+
+  const cityName = city.label;
+
+  // 🔹 Title
+  document.title =
+    cityKey === ALL_CITIES_KEY
+      ? 'TexasDentalHub | Houston Metro Dentists'
+      : `Dentists in ${cityName}, TX | TexasDentalHub`;
+
+  // 🔹 Meta description
+  const meta = document.querySelector('meta[name="description"]');
+  if (meta) {
+    meta.setAttribute(
+      'content',
+      cityKey === ALL_CITIES_KEY
+        ? 'Find trusted general and family dentists across the Houston metro area. Browse verified clinics and contact them directly.'
+        : `Find trusted general and family dentists in ${cityName}, Texas. Browse verified local clinics and contact them directly.`
+    );
+  }
+
+  // 🔹 Canonical URL
+  const canonical = document.getElementById('canonicalLink');
+  if (canonical) {
+    canonical.href =
+      cityKey === ALL_CITIES_KEY
+        ? 'https://texasdentalhub.com/'
+        : `https://texasdentalhub.com/city/${cityKey}`;
+  }
+}
+
+ 
 /* ================= CITY SWITCH ================= */
 function activateCity(cityKey, initial = false) {
   document.querySelectorAll('.page').forEach(p => {
@@ -1194,8 +1214,9 @@ function activateCity(cityKey, initial = false) {
 
   if (!page.dataset.rendered) {
     renderCity(cityKey);
-  }
-
+      }
+  
+   updateSEO(cityKey); // 🔥 THIS IS STEP 4
   populateZipFilter(cityKey);
   populateDynamicFilters(cityKey); // ✅ now defined
   wireFilters();
@@ -1365,13 +1386,17 @@ async function submitLead(e) {
  
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
-  resetFilters();  // 🔥 important when switching cities
-
+  resetFilters();
   const key = e.target.value || ALL_CITIES_KEY;
+
+  if (key === ALL_CITIES_KEY) {
+    history.pushState({}, '', '/');
+  } else {
+    history.pushState({}, '', `/city/${key}`);
+  }
+
   activateCity(key);
 });
-
-
 
 
   /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
@@ -1401,18 +1426,24 @@ document.addEventListener("input", (e) => {
   buildAllCitiesData();
 
   // ✅ Default to Houston if it exists
-  if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
-    activateCity(DEFAULT_CITY_KEY, true);
-    document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
+const urlCity = getCityFromURL();
+
+if (urlCity && CITY_ORDER.includes(urlCity)) {
+  activateCity(urlCity, true);
+  document.getElementById('citySelect').value = urlCity;
+} else if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
+  activateCity(DEFAULT_CITY_KEY, true);
+  document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
+} else {
+  activateCity(CITY_ORDER[0], true);
+}
+
   } else {
     // fallback: first available city
   
     document.getElementById('citySelect').value = CITY_ORDER[0];
   }
 })();
-
-
-
 
 
 function callClinic(phone, clinic) {
@@ -1471,10 +1502,7 @@ window.addEventListener("hashchange", () => {
     Send us a message and we’ll get back to you.
   </p>
 
-
-
-
-    
+   
   <form class="contact-form">
     <div class="form-group">
       <label for="name">Full Name</label>
@@ -1532,9 +1560,7 @@ window.addEventListener("hashchange", () => {
     </div>
 
 
-
-
-    
+   
     <!-- Links -->
     <div>
   <h4>Quick Links</h4>
@@ -1547,9 +1573,7 @@ window.addEventListener("hashchange", () => {
   </ul>
 </div>
 
-   
-
-    <!-- Dentists -->
+       <!-- Dentists -->
   <div>
   <h4>For Dentists</h4>
   <ul>
@@ -1628,17 +1652,13 @@ document.addEventListener("DOMContentLoaded", () => {
       //const zip = zipInput.value.trim();
       const zip = document.getElementById("filter-zip")?.value.trim();
 
-      
-
-      document.querySelectorAll(".card").forEach(card => {
+       document.querySelectorAll(".card").forEach(card => {
         const cardService = card.dataset.service || "";
         const cardInsurance = card.dataset.insurance || "";
         const cardAvailability = card.dataset.availability || "";
         const cardZip = card.dataset.zip || "";
         // added the below on 01/16/2026
         //const matchesZip = !zip || cardZip.startsWith(zip);
-
-        
 
         const matchesService = !service || cardService.includes(service);
         const matchesInsurance = !insurance || cardInsurance.includes(insurance);
@@ -1669,8 +1689,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-
 let callInProgress = false;
 
 document.addEventListener('click', function (e) {
@@ -1698,9 +1716,7 @@ document.addEventListener('click', function (e) {
 
 
 
- 
-
-</script>
+ </script>
 
 
   <script>
