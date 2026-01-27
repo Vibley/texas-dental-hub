@@ -152,7 +152,19 @@
 
    
     .card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(2,6,23,.18)}
-    
+
+    .card {
+  cursor: pointer;
+}
+
+.card:hover h3 {
+  text-decoration: underline;
+}
+
+    .card:active {
+  transform: scale(0.995);
+}
+
     .card.featured {
   border: 1.5px solid var(--accent);
   background: linear-gradient(180deg, #ffffff, #f5f9ff);
@@ -1082,8 +1094,8 @@ const action = `
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
+      data-clinic="${toClinicSlug(c.name)}"
       data-zip="${c.zip ? String(c.zip) : ''}"
-
       data-service="${services}"
       data-insurance="${insurances}"
      data-availability="${c.availability.join('|')}">
@@ -1812,6 +1824,29 @@ document.addEventListener('click', function (e) {
 });
 
 
+document.addEventListener('click', function (e) {
+  const card = e.target.closest('.card');
+  if (!card) return;
+
+  // ❌ Ignore clicks on buttons, links, inputs
+  if (
+    e.target.closest('button') ||
+    e.target.closest('a') ||
+    e.target.closest('input') ||
+    e.target.closest('textarea')
+  ) {
+    return;
+  }
+
+  const slug = card.dataset.clinic;
+  if (!slug) return;
+
+  // Navigate to clinic page
+  window.history.pushState({}, '', `?clinic=${slug}`);
+  renderClinicPage(slug);
+});
+
+  
 
  </script>
 
