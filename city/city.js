@@ -18,11 +18,45 @@ const cityMap = {
 };
 
 // ---- MOCK CLINIC DATA (replace with Supabase later) ----
-const clinics = [
-  { city: "houston", name: "ABC Family Dental", phone: "(713) 555-1234", services: "General, Family" },
-  { city: "houston", name: "West Houston Dental", phone: "(832) 555-5678", services: "Emergency, Cosmetic" },
-  { city: "katy", name: "Katy Smile Center", phone: "(281) 555-9988", services: "Family, Pediatric" }
-];
+
+// ---- LOAD CLINICS FROM SUPABASE ----
+async function loadClinics(citySlug) {
+  const { data, error } = await supabase
+    .from("clinics")
+    .select("name, phone, services")
+    .eq("active", true)
+    .ilike("city", citySlug.replace("-", " "))
+    .order("featured", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    document.getElementById("clinic-list").innerHTML =
+      "<p>Unable to load clinics.</p>";
+    return;
+  }
+
+  const list = document.getElementById("clinic-list");
+  list.innerHTML = "";
+
+  if (!data.length) {
+    list.innerHTML = "<p>No clinics listed yet.</p>";
+    return;
+  }
+
+  data.forEach(c => {
+    const div = document.createElement("div");
+    div.className = "clinic-card";
+    div.innerHTML = `
+      <h3>${c.name}</h3>
+      <p>📞 ${c.phone || "Call for details"}</p>
+      <p>Services: ${(c.services || []).join(", ")}</p>
+    `;
+    list.appendChild(div);
+  });
+}
+
+loadClinics(citySlug);
+
 
 // ---- GET CITY FROM URL ----
 const citySlug = window.location.pathname.split("/").filter(Boolean).pop();
