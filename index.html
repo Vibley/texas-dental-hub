@@ -604,7 +604,6 @@
 }
 
 
-
     .actions {
   display: flex;
   gap: 10px;
@@ -743,12 +742,7 @@
 .info-row .pill-list {
   margin-top: 8px;
 }
-
-    body.clinic-view .city-select {
-  opacity: 0.85;
-}
-
-      
+    
   </style>
   
 </head>
@@ -762,20 +756,15 @@
 </a>
 
 </div>
-
-   
+  
 <div class="nav">
   <select id="citySelect" class="city-select">
     <option value="">All Cities</option>
   </select>
 </div>
 
-
 <div id="clinicsContainer"></div>
-
-    
-
-    
+        
   </div>
 </div>
 
@@ -806,20 +795,18 @@
     Cancel
   </button>
 </form>
-
     
   </div>
 </div>
 
-
 <script>
+  
 window.SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 </script>
   
 <script>
   
-
   const ALL_CITIES_HERO_LABEL = 'Houston Metro Area';
 // 🔹 GitHub Pages base path (repo name)
 const BASE_PATH = '/texas-dental-hub'; // ← replace with your repo name
@@ -827,13 +814,11 @@ const BASE_PATH = '/texas-dental-hub'; // ← replace with your repo name
   const DEFAULT_CITY_KEY = 'houston';
   const ALL_CITIES_KEY = 'all';
 
-
   // 🔹 Read city from URL query string (?city=houston)
 function getCityFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('city');
 }
-
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
@@ -848,7 +833,6 @@ function getCityFromURL() {
 
   return null;
 }
-
 
 let CITY_KEY_MAP = {};
 let CITY_ORDER = [];
@@ -875,13 +859,6 @@ function getClinicFromURL() {
   return params.get('clinic');
 }
 
-
-  // 🔥 ADD THIS RIGHT HERE
-function isClinicPage() {
-  const params = new URLSearchParams(window.location.search);
-  return params.has('clinic');
-}
-
 async function loadCitiesFromSupabase() {
   console.log('▶ loadCitiesFromSupabase called');
 
@@ -894,8 +871,6 @@ const res = await fetch(
     }
   }
 );
-
-
   const rows = await res.json();
 
   const cities = [...new Set(
@@ -930,12 +905,9 @@ const res = await fetch(
 }
 
  
-
 let DATA = {};
 let filters = {};
 
-
-  
 function ensureCityPages() {
   const container = document.querySelector('.container');
   if (!container) return;
@@ -958,8 +930,6 @@ function ensureCityPages() {
     container.appendChild(page);
   });
 }
-
-
     
 /* ================= LOAD DATA ================= */
 async function loadClinicsFromSupabase() {
@@ -1102,7 +1072,6 @@ const heroLabel = isAllCities
   maxlength="5"
 />
 
-
 </div>
 
 <div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
@@ -1122,13 +1091,10 @@ const heroLabel = isAllCities
     </div>
   `;
 
-
   
   page.dataset.rendered = 'true';
   
 }
-
-
 function updateResultsHeading(cityName) {
   const heading = document.getElementById('resultsHeading');
   if (!heading) return;
@@ -1143,8 +1109,7 @@ function updateResultsHeading(cityName) {
   `;
 }
 
-  
-function populateZipFilter(cityKey) {
+  function populateZipFilter(cityKey) {
   const city = DATA[cityKey];
   if (!city) return;
 
@@ -1173,7 +1138,6 @@ function populateZipFilter(cityKey) {
   });
 }
 
-  
 /* ================= CARD ================= */
 function card(c, isFeatured) {
   const services = (c.services || []).join(' ');
@@ -1187,8 +1151,6 @@ function card(c, isFeatured) {
     ? 'weekend'
     : null
 ].filter(Boolean).join('|');
-
-
 
 const action = `
   <div class="actions">
@@ -1208,8 +1170,6 @@ const action = `
   </div>
 `;
 
-
-
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
       data-clinic="${toClinicSlug(c.name)}"
@@ -1217,12 +1177,9 @@ const action = `
       data-service="${services}"
       data-insurance="${insurances}"
      data-availability="${c.availability.join('|')}">
-      
-      <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
+            <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
 
      <h3> ${c.name}</h3>
-
-
 <div class="address">
 
   <a
@@ -1235,12 +1192,10 @@ const action = `
   </a>
 </div>
 
-
       ${action}
     </div>
   `;
 }
-
 
   function getUniqueServicesRaw(cityKey) {
   const city = DATA[cityKey];
@@ -1271,7 +1226,6 @@ function getUniqueInsurancesRaw(cityKey) {
 
   return [...set].sort();
 }
-
 
 function populateDynamicFilters(cityKey) {
   const page = document.querySelector('.page.active');
@@ -1305,7 +1259,6 @@ function populateDynamicFilters(cityKey) {
   });
 }
 
-
 function updateSEO(cityKey) {
   // ⛑️ SAFETY GUARD — prevents site break
   if (!DATA || !DATA[cityKey]) return;
@@ -1336,8 +1289,6 @@ function updateSEO(cityKey) {
         : `https://texasdentalhub.com/city/${cityKey}`;
   }
 }
-
-
  
 /* ================= CITY SWITCH ================= */
 function activateCity(cityKey, initial = false) {
@@ -1362,8 +1313,6 @@ function activateCity(cityKey, initial = false) {
   wireFilters();
   applyFilters();
 }
-
-
 
 /* ================= FILTERS ================= */
 function wireFilters() {
@@ -1432,7 +1381,6 @@ if (visibleCount === 0) {
 }
 
 }
-
   
 function resetFilters() {
   Object.values(filters).forEach(f => f && (f.value = ''));
@@ -1498,8 +1446,6 @@ async function submitLead(e) {
       return;
     }
 
-
-
    
     /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
@@ -1521,37 +1467,19 @@ async function submitLead(e) {
 }
 
 
- 
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
-  const key = e.target.value || ALL_CITIES_KEY;
-
-  // 🔥 If currently on a clinic detail page, exit clinic view cleanly
-  if (isClinicPage()) {
-    if (key === ALL_CITIES_KEY) {
-      window.history.replaceState({}, '', window.location.pathname);
-    } else {
-      window.history.replaceState({}, '', `?city=${key}`);
-    }
-
-    // Remove clinic mode styling if any
-    document.body.classList.remove('clinic-view');
-
-    activateCity(key);
-    return;
-  }
-
-  // 🔹 Normal city switching behavior
   resetFilters();
 
+  const key = e.target.value || ALL_CITIES_KEY;
+
+  // 🔹 Update URL safely (GitHub Pages friendly)
   if (key === ALL_CITIES_KEY) {
     window.history.replaceState({}, '', window.location.pathname);
   } else {
     window.history.replaceState({}, '', `?city=${key}`);
   }
 
-    // 🔥 Exit clinic view mode
-  document.body.classList.remove('clinic-view');
   activateCity(key);
 });
 
@@ -1604,10 +1532,7 @@ function getCityFromURL() {
     `;
     return;
   }
-// 🔥 Enter clinic view mode
-document.body.classList.add('clinic-view');
 
-   
   // SEO
   document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
   const meta = document.querySelector('meta[name="description"]');
@@ -1699,7 +1624,6 @@ ${clinic.languages && clinic.languages.length ? `
   `;
 }
 
-
   
 
   /* ================= START ================= */
@@ -1716,7 +1640,6 @@ if (clinicSlug) {
   renderClinicPage(clinicSlug);
   return;
 }
-
 
   if (urlCity && CITY_ORDER.includes(urlCity)) {
     activateCity(urlCity, true);
