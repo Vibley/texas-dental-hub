@@ -731,6 +731,9 @@
   font-size: 13px;
   font-weight: 500;
 }
+.info-row .pill-list {
+  margin-top: 8px;
+}
 
     
       
@@ -972,7 +975,9 @@ async function loadClinicsFromSupabase() {
   availability: [
     'weekday', // all clinics are open on weekdays
    String(c.weekend_open).trim().toUpperCase() === 'YES' ? 'weekend' : null
-  ].filter(Boolean)
+  ].filter(Boolean),
+     languages: c.languages || [],   // ✅ ADD
+  hours: c.hours || ''
 };
 
 
@@ -1589,7 +1594,7 @@ function getCityFromURL() {
         <div class="clinic-cta">
           ${
             clinic.phone
-              ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>`
+              ? `<a href="tel:${clinic.phone}" class="btn">Call to Schedule</a>`
               : ''
           }
           <button class="btn secondary" onclick="openLead('${clinic.name}')">
@@ -1615,6 +1620,23 @@ function getCityFromURL() {
             <strong>Phone</strong>
             <span>${clinic.phone || 'Call for details'}</span>
           </div>
+${clinic.hours ? `
+  <div class="info-row">
+    <strong>Operating Hours</strong>
+    <span>${clinic.hours}</span>
+  </div>
+` : ''}
+
+${clinic.languages && clinic.languages.length ? `
+  <div class="info-row">
+    <strong>Languages Spoken</strong>
+    <ul class="pill-list">
+      ${clinic.languages.map(l => `<li>${l}</li>`).join('')}
+    </ul>
+  </div>
+` : ''}
+
+          
         </div>
 
         <div class="card clinic-side">
