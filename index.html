@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="canonical" href="https://texasdentalhub.com/" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TexasDentalHub | Houston Metro Dentists</title>
@@ -835,6 +836,16 @@ function getCityFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('city');
 }
+  function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.href = url;
+}
+
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
@@ -1356,6 +1367,8 @@ function activateCity(cityKey, initial = false) {
   populateDynamicFilters(cityKey); // ✅ now defined
   wireFilters();
   applyFilters();
+  setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
+
 }
 
 /* ================= FILTERS ================= */
