@@ -705,6 +705,12 @@ window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
   const ALL_CITIES_KEY = 'all';
 
 
+  // 🔹 Read city from URL query string (?city=houston)
+function getCityFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('city');
+}
+
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
