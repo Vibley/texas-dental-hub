@@ -1517,13 +1517,15 @@ function getCityFromURL() {
 
 /*------------------------------------added on 01/27/2026----*/
 
-  function renderClinicPage(slug) {
+ function renderClinicPage(slug) {
   let clinic = null;
+  let clinicCity = null;
 
   Object.values(DATA).forEach(city => {
     [...city.featured, ...city.clinics].forEach(c => {
       if (toClinicSlug(c.name) === slug) {
-        clinic = { ...c, city: city.label };
+        clinic = c;
+        clinicCity = city.label;
       }
     });
   });
@@ -1532,84 +1534,83 @@ function getCityFromURL() {
     document.querySelector('.container').innerHTML = `
       <div class="hero">
         <h1>Clinic not found</h1>
-        <p>The requested dental clinic could not be found.</p>
+        <p><a href="/" class="directions-btn">← Back to listings</a></p>
       </div>
     `;
     return;
   }
 
   // SEO
-  document.title = `${clinic.name} | Dentist in ${clinic.city}, TX`;
-  document.querySelector('meta[name="description"]')?.setAttribute(
-    'content',
-    `${clinic.name} is a verified dental clinic in ${clinic.city}, Texas. View services, location, and contact details.`
-  );
+  document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
+  const meta = document.querySelector('meta[name="description"]');
+  if (meta) {
+    meta.setAttribute(
+      'content',
+      `${clinic.name} is a verified dental clinic in Texas. View services, location, and contact details.`
+    );
+  }
 
   // Render page
-document.querySelector('.container').innerHTML = `
-  <!-- Clinic Hero -->
-  <section class="clinic-hero">
-    <div class="clinic-hero-inner">
-      <h1>${clinic.name}</h1>
+  document.querySelector('.container').innerHTML = `
+    <!-- Clinic Hero -->
+    <section class="clinic-hero">
+      <div class="clinic-hero-inner">
+        <h1>${clinic.name}</h1>
 
-      <div class="clinic-meta">
-        ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
-      </div>
+        ${clinicCity ? `<div class="clinic-meta">${clinicCity}, TX</div>` : ''}
 
-      <div class="clinic-cta">
-        ${
-          clinic.phone
-            ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>`
-            : ''
-        }
-        <button class="btn secondary" onclick="openLead('${clinic.name}')">
-          Request Appointment
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Clinic Content -->
-  <section class="clinic-content">
-    <div class="clinic-grid">
-
-      <!-- Left column -->
-      <div class="card clinic-main">
-        <h3>Clinic Information</h3>
-
-        <div class="info-row">
-          <strong>Address</strong>
-          <span>${clinic.address}</span>
-        </div>
-
-        <div class="info-row">
-          <strong>Phone</strong>
-          <span>${clinic.phone || 'Call for details'}</span>
+        <div class="clinic-cta">
+          ${
+            clinic.phone
+              ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>`
+              : ''
+          }
+          <button class="btn secondary" onclick="openLead('${clinic.name}')">
+            Request Appointment
+          </button>
         </div>
       </div>
+    </section>
 
-      <!-- Right column -->
-      <div class="card clinic-side">
-        <h3>Services</h3>
-        <ul class="pill-list">
-          ${(clinic.services || []).map(s => `<li>${s}</li>`).join('')}
-        </ul>
+    <!-- Clinic Content -->
+    <section class="clinic-content">
+      <div class="clinic-grid">
 
-        <h3 style="margin-top:20px">Insurance</h3>
-        <ul class="pill-list">
-          ${(clinic.insurances || []).map(i => `<li>${i}</li>`).join('')}
-        </ul>
+        <div class="card clinic-main">
+          <h3>Clinic Information</h3>
+
+          <div class="info-row">
+            <strong>Address</strong>
+            <span>${clinic.address}</span>
+          </div>
+
+          <div class="info-row">
+            <strong>Phone</strong>
+            <span>${clinic.phone || 'Call for details'}</span>
+          </div>
+        </div>
+
+        <div class="card clinic-side">
+          <h3>Services</h3>
+          <ul class="pill-list">
+            ${(clinic.services || []).map(s => `<li>${s}</li>`).join('')}
+          </ul>
+
+          <h3 style="margin-top:20px">Insurance</h3>
+          <ul class="pill-list">
+            ${(clinic.insurances || []).map(i => `<li>${i}</li>`).join('')}
+          </ul>
+        </div>
+
       </div>
 
-    </div>
+      <p style="margin-top:32px">
+        <a href="/" class="directions-btn">← Back to listings</a>
+      </p>
+    </section>
+  `;
+}
 
-    <p style="margin-top:32px">
-      <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
-        ← Back to listings
-      </a>
-    </p>
-  </section>
-`;
 
   
 
