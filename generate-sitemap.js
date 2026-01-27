@@ -1,4 +1,4 @@
-import fs from "fs";
+const fs = require("fs");
 import fetch from "node-fetch";
 
 const SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
