@@ -742,6 +742,27 @@
 .info-row .pill-list {
   margin-top: 8px;
 }
+
+.open-badge {
+  margin-left: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.open-badge.open {
+  background: rgba(34,197,94,.12);
+  color: #16a34a;
+}
+
+.open-badge.closed {
+  background: rgba(100,116,139,.12);
+  color: #475569;
+}
+
+
+    
     
   </style>
   
@@ -859,6 +880,34 @@ function getClinicFromURL() {
   return params.get('clinic');
 }
 
+
+function isClinicOpenNow(hoursText) {
+  if (!hoursText) return false;
+
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+  const hour = now.getHours() + now.getMinutes() / 60;
+
+  // Normalize text
+  const text = hoursText.toLowerCase();
+
+  // Weekend handling
+  if (day === 0) return text.includes('sun');
+  if (day === 6) return text.includes('sat');
+
+  // Weekday handling (Mon–Fri)
+  const match = text.match(/(\d{1,2})a\s*-\s*(\d{1,2})p/);
+  if (!match) return false;
+
+  let open = parseInt(match[1], 10);
+  let close = parseInt(match[2], 10) + 12;
+
+  return hour >= open && hour < close;
+}
+
+
+
+  
 async function loadCitiesFromSupabase() {
   console.log('▶ loadCitiesFromSupabase called');
 
@@ -1550,9 +1599,22 @@ function getCityFromURL() {
       <div class="clinic-hero-inner">
         <h1>${clinic.name}</h1>
 
-      ${clinicCity && clinicCity !== 'All Cities'
-  ? `<div class="clinic-meta">${clinicCity}, TX</div>`
+    ${clinicCity && clinicCity !== 'All Cities'
+  ? `
+    <div class="clinic-meta">
+      <span>${clinicCity}, TX</span>
+
+      ${
+        clinic.hours
+          ? `<span class="open-badge ${isClinicOpenNow(clinic.hours) ? 'open' : 'closed'}">
+              ${isClinicOpenNow(clinic.hours) ? 'Open Now' : 'Closed Now'}
+            </span>`
+          : ''
+      }
+    </div>
+  `
   : ''}
+
 
 
         <div class="clinic-cta">
