@@ -1394,14 +1394,15 @@ async function submitLead(e) {
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
   resetFilters();
+
   const key = e.target.value || ALL_CITIES_KEY;
 
-if (key === ALL_CITIES_KEY) {
-  window.location.href = '/';
-} else {
-  window.location.href = `/?city=${key}`;
-}
-
+  // 🔹 Update URL safely (GitHub Pages friendly)
+  if (key === ALL_CITIES_KEY) {
+    window.history.replaceState({}, '', window.location.pathname);
+  } else {
+    window.history.replaceState({}, '', `?city=${key}`);
+  }
 
   activateCity(key);
 });
@@ -1424,31 +1425,32 @@ document.addEventListener("input", (e) => {
   }
 });
 
+  
+function getCityFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('city');
+}
 
   /* ================= START ================= */
 (async () => {
   await loadCitiesFromSupabase();
   ensureCityPages();
   await loadClinicsFromSupabase();
-    // 🔥 Build combined All Cities view
   buildAllCitiesData();
 
-  // ✅ Default to Houston if it exists
-const urlCity = getCityFromURL();
+  const urlCity = getCityFromURL();
 
-if (urlCity && CITY_ORDER.includes(urlCity)) {
-  activateCity(urlCity, true);
-  document.getElementById('citySelect').value = urlCity;
-} else if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
-  activateCity(DEFAULT_CITY_KEY, true);
-  document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
-} else {
-  const fallbackCity = CITY_ORDER[0];
-  activateCity(fallbackCity, true);
-  document.getElementById('citySelect').value = fallbackCity;
-}
-
-
+  if (urlCity && CITY_ORDER.includes(urlCity)) {
+    activateCity(urlCity, true);
+    document.getElementById('citySelect').value = urlCity;
+  } else if (CITY_ORDER.includes(DEFAULT_CITY_KEY)) {
+    activateCity(DEFAULT_CITY_KEY, true);
+    document.getElementById('citySelect').value = DEFAULT_CITY_KEY;
+  } else {
+    const fallbackCity = CITY_ORDER[0];
+    activateCity(fallbackCity, true);
+    document.getElementById('citySelect').value = fallbackCity;
+  }
 })();
 
 
