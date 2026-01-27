@@ -744,7 +744,10 @@
   margin-top: 8px;
 }
 
-    
+    body.clinic-view .city-select {
+  opacity: 0.85;
+}
+
       
   </style>
   
@@ -870,6 +873,13 @@ function toClinicSlug(name) {
 function getClinicFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('clinic');
+}
+
+
+  // 🔥 ADD THIS RIGHT HERE
+function isClinicPage() {
+  const params = new URLSearchParams(window.location.search);
+  return params.has('clinic');
 }
 
 async function loadCitiesFromSupabase() {
@@ -1514,17 +1524,34 @@ async function submitLead(e) {
  
 /* ================= NAV ================= */
 document.getElementById('citySelect').addEventListener('change', e => {
-  resetFilters();
-
   const key = e.target.value || ALL_CITIES_KEY;
 
-  // 🔹 Update URL safely (GitHub Pages friendly)
+  // 🔥 If currently on a clinic detail page, exit clinic view cleanly
+  if (isClinicPage()) {
+    if (key === ALL_CITIES_KEY) {
+      window.history.replaceState({}, '', window.location.pathname);
+    } else {
+      window.history.replaceState({}, '', `?city=${key}`);
+    }
+
+    // Remove clinic mode styling if any
+    document.body.classList.remove('clinic-view');
+
+    activateCity(key);
+    return;
+  }
+
+  // 🔹 Normal city switching behavior
+  resetFilters();
+
   if (key === ALL_CITIES_KEY) {
     window.history.replaceState({}, '', window.location.pathname);
   } else {
     window.history.replaceState({}, '', `?city=${key}`);
   }
 
+    // 🔥 Exit clinic view mode
+  document.body.classList.remove('clinic-view');
   activateCity(key);
 });
 
@@ -1577,7 +1604,10 @@ function getCityFromURL() {
     `;
     return;
   }
+// 🔥 Enter clinic view mode
+document.body.classList.add('clinic-view');
 
+   
   // SEO
   document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
   const meta = document.querySelector('meta[name="description"]');
