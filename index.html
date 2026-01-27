@@ -1603,14 +1603,7 @@ Object.entries(DATA).forEach(([key, city]) => {
     <div class="clinic-meta">
       <span>${clinicCity}, TX</span>
 
-      ${
-        clinic.hours
-          ? `<span class="open-badge ${isClinicOpenNow(clinic.hours) ? 'open' : 'closed'}">
-              ${isClinicOpenNow(clinic.hours) ? 'Open Now' : 'Closed Now'}
-            </span>`
-          : ''
-      }
-    </div>
+        </div>
   `
   : ''}
 
