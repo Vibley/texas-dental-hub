@@ -740,6 +740,19 @@ function toCityKey(city) {
     .trim();
 }
 
+  // 🔹 Clinic name → URL-safe slug
+function toClinicSlug(name) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+// 🔹 Read clinic slug from URL (?clinic=abc-family-dental)
+function getClinicFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('clinic');
+}
 
 async function loadCitiesFromSupabase() {
   console.log('▶ loadCitiesFromSupabase called');
@@ -1076,7 +1089,13 @@ const action = `
      data-availability="${c.availability.join('|')}">
       
       <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
-      <h3>${c.name}</h3>
+
+     <h3>
+  <a href="?clinic=${toClinicSlug(c.name)}" class="clinic-link">
+    ${c.name}
+  </a>
+</h3>
+
 
 <div class="address">
   <a
@@ -1367,8 +1386,6 @@ async function submitLead(e) {
 
 
 
- 
-
    
     /* 2️⃣ Email notification (non-blocking) */
     fetch(`${SUPABASE_URL}/functions/v1/send-lead-email`, {
@@ -1431,6 +1448,71 @@ function getCityFromURL() {
   return params.get('city');
 }
 
+
+/*------------------------------------added on 01/27/2026----*/
+
+  function renderClinicPage(slug) {
+  let clinic = null;
+
+  Object.values(DATA).forEach(city => {
+    [...city.featured, ...city.clinics].forEach(c => {
+      if (toClinicSlug(c.name) === slug) {
+        clinic = { ...c, city: city.label };
+      }
+    });
+  });
+
+  if (!clinic) {
+    document.querySelector('.container').innerHTML = `
+      <div class="hero">
+        <h1>Clinic not found</h1>
+        <p>The requested dental clinic could not be found.</p>
+      </div>
+    `;
+    return;
+  }
+
+  // SEO
+  document.title = `${clinic.name} | Dentist in ${clinic.city}, TX`;
+  document.querySelector('meta[name="description"]')?.setAttribute(
+    'content',
+    `${clinic.name} is a verified dental clinic in ${clinic.city}, Texas. View services, location, and contact details.`
+  );
+
+  // Render page
+  document.querySelector('.container').innerHTML = `
+    <div class="hero">
+      <h1>${clinic.name}</h1>
+      <p>Verified dental clinic in ${clinic.city}, Texas</p>
+    </div>
+
+    <div class="card">
+      <p><strong>Address:</strong> ${clinic.address}</p>
+      <p><strong>Phone:</strong> ${clinic.phone || 'Call for details'}</p>
+      <p><strong>Services:</strong> ${(clinic.services || []).join(', ')}</p>
+      <p><strong>Insurance:</strong> ${(clinic.insurances || []).join(', ')}</p>
+
+      <div class="actions">
+        ${
+          clinic.phone
+            ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>`
+            : ''
+        }
+        <button class="btn secondary" onclick="openLead('${clinic.name}')">
+          Request Appointment
+        </button>
+      </div>
+    </div>
+
+    <p style="margin-top:20px">
+      <a href="/" class="directions-btn">← Back to listings</a>
+    </p>
+  `;
+}
+
+
+  
+
   /* ================= START ================= */
 (async () => {
   await loadCitiesFromSupabase();
@@ -1438,7 +1520,14 @@ function getCityFromURL() {
   await loadClinicsFromSupabase();
   buildAllCitiesData();
 
-  const urlCity = getCityFromURL();
+ const clinicSlug = getClinicFromURL();
+const urlCity = getCityFromURL();
+
+if (clinicSlug) {
+  renderClinicPage(clinicSlug);
+  return;
+}
+
 
   if (urlCity && CITY_ORDER.includes(urlCity)) {
     activateCity(urlCity, true);
