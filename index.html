@@ -1565,11 +1565,56 @@ function getCityFromURL() {
 }
 
   //-----------------added on 01/28/2026-------//
+function toSchemaOpeningHours(hoursText) {
+  if (!hoursText) return undefined;
 
-function injectClinicSchema(clinic, clinicCity) {
-  // Remove old schema if navigating between clinics
+  // Normalize
+  const text = hoursText.replace(/\s+/g, ' ').trim();
+
+  const dayMap = {
+    'M': 'Mo',
+    'T': 'Tu',
+    'W': 'We',
+    'Th': 'Th',
+    'F': 'Fr',
+    'Sat': 'Sa',
+    'Sun': 'Su'
+  };
+
+  const parts = [];
+
+  // Match patterns like: M-Th: 9a-5p
+  const ranges = text.split(',');
+
+  ranges.forEach(r => {
+    const match = r.match(/([A-Za-z\-]+):\s*(\d{1,2})a-(\d{1,2})p/i);
+    if (!match) return;
+
+    let days = match[1];
+    let open = match[2].padStart(2, '0') + ':00';
+    let close = (parseInt(match[3], 10) + 12).toString().padStart(2, '0') + ':00';
+
+    // Day range (M-Th)
+    if (days.includes('-')) {
+      const [start, end] = days.split('-');
+      days = `${dayMap[start]}-${dayMap[end]}`;
+    } else {
+      days = dayMap[days] || days;
+    }
+
+    parts.push(`${days} ${open}-${close}`);
+  });
+
+  return parts.length ? parts.join(', ') : undefined;
+}
+
+
+
+ function injectClinicSchema(clinic, clinicCity) {
   const old = document.getElementById('clinic-schema');
   if (old) old.remove();
+
+  const openingHours = toSchemaOpeningHours(clinic.hours);
 
   const schema = {
     "@context": "https://schema.org",
@@ -1584,7 +1629,8 @@ function injectClinicSchema(clinic, clinicCity) {
       "postalCode": clinic.zip || undefined,
       "addressCountry": "US"
     },
-    "availableLanguage": clinic.languages || undefined
+    "availableLanguage": clinic.languages || undefined,
+    "openingHours": openingHours
   };
 
   const script = document.createElement('script');
@@ -1594,6 +1640,7 @@ function injectClinicSchema(clinic, clinicCity) {
 
   document.head.appendChild(script);
 }
+
    //----------------above code is added on 01/28/2026-------//
 
 
