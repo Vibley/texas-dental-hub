@@ -1611,7 +1611,9 @@ document.getElementById('citySelect').addEventListener('change', e => {
 
   const key = e.target.value || ALL_CITIES_KEY;
 
-  // 🔹 Update URL safely (GitHub Pages friendly)
+  // 🔥 Exit clinic view if active
+  document.body.classList.remove('clinic-view');
+
   if (key === ALL_CITIES_KEY) {
     window.history.replaceState({}, '', window.location.pathname);
   } else {
@@ -1619,7 +1621,11 @@ document.getElementById('citySelect').addEventListener('change', e => {
   }
 
   activateCity(key);
+
+  // 🔥 Scroll to top on city change
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
+
 
 
   /* ================= ZIP FILTER (EVENT DELEGATION) ================= */
@@ -1803,7 +1809,13 @@ Object.entries(DATA).forEach(([key, city]) => {
     return;
   }
 
+   document.body.classList.add('clinic-view');
+
+// 🔥 Scroll to top when clinic page loads
+window.scrollTo({ top: 0, behavior: 'smooth' });
+
    injectClinicSchema(clinic, clinicCity);
+   
 
   // SEO
   document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
