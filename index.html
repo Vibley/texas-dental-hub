@@ -1564,8 +1564,42 @@ function getCityFromURL() {
   return params.get('city');
 }
 
+  //-----------------added on 01/28/2026-------//
 
-/*------------------------------------added on 01/27/2026----*/
+function injectClinicSchema(clinic, clinicCity) {
+  // Remove old schema if navigating between clinics
+  const old = document.getElementById('clinic-schema');
+  if (old) old.remove();
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": clinic.name,
+    "telephone": clinic.phone || undefined,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": clinic.address,
+      "addressLocality": clinicCity,
+      "addressRegion": "TX",
+      "postalCode": clinic.zip || undefined,
+      "addressCountry": "US"
+    },
+    "availableLanguage": clinic.languages || undefined
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'clinic-schema';
+  script.textContent = JSON.stringify(schema);
+
+  document.head.appendChild(script);
+}
+   //----------------above code is added on 01/28/2026-------//
+
+
+
+  
+/*--------------------------below code is added on 01/27/2026----*/
 
  function renderClinicPage(slug) {
   let clinic = null;
@@ -1593,6 +1627,8 @@ Object.entries(DATA).forEach(([key, city]) => {
     `;
     return;
   }
+
+   injectClinicSchema(clinic, clinicCity);
 
   // SEO
   document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
