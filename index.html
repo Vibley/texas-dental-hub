@@ -1565,6 +1565,27 @@ function getCityFromURL() {
 }
 
   //-----------------added on 01/28/2026-------//
+  function formatClinicHours(hours) {
+  if (!hours) return '';
+
+  // If already a string
+  if (typeof hours === 'string') {
+    return hours;
+  }
+
+  // If array: ["M-Th: 9a-5p", "Fri: 8a-1p"]
+  if (Array.isArray(hours)) {
+    return hours.join(', ');
+  }
+
+  // If object: { text: "M-Th: 9a-5p" }
+  if (typeof hours === 'object') {
+    return hours.text || '';
+  }
+
+  return '';
+}
+
 function toSchemaOpeningHours(hoursText) {
   // ✅ Must be a non-empty string
   if (typeof hoursText !== 'string' || !hoursText.trim()) {
@@ -1734,12 +1755,13 @@ setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
             <strong>Phone</strong>
             <span>${clinic.phone || 'Call for details'}</span>
           </div>
-${clinic.hours ? `
+${formatClinicHours(clinic.hours) ? `
   <div class="info-row">
     <strong>Operating Hours</strong>
-    <span>${clinic.hours}</span>
+    <span>${formatClinicHours(clinic.hours)}</span>
   </div>
 ` : ''}
+
 
 ${clinic.languages && clinic.languages.length ? `
   <div class="info-row">
