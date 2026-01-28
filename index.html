@@ -1565,26 +1565,54 @@ function getCityFromURL() {
 }
 
   //-----------------added on 01/28/2026-------//
-  function formatClinicHours(hours) {
+function formatClinicHours(hours) {
   if (!hours) return '';
 
-  // If already a string
+  // 1️⃣ Plain string
   if (typeof hours === 'string') {
     return hours;
   }
 
-  // If array: ["M-Th: 9a-5p", "Fri: 8a-1p"]
+  // 2️⃣ Array
   if (Array.isArray(hours)) {
     return hours.join(', ');
   }
 
-  // If object: { text: "M-Th: 9a-5p" }
+  // 3️⃣ Object
   if (typeof hours === 'object') {
-    return hours.text || '';
+
+    // 🔥 CASE: { raw: '{"text":"M-Th: 9a-5p; F: 9a-3p"}' }
+    if (typeof hours.raw === 'string') {
+      try {
+        const parsed = JSON.parse(hours.raw);
+        if (typeof parsed.text === 'string') {
+          return parsed.text;
+        }
+      } catch (e) {
+        // fallback
+        return hours.raw;
+      }
+    }
+
+    // CASE: { text: "..." }
+    if (typeof hours.text === 'string') {
+      return hours.text;
+    }
+
+    // CASE: { M: "9a-5p", Fri: "8a-1p" }
+    return Object.entries(hours)
+      .map(([day, value]) => value ? `${day}: ${value}` : null)
+      .filter(Boolean)
+      .join(', ');
   }
 
   return '';
 }
+
+
+
+
+  
 
 function toSchemaOpeningHours(hoursText) {
   // ✅ Must be a non-empty string
