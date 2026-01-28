@@ -1,5 +1,4 @@
 const fs = require("fs");
-const fetch = require("node-fetch");
 
 const SITE_URL = "https://texasdentalhub.com";
 const SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
