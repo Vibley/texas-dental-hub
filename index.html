@@ -757,6 +757,63 @@
   color: #475569;
 }
 
+.clinic-detail {
+  max-width: 800px;
+  margin: auto;
+}
+
+.clinic-header {
+  margin-bottom: 28px;
+}
+
+.clinic-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.clinic-subtitle {
+  color: #475569;
+  margin-top: 6px;
+  font-size: 0.95rem;
+}
+
+.clinic-cta {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.clinic-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .info-row {
+    grid-template-columns: 1fr;
+  }
+}
 
     
     
@@ -1737,91 +1794,71 @@ Object.entries(DATA).forEach(([key, city]) => {
 setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
 
   // Render page
-  document.querySelector('.container').innerHTML = `
-    <!-- Clinic Hero -->
-    <section class="clinic-hero">
-      <div class="clinic-hero-inner">
-        <h1>${clinic.name}</h1>
+document.querySelector('.container').innerHTML = `
+  <section class="clinic-detail">
 
-    ${clinicCity && clinicCity !== 'All Cities'
-  ? `
-    <div class="clinic-meta">
-      <span>${clinicCity}, TX</span>
+    <!-- Header -->
+    <header class="clinic-header">
+      <h1 class="clinic-title">${clinic.name}</h1>
 
-        </div>
-  `
-  : ''}
-
-
-
-        <div class="clinic-cta">
-          ${
-            clinic.phone
-              ? `<a href="tel:${clinic.phone}" class="btn">Call to Schedule</a>`
-              : ''
-          }
-          <button class="btn secondary" onclick="openLead('${clinic.name}')">
-            Request Appointment
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Clinic Content -->
-    <section class="clinic-content">
-      <div class="clinic-grid">
-
-        <div class="card clinic-main">
-          <h3>Clinic Information</h3>
-
-          <div class="info-row">
-            <strong>Address</strong>
-            <span>${clinic.address}</span>
-          </div>
-
-          <div class="info-row">
-            <strong>Phone</strong>
-            <span>${clinic.phone || 'Call for details'}</span>
-          </div>
-${formatClinicHours(clinic.hours) ? `
-  <div class="info-row">
-    <strong>Operating Hours</strong>
-    <span>${formatClinicHours(clinic.hours)}</span>
-  </div>
-` : ''}
-
-
-${clinic.languages && clinic.languages.length ? `
-  <div class="info-row">
-    <strong>Languages Spoken</strong>
-    <ul class="pill-list">
-      ${clinic.languages.map(l => `<li>${l}</li>`).join('')}
-    </ul>
-  </div>
-` : ''}
-
-          
-        </div>
-
-        <div class="card clinic-side">
-          <h3>Services</h3>
-          <ul class="pill-list">
-            ${(clinic.services || []).map(s => `<li>${s}</li>`).join('')}
-          </ul>
-
-          <h3 style="margin-top:20px">Insurance</h3>
-          <ul class="pill-list">
-            ${(clinic.insurances || []).map(i => `<li>${i}</li>`).join('')}
-          </ul>
-        </div>
-
+      <div class="clinic-subtitle">
+        ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
+        ${clinic.languages?.length ? ` • <span>${clinic.languages.join(', ')}</span>` : ''}
       </div>
 
-      <p style="margin-top:32px">
-        <a href="/" class="directions-btn">← Back to listings</a>
-      </p>
-    </section>
-  `;
+      <div class="clinic-cta">
+        ${clinic.phone ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>` : ''}
+        <button class="btn secondary" onclick="openLead('${clinic.name}')">
+          Request Appointment
+        </button>
+      </div>
+    </header>
+
+    <!-- Info Card -->
+    <div class="clinic-card">
+
+      <div class="info-row">
+        <strong>Address</strong>
+        <span>${clinic.address}</span>
+      </div>
+
+      ${formatClinicHours(clinic.hours) ? `
+        <div class="info-row">
+          <strong>Operating Hours</strong>
+          <span>${formatClinicHours(clinic.hours)}</span>
+        </div>
+      ` : ''}
+
+      ${clinic.languages?.length ? `
+        <div class="info-row">
+          <strong>Languages</strong>
+          <span>${clinic.languages.join(', ')}</span>
+        </div>
+      ` : ''}
+
+      ${clinic.services?.length ? `
+        <div class="info-row">
+          <strong>Services</strong>
+          <span>${clinic.services.join(', ')}</span>
+        </div>
+      ` : ''}
+
+      ${clinic.insurances?.length ? `
+        <div class="info-row">
+          <strong>Insurance</strong>
+          <span>${clinic.insurances.join(', ')}</span>
+        </div>
+      ` : ''}
+
+    </div>
+
+    <p style="margin-top:24px">
+      <a href="/" class="directions-btn">← Back to listings</a>
+    </p>
+
+  </section>
+`;
+
 }
 
   
