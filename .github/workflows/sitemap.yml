@@ -1,12 +1,10 @@
-name: Auto Generate Sitemap
+name: Generate Sitemap
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   sitemap:
@@ -15,21 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Install fetch
-        run: npm install node-fetch
+      - run: npm install node-fetch
 
       - name: Generate sitemap
-        run: node generate-sitemap.js
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: node generate-sitemap.cjs
 
       - name: Commit sitemap
         run: |
           git config user.name "github-actions"
-          git config user.email "actions@github.com"
+          git config user.email "github-actions@github.com"
           git add sitemap.xml
           git commit -m "Auto-generate sitemap" || echo "No changes"
           git push
