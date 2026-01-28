@@ -17,8 +17,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: npm install node-fetch
-
+      
       - name: Generate sitemap
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
