@@ -1566,9 +1566,11 @@ function getCityFromURL() {
 
   //-----------------added on 01/28/2026-------//
 function toSchemaOpeningHours(hoursText) {
-  if (!hoursText) return undefined;
+  // ✅ Must be a non-empty string
+  if (typeof hoursText !== 'string' || !hoursText.trim()) {
+    return undefined;
+  }
 
-  // Normalize
   const text = hoursText.replace(/\s+/g, ' ').trim();
 
   const dayMap = {
@@ -1583,10 +1585,7 @@ function toSchemaOpeningHours(hoursText) {
 
   const parts = [];
 
-  // Match patterns like: M-Th: 9a-5p
-  const ranges = text.split(',');
-
-  ranges.forEach(r => {
+  text.split(',').forEach(r => {
     const match = r.match(/([A-Za-z\-]+):\s*(\d{1,2})a-(\d{1,2})p/i);
     if (!match) return;
 
@@ -1594,7 +1593,6 @@ function toSchemaOpeningHours(hoursText) {
     let open = match[2].padStart(2, '0') + ':00';
     let close = (parseInt(match[3], 10) + 12).toString().padStart(2, '0') + ':00';
 
-    // Day range (M-Th)
     if (days.includes('-')) {
       const [start, end] = days.split('-');
       days = `${dayMap[start]}-${dayMap[end]}`;
