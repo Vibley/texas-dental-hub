@@ -1303,6 +1303,7 @@ const action = `
       onclick="openLead('${c.name}')">
       Request Appointment
     </button>
+    
   </div>
 `;
 
@@ -1844,11 +1845,31 @@ document.querySelector('.container').innerHTML = `
            </div>
 
       <div class="clinic-cta">
-        ${clinic.phone ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>` : ''}
+        
+
+ ${
+    clinic.phone
+      ? `
+        <button
+          class="btn call-btn"
+          data-phone="${clinic.phone}"
+          data-name="${clinic.name}"
+          data-city="${clinicCity || ''}">
+          Call Clinic
+        </button>
+      `
+      : ''
+  }
+
+
+        
         <button class="btn secondary" onclick="openLead('${clinic.name}')">
           Request Appointment
         </button>
       </div>
+
+
+      
     </header>
 
 
