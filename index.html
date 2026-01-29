@@ -1230,7 +1230,10 @@ const heroLabel = isAllCities
   Verified Dentists in ${heroLabel}
 </h2>
       <div class="grid">
-        ${city.clinics.map(c => card(c, false)).join('')}
+      
+      ${city.clinics.map(c => card(c, false, city.label)).join('')}
+
+        
       </div>
     </div>
   `;
@@ -1283,7 +1286,8 @@ function updateResultsHeading(cityName) {
 }
 
 /* ================= CARD ================= */
-function card(c, isFeatured) {
+function card(c, isFeatured, cityLabel) {
+
   const services = (c.services || []).join(' ');
   const insurances = (c.insurances || []).join(' ');
 
@@ -1301,18 +1305,22 @@ const action = `
     ${
       c.phone
         ? `
-          <button
-            type="button"
-            class="btn"
-            onclick="callClinic(
-              '${c.phone}',
-              '${c.name}',
-              '${city.label || ''}',
-              'city',
-              'card'
-            )">
-            Call to Schedule
-          </button>
+          
+<button
+  type="button"
+  class="btn"
+  onclick="callClinic(
+    '${c.phone}',
+    '${c.name}',
+    '${cityLabel || ''}',
+    'city',
+    'card'
+  )">
+  Call to Schedule
+</button>
+
+
+          
         `
         : ''
     }
