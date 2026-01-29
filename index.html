@@ -840,21 +840,6 @@
   }
 }
 
-.city-intro {
-  max-width: 900px;
-  margin: 24px auto 36px;
-  padding: 0 6px;
-  color: #475569;
-  line-height: 1.65;
-  font-size: 0.95rem;
-}
-
-.city-intro p {
-  margin-bottom: 14px;
-}
-
-
-
     
   </style>
   
@@ -916,7 +901,6 @@
   
 window.SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
-  
 </script>
   
 <script>
@@ -961,41 +945,6 @@ function getCityFromURL() {
 let CITY_KEY_MAP = {};
 let CITY_ORDER = [];
 
-
-  
-// 🔹 City-specific SEO intro content
-const CITY_INTRO_CONTENT = {
-  houston: `
-    <p>
-      TexasDentalHub helps patients find trusted general and family dentists across Houston, Texas.
-      Whether you are searching for routine cleanings, cosmetic dentistry, emergency dental care,
-      or family-friendly clinics, our directory connects you with verified local providers.
-    </p>
-    <p>
-      We feature dental clinics throughout Houston and nearby communities including Katy,
-      Sugar Land, Cypress, The Woodlands, and Spring. Patients can compare clinics,
-      contact offices directly, and request appointments online with confidence.
-    </p>
-    <p>
-      Skip national directories and outdated listings — TexasDentalHub focuses on real,
-      local dental clinics serving Houston residents.
-    </p>
-  `,
-  katy: `
-    <p>
-      Looking for a trusted dentist in Katy, Texas? TexasDentalHub helps patients discover
-      verified general and family dental clinics serving Katy and nearby areas.
-    </p>
-    <p>
-      Our directory highlights local dentists offering preventive care, cosmetic dentistry,
-      emergency services, and family-friendly treatment options.
-    </p>
-  `
-};
-
-
-
-  
 /* 🔹 Utility: city → key */
 function toCityKey(city) {
   return city
@@ -1194,7 +1143,6 @@ function renderCity(cityKey) {
   if (!city || !page) return;
   
 const isAllCities = cityKey === ALL_CITIES_KEY;
-const introKey = cityKey.toLowerCase();
 
 const heroLabel = isAllCities
   ? ALL_CITIES_HERO_LABEL
@@ -1283,29 +1231,6 @@ const heroLabel = isAllCities
   page.dataset.rendered = 'true';
   
 }
-
-  page.innerHTML = `
-  <div class="hero">
-    <h1>General & Family Dentists in ${heroLabel}</h1>
-    ...
-  </div>
-
-  <div class="filters sticky-filter">
-    ...
-  </div>
-
-  <div class="section all-section">
-    ...
-  </div>
-`;
-
-${CITY_INTRO_CONTENT[introKey] ? `
-  <section class="city-intro">
-    ${CITY_INTRO_CONTENT[introKey]}
-  </section>
-` : ''}
-
-  
 function updateResultsHeading(cityName) {
   const heading = document.getElementById('resultsHeading');
   if (!heading) return;
@@ -1349,9 +1274,6 @@ function updateResultsHeading(cityName) {
   });
 }
 
-
-
-  
 /* ================= CARD ================= */
 function card(c, isFeatured) {
   const services = (c.services || []).join(' ');
