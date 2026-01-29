@@ -1843,16 +1843,37 @@ document.querySelector('.container').innerHTML = `
         ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
            </div>
 
-      <div class="clinic-cta">
-        ${clinic.phone ? `<a href="tel:${clinic.phone}" class="btn">Call Clinic</a>` : ''}
-        <button class="btn secondary" onclick="openLead('${clinic.name}')">
-          Request Appointment
+
+
+<div class="clinic-cta">
+  ${
+    clinic.phone
+      ? `
+        <button
+          type="button"
+          class="btn"
+          onclick="callClinic(
+            '${clinic.phone}',
+            '${clinic.name}',
+            '${clinicCity || ''}'
+          )">
+          Call Clinic
         </button>
-      </div>
+      `
+      : ''
+  }
+
+  <button class="btn secondary" onclick="openLead('${clinic.name}')">
+    Request Appointment
+  </button>
+</div>
+
+  
+
+      
     </header>
 
-
-    
+   
 
     <!-- Info Card -->
     <div class="clinic-card">
