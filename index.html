@@ -930,6 +930,15 @@ function getCityFromURL() {
 /* ================= CONFIG ================= */
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
+  // 🔹 Session ID (used for call conversion metrics)
+const SESSION_ID =
+  sessionStorage.getItem('tdh_session') ||
+  (() => {
+    const id = crypto.randomUUID();
+    sessionStorage.setItem('tdh_session', id);
+    return id;
+  })();
+
 
 function getCityFromURL() {
   const parts = window.location.pathname.split('/').filter(Boolean);
@@ -1289,21 +1298,33 @@ function card(c, isFeatured) {
 
 const action = `
   <div class="actions">
-    ${c.phone ? `
-      <button class="btn call-btn"
-        data-phone="${c.phone}"
-        data-name="${c.name}"
-        data-city="${c.city || 'No City Name'}">
-        Call to Schedule
-      </button>
-    ` : ''}
+    ${
+      c.phone
+        ? `
+          <button
+            type="button"
+            class="btn"
+            onclick="callClinic(
+              '${c.phone}',
+              '${c.name}',
+              '${city.label || ''}',
+              'city',
+              'card'
+            )">
+            Call to Schedule
+          </button>
+        `
+        : ''
+    }
 
-    <button class="btn secondary"
+    <button
+      class="btn secondary"
       onclick="openLead('${c.name}')">
       Request Appointment
     </button>
   </div>
 `;
+
 
   return `
     <div class="card ${isFeatured ? 'featured' : ''}"
@@ -1854,7 +1875,9 @@ document.querySelector('.container').innerHTML = `
           onclick="callClinic(
             '${clinic.phone}',
             '${clinic.name}',
-            '${clinicCity || ''}'
+            '${clinicCity || ''}',
+            'clinic',
+            'detail'
           )">
           Call Clinic
         </button>
@@ -1862,10 +1885,13 @@ document.querySelector('.container').innerHTML = `
       : ''
   }
 
-  <button class="btn secondary" onclick="openLead('${clinic.name}')">
+  <button
+    class="btn secondary"
+    onclick="openLead('${clinic.name}')">
     Request Appointment
   </button>
 </div>
+
 
   
 
@@ -2268,7 +2294,11 @@ Authorization: `Bearer ${SUPABASE_KEY}`
       email: 'noreply@texasdentalhub.com',
       phone: phone || 'N/A',
       message: 'Call to Schedule click',
-      source: 'call'
+      source: 'call',
+      source_page: sourcePage,
+      source_position: sourcePosition,
+      device_type: deviceType,
+      session_id: SESSION_ID
     })
   }).catch(() => {});
 
