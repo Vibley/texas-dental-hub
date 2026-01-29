@@ -1194,6 +1194,7 @@ function renderCity(cityKey) {
   if (!city || !page) return;
   
 const isAllCities = cityKey === ALL_CITIES_KEY;
+const introKey = cityKey.toLowerCase();
 
 const heroLabel = isAllCities
   ? ALL_CITIES_HERO_LABEL
@@ -1289,16 +1290,6 @@ const heroLabel = isAllCities
     ...
   </div>
 
-  ${
-    CITY_INTRO_CONTENT[cityKey]
-      ? `
-        <section class="city-intro">
-          ${CITY_INTRO_CONTENT[cityKey]}
-        </section>
-      `
-      : ''
-  }
-
   <div class="filters sticky-filter">
     ...
   </div>
@@ -1307,6 +1298,12 @@ const heroLabel = isAllCities
     ...
   </div>
 `;
+
+${CITY_INTRO_CONTENT[introKey] ? `
+  <section class="city-intro">
+    ${CITY_INTRO_CONTENT[introKey]}
+  </section>
+` : ''}
 
   
 function updateResultsHeading(cityName) {
