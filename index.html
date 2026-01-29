@@ -1845,16 +1845,21 @@ document.querySelector('.container').innerHTML = `
            </div>
 
       <div class="clinic-cta">
-        
 
- ${
+
+
+<div class="clinic-cta">
+  ${
     clinic.phone
       ? `
         <button
-          class="btn call-btn"
-          data-phone="${clinic.phone}"
-          data-name="${clinic.name}"
-          data-city="${clinicCity || ''}">
+          type="button"
+          class="btn"
+          onclick="callClinic(
+            '${clinic.phone}',
+            '${clinic.name}',
+            '${clinicCity || ''}'
+          )">
           Call Clinic
         </button>
       `
@@ -1862,8 +1867,7 @@ document.querySelector('.container').innerHTML = `
   }
 
 
-        
-        <button class="btn secondary" onclick="openLead('${clinic.name}')">
+          <button class="btn secondary" onclick="openLead('${clinic.name}')">
           Request Appointment
         </button>
       </div>
