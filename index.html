@@ -2274,6 +2274,21 @@ Authorization: `Bearer ${SUPABASE_KEY}`
   }).catch(() => {});
 }
 
+    // 2️⃣ Device-aware behavior
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // 📱 Mobile → open dialer
+    window.location.href = `tel:${phone}`;
+  } else {
+    // 💻 Desktop → show call info
+    alert(
+      `Call ${clinicName}\n\nPhone: ${phone}\n\nTip: This works best on a mobile phone.`
+    );
+  }
+}
+
+
 </script>
 
 
