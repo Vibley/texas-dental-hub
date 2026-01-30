@@ -864,6 +864,22 @@
   text-decoration: underline;
 }
 
+
+.back-to-city {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.back-to-city a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-to-city a:hover {
+  text-decoration: underline;
+}
+
     
     
   </style>
@@ -1907,6 +1923,11 @@ document.querySelector('.container').innerHTML = `
         ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
            </div>
 
+<p class="back-to-city">
+  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
+    ← Browse more dentists in ${clinicCity}
+  </a>
+</p>
 
 
 <div class="clinic-cta">
