@@ -1166,8 +1166,15 @@ function buildAllCitiesData() {
 
   
 function renderCityLinks(currentCityKey) {
-  return CITY_ORDER
-    .filter(key => key !== currentCityKey)
+  const cities = CITY_ORDER.filter(key => key !== currentCityKey);
+
+  // Rotate list based on current city position
+  const start = CITY_ORDER.indexOf(currentCityKey);
+  const rotated = cities
+    .slice(start)
+    .concat(cities.slice(0, start));
+
+  return rotated
     .slice(0, 6)
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
@@ -1175,6 +1182,7 @@ function renderCityLinks(currentCityKey) {
     })
     .join(' · ');
 }
+
 
   
 /* ================= RENDER ================= */
