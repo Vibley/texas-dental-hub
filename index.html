@@ -1243,7 +1243,6 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
   <div class="hero">
- <div class="container">
   <h1>Trusted Dentists in ${heroLabel}</h1>
 
   <p class="city-service-line">
@@ -1255,12 +1254,11 @@ const heroLabel = isAllCities
     compare services, and contact providers directly — all in one place.
   </p>
  </div>
-</div>
+
 
 
     <div class="filters sticky-filter">
-    <div class="container">
-    
+       
   <select id="filter-service">
     <option value="">All Services</option>
     <option value="general">General Dentistry</option>
@@ -1294,7 +1292,7 @@ const heroLabel = isAllCities
 />
 
 </div>
-</div>
+
 
 <div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
   <h3>No clinics match your filters</h3>
