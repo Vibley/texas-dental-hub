@@ -893,13 +893,21 @@
 }
 
 
-/* City page hero heading (smaller than homepage hero) */
+    /* CITY PAGE HERO — smaller than homepage */
 body.city-view .hero h1 {
-  font-size: 1.75rem;
+  font-size: 1.6rem !important;
   font-weight: 700;
   letter-spacing: -0.3px;
+  margin-bottom: 8px;
 }
-    
+
+    body.city-view .hero .city-service-line {
+  font-size: 0.85rem !important;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+
     
   </style>
   
@@ -1522,6 +1530,9 @@ function activateCity(cityKey, initial = false) {
 
   page.classList.add('active');
   page.style.display = 'block';
+// 🔹 City page typography context
+document.body.classList.add('city-view');
+document.body.classList.remove('clinic-view');
 
   if (!page.dataset.rendered) {
     renderCity(cityKey);
