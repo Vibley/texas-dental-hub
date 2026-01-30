@@ -879,7 +879,13 @@
   text-decoration: none;
 }
 
-    
+  .city-intro {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #475569;
+  max-width: 900px;
+}
+  
     
   </style>
   
@@ -1199,6 +1205,18 @@ function renderCityLinks(currentCityKey) {
 }
 
 
+
+  function renderCityIntro(cityLabel) {
+  return `
+    <p class="city-intro">
+      Find trusted general and family dentists in <strong>${cityLabel}, Texas</strong>.
+      Browse verified local clinics, compare services and insurance options,
+      and contact providers directly — no ads or middlemen.
+    </p>
+  `;
+}
+
+
   
 /* ================= RENDER ================= */
 function renderCity(cityKey) {
@@ -1214,7 +1232,9 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
   <div class="hero">
+  
  <h1>General & Family Dentists in ${heroLabel}</h1>
+ ${cityKey !== ALL_CITIES_KEY ? renderCityIntro(heroLabel) : ''}
 
  
   <p>
