@@ -1949,7 +1949,12 @@ document.querySelector('.container').innerHTML = `
   </button>
 </div>
 
-  
+
+    <p class="back-to-city">
+  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
+    ← Browse more dentists in ${clinicCity}
+  </a>
+</p>
 
       
     </header>
@@ -1994,11 +1999,7 @@ document.querySelector('.container').innerHTML = `
 
     </div>
 
-  <p class="back-to-city">
-  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
-    ← Browse more dentists in ${clinicCity}
-  </a>
-</p>
+
 
   </section>
 `;
