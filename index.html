@@ -840,6 +840,31 @@
   }
 }
 
+
+.city-links {
+  margin: 60px auto 0;
+  max-width: 900px;
+  text-align: center;
+  color: #475569;
+}
+
+.city-links h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.city-links a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.city-links a:hover {
+  text-decoration: underline;
+}
+
+    
     
   </style>
   
@@ -944,6 +969,8 @@ function getCityFromURL() {
 
 let CITY_KEY_MAP = {};
 let CITY_ORDER = [];
+let CITY_KEY_LABEL = {};
+
 
 /* 🔹 Utility: city → key */
 function toCityKey(city) {
@@ -1029,6 +1056,8 @@ const res = await fetch(
 
     CITY_KEY_MAP[city] = key;
     CITY_ORDER.push(key);
+    CITY_KEY_LABEL[key] = city;
+
 
     const opt = document.createElement('option');
     opt.value = key;
@@ -1135,6 +1164,19 @@ function buildAllCitiesData() {
   console.log('✅ All Cities built:', DATA[ALL_CITIES_KEY]);
 }
 
+  
+function renderCityLinks(currentCityKey) {
+  return CITY_ORDER
+    .filter(key => key !== currentCityKey)
+    .slice(0, 6)
+    .map(key => {
+      const label = CITY_KEY_LABEL[key] || key;
+      return `<a href="?city=${key}">${label}</a>`;
+    })
+    .join(' · ');
+}
+
+  
 /* ================= RENDER ================= */
 function renderCity(cityKey) {
   const city = DATA[cityKey];
@@ -1224,6 +1266,14 @@ const heroLabel = isAllCities
         ${city.clinics.map(c => card(c, false)).join('')}
       </div>
     </div>
+
+
+<section class="city-links">
+  <h3>Browse Dentists in Nearby Cities</h3>
+  <p>${renderCityLinks(cityKey)}</p>
+</section>
+
+    
   `;
 
   
