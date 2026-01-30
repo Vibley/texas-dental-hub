@@ -1923,11 +1923,7 @@ document.querySelector('.container').innerHTML = `
         ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
            </div>
 
-<p class="back-to-city">
-  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
-    ← Browse more dentists in ${clinicCity}
-  </a>
-</p>
+
 
 
 <div class="clinic-cta">
@@ -1998,9 +1994,11 @@ document.querySelector('.container').innerHTML = `
 
     </div>
 
-    <p style="margin-top:24px">
-      <a href="/" class="directions-btn">← Back to listings</a>
-    </p>
+  <p class="back-to-city">
+  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
+    ← Browse more dentists in ${clinicCity}
+  </a>
+</p>
 
   </section>
 `;
