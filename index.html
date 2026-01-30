@@ -329,7 +329,6 @@
 }
 
 
-/* 👇 ADD THIS BELOW (Mobile override) 👇 */
 @media (max-width: 768px) {
   .sticky-filter {
     position: sticky; /* disable sticky */
@@ -946,7 +945,7 @@ body.city-view .hero h1 {
 
 <form id="leadForm">
 
-  <!-- 🔒 SOURCE OF TRUTH -->
+  
   <input type="hidden" id="clinicNameInput" name="clinic_name" />
 
   <input name="patient_name" required placeholder="Your Name" />
@@ -1244,7 +1243,7 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
   <div class="hero">
-  <h1>Trusted Dentists in ${heroLabel}</h1>
+  <h2>Trusted Dentists in ${heroLabel}</h2>
 
   <p class="city-service-line">
     General, family, cosmetic, preventive, and emergency dental care
@@ -1793,10 +1792,6 @@ function formatClinicHours(hours) {
 }
 
 
-
-
-  
-
 function toSchemaOpeningHours(hoursText) {
   // ✅ Must be a non-empty string
   if (typeof hoursText !== 'string' || !hoursText.trim()) {
@@ -1871,13 +1866,7 @@ function toSchemaOpeningHours(hoursText) {
   document.head.appendChild(script);
 }
 
-   //----------------above code is added on 01/28/2026-------//
-
-
-
   
-/*--------------------------below code is added on 01/27/2026----*/
-
  function renderClinicPage(slug) {
   let clinic = null;
   let clinicCity = null;
