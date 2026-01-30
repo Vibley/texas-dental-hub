@@ -885,7 +885,14 @@
   color: #475569;
   max-width: 900px;
 }
-  
+
+.city-service-line {
+  margin-top: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #475569;
+}
+    
     
   </style>
   
@@ -1221,14 +1228,20 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
   <div class="hero">
-  
- <h1>General, family, cosmetic, preventive, and emergency dental care in ${heroLabel}</h1>
- <p>Find trusted dentists in ${heroLabel}.
-Discover verified local dental clinics, compare services, and contact providers directly — all in one place.
-</p>
 
+  <h1>Trusted Dentists in ${heroLabel}</h1>
+
+  <p class="city-service-line">
+    General, family, cosmetic, preventive, and emergency dental care
+  </p>
+
+  <p>
+    Find trusted dentists in ${heroLabel}. Discover verified local dental clinics,
+    compare services, and contact providers directly — all in one place.
+  </p>
 
 </div>
+
 
     <div class="filters sticky-filter">
     
