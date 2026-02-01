@@ -915,7 +915,42 @@ body.city-view .hero h1 {
 .form-actions .btn.secondary {
   margin-left: auto; 
 }
- 
+
+    .filters select,
+.filters input {
+  background: #ffffff;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+  border-radius: 999px; /* 👈 pill style like CTA */
+  padding: 10px 16px;
+}
+
+    @media (max-width: 768px) {
+  .filter-row {
+    gap: 10px;
+  }
+}
+
+    .filters select:hover,
+.filters input:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.filters select:focus,
+.filters input:focus {
+  outline: none;
+  background: var(--accent);
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .filters select:active,
+  .filters input:active {
+    background: var(--accent);
+    color: #ffffff;
+  }
+}
 
     
   </style>
