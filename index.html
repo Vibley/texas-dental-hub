@@ -77,25 +77,6 @@
     
     *{box-sizing:border-box}
     
-    /* 🌙 Dark mode overrides */
-[data-theme="dark"] {
-  --bg: radial-gradient(circle at top, #0b1220 0%, #0f172a 100%);
-  --card: #0f172a;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --border: rgba(255,255,255,.08);
-
-  --accent: #60a5fa;
-  --accentSoft: rgba(96,165,250,.15);
-
-  --shadow-soft: 0 8px 20px rgba(0,0,0,.4);
-  --shadow: 0 18px 40px rgba(0,0,0,.6);
-}
-
-    
-    
-    
-    
     body {
   margin: 0;
   font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
@@ -105,11 +86,7 @@
 }
     
     .topbar{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);z-index:10}
-    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center
-     <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
-  🌙
-</button>
-            }
+    .topbar-inner{max-width:1100px;margin:0 auto;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--accent)}
     .brand span{font-size:22px}
     .nav button{background:none;border:none;padding:8px 12px;border-radius:999px;cursor:pointer;font-size:14px}
@@ -938,14 +915,6 @@ body.city-view .hero h1 {
 
 .form-actions .btn.secondary {
   margin-left: auto; 
-}
-
-    .theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin-left: 12px;
 }
 
     
@@ -2431,62 +2400,6 @@ Authorization: `Bearer ${SUPABASE_KEY}`
 
 </script>
 
-<script>
-  const themeToggle = document.getElementById('themeToggle');
-  const root = document.documentElement;
-
-  // 1️⃣ Load saved preference
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    root.setAttribute('data-theme', savedTheme);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    root.setAttribute('data-theme', 'dark');
-  }
-
-  // 2️⃣ Toggle on click
-  themeToggle.addEventListener('click', () => {
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    const next = isDark ? 'light' : 'dark';
-
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-  });
-</script>
-
-
-  <script>
-  const themeToggle = document.getElementById('themeToggle');
-  const root = document.documentElement;
-
-  /* 1️⃣ Load saved preference */
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    root.setAttribute('data-theme', savedTheme);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    root.setAttribute('data-theme', 'dark');
-  }
-
-  /* 🔹 Optional polish: icon sync */
-  function updateThemeIcon() {
-    themeToggle.textContent =
-      root.getAttribute('data-theme') === 'dark'
-        ? '☀️'
-        : '🌙';
-  }
-
-  updateThemeIcon(); // run once on load
-
-  /* 2️⃣ Toggle on click */
-  themeToggle.addEventListener('click', () => {
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    const next = isDark ? 'light' : 'dark';
-
-    root.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-
-    updateThemeIcon(); 
-  });
-</script>
 
   
 </body>
