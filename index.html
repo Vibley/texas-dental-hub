@@ -907,6 +907,15 @@ body.city-view .hero h1 {
   margin-top: 4px;
 }
 
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.form-actions .btn.secondary {
+  margin-left: auto; 
+}
 
     
   </style>
@@ -954,12 +963,20 @@ body.city-view .hero h1 {
 
   <input name="phone" required placeholder="Phone" />
 
-  <textarea name="message" required placeholder="Please include a brief message (e.g. preferred time/ insurance)"></textarea>
+  <textarea name="message" required placeholder="Please include a brief message (e.g. preferred time/ name of insurance)"></textarea>
 
+ <div class="form-actions">
   <button class="btn" type="submit">Submit Request</button>
-  <button type="button" onclick="closeLead()" style="margin-left:10px">
+
+  <button
+    type="button"
+    class="btn secondary"
+    onclick="closeLead()"
+  >
     Cancel
   </button>
+</div>
+
 </form>
     
   </div>
