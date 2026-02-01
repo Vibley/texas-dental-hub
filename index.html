@@ -954,7 +954,34 @@ body.city-view .hero h1 {
   color: #ffffff;
   border-color: var(--accent);
 }
- 
+
+    /* 📱 Mobile-only filter layout */
+@media (max-width: 768px) {
+  .filter-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 👈 2 columns */
+    gap: 12px; /* 👈 premium spacing */
+    align-items: stretch;
+  }
+
+  .filters select,
+  .filters input {
+    width: 100%;
+    height: 44px; /* 👈 consistent touch height */
+  }
+}
+
+    @media (max-width: 768px) {
+  .filters {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .filter-row {
+    gap: 14px;
+  }
+}
+
     
   </style>
   
@@ -1345,7 +1372,6 @@ Compare providers, contact clinics directly and request appointments online — 
 
 </div>
   
-
 
 <div class="no-results" style="display:none;text-align:center;margin:40px 0;color:#475569;">
   <h3>No clinics match your filters</h3>
