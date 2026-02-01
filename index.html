@@ -974,6 +974,24 @@ body.city-view .hero h1 {
   }
 }
 
+    /* 📱 Mobile: force ZIP to behave like other filter pills */
+@media (max-width: 768px) {
+
+  /* Make ALL filters uniform */
+  .filters select,
+  .filters input {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 44px;
+    border-radius: 999px;
+  }
+
+  /* Prevent ZIP from spanning full row */
+  .filters input#filter-zip {
+    grid-column: auto !important;
+  }
+}
+
     
   </style>
   
