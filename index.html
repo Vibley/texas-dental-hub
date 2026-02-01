@@ -1018,6 +1018,29 @@ body.city-view .hero h1 {
     border-radius: 999px;
   }
 }
+/* 📱 FINAL mobile filter layout fix — force 2 columns */
+@media (max-width: 768px) {
+
+  /* HARD reset any previous layout */
+  .filters .filter-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 14px !important;
+    align-items: stretch;
+  }
+
+  /* Neutralize any stacking rules */
+  .filters .filter-row > * {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Make ZIP behave like others */
+  #filter-zip {
+    grid-column: auto !important;
+  }
+}
 
     
   </style>
