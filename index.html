@@ -916,42 +916,45 @@ body.city-view .hero h1 {
   margin-left: auto; 
 }
 
-    .filters select,
+   /* Base (same as Request Appointment button) */
+.filters select,
 .filters input {
   background: #ffffff;
   border: 1.5px solid var(--accent);
   color: var(--accent);
   font-weight: 500;
-  border-radius: 999px; /* 👈 pill style like CTA */
+  border-radius: 999px;
   padding: 10px 16px;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-    @media (max-width: 768px) {
-  .filter-row {
-    gap: 10px;
-  }
-}
-
-    .filters select:hover,
+/* Hover (subtle – do NOT turn solid blue) */
+.filters select:hover,
 .filters input:hover {
   background: rgba(37, 99, 235, 0.08);
 }
 
+/* Focus (keyboard / click) */
 .filters select:focus,
 .filters input:focus {
   outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+/* Selected state (value chosen) */
+.filters select:not([value=""]):not(:focus) {
   background: var(--accent);
   color: #ffffff;
+  border-color: var(--accent);
 }
 
-@media (max-width: 768px) {
-  .filters select:active,
-  .filters input:active {
-    background: var(--accent);
-    color: #ffffff;
-  }
+/* ZIP input selected (has content) */
+.filters input:not(:placeholder-shown):not(:focus) {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
 }
-
+ 
     
   </style>
   
