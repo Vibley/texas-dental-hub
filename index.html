@@ -955,22 +955,24 @@ body.city-view .hero h1 {
   border-color: var(--accent);
 }
 
-/* 📱 FORCE mobile filters into 2 columns */
+
+/* 📱 Mobile: force 2×2 filter layout */
 @media (max-width: 768px) {
+
   .filters .filter-row {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 14px !important;
   }
 
+  /* Allow items to actually fit into grid columns */
   .filters select,
   .filters input {
-    width: 100% !important;
+    width: auto !important;  
     min-width: 0 !important;
     height: 44px;
   }
 }
-
 
     
   </style>
