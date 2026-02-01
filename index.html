@@ -997,6 +997,27 @@ body.city-view .hero h1 {
     row-gap: 16px;
   }
 }
+/* 📱 MOBILE FILTER LAYOUT — FINAL, UNBREAKABLE */
+@media (max-width: 768px) {
+
+  .filters .filter-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+  }
+
+  .filters .filter-row > * {
+    flex: 0 0 calc(50% - 6px) !important; /* 👈 two per row */
+    max-width: calc(50% - 6px) !important;
+  }
+
+  .filters select,
+  .filters input {
+    width: 100% !important;
+    height: 44px;
+    border-radius: 999px;
+  }
+}
 
     
   </style>
