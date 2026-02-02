@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
   <link rel="canonical" href="https://texasdentalhub.com/" />
+  
+  <script>
+  if (window.location.pathname.endsWith('/index.html')) {
+    window.location.replace('/');
+  }
+  const cleanURL = window.location.origin + window.location.pathname;
+  if (window.location.search && window.location.pathname === '/') {
+    history.replaceState(null, '', cleanURL);
+  }
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TexasDentalHub | Houston Metro Dentists</title>
