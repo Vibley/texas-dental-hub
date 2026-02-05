@@ -1123,7 +1123,7 @@ let CITY_KEY_LABEL = {};
 
     document.getElementById("canonicalLink").setAttribute(
       "href",
-      `https://texasdentalhub.com/dentists/${cityKey}/`
+      `https://texasdentalhub.com/dentists/?city=${cityKey}`
     );
   }
 
@@ -1338,7 +1338,7 @@ function renderCityLinks(currentCityKey) {
         ? `/dentists/${key}/`
         : `?city=${key}`;
 
-     return `<li><a href="/dentists/${key}">Dentists in ${label}</a></li>`;
+  return `<li><a href="/dentists/?city=${key}">Dentists in ${label}</a></li>`;
     })
     .join("");
 }
