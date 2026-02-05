@@ -934,6 +934,37 @@ body.city-view .hero h1 {
 }
  
 
+
+      .city-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  text-align: center;
+}
+
+.city-link-list li {
+  display: inline;          /* puts them side by side */
+}
+
+.city-link-list li::after {
+  content: " · ";           /* the dot separator */
+  color: #94a3b8;           /* subtle gray */
+  margin: 0 6px;
+}
+
+.city-link-list li:last-child::after {
+  content: "";              /* no dot after last item */
+}
+
+.city-link-list a {
+  color: #0b5ed7;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.city-link-list a:hover {
+  text-decoration: underline;
+}
     
   </style>
   
@@ -1260,7 +1291,7 @@ function renderCityLinks(currentCityKey) {
         ? `/dentists/${key}`
         : `?city=${key}`;
 
-      return `<ul href="${href}">Dentists in ${label}</ul>`;
+     return `<li><a href="/dentists/${key}">Dentists in ${label}</a></li>`;
     })
     .join("");
 }
@@ -1364,7 +1395,9 @@ and family dental care.
 
 <section class="city-links">
   <h3>Browse Dentists in Nearby Cities</h3>
-<p class="city-link-list"> ${renderCityLinks(cityKey)}</p>
+  <ul class="city-link-list">
+    ${renderCityLinks(cityKey)}
+  </ul>
 </section>
 
     
