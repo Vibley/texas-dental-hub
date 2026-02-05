@@ -2,34 +2,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+   
+<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- 🔒 Dynamic SEO tags (single source of truth) -->
+  <!-- 🔒 Dynamic SEO (single source of truth) -->
   <title id="pageTitle">TexasDentalHub | Houston Metro Dentists</title>
-  <meta name="description" id="pageDescription"
-        content="Find trusted general and family dentists across the Houston metro area." />
 
-  <link rel="canonical" id="canonicalLink" href="https://texasdentalhub.com/" />
+  <meta
+    name="description"
+    id="pageDescription"
+    content="Find trusted general and family dentists across the Houston metro area."
+  />
 
-  <!-- Your CSS -->
+  <link
+    rel="canonical"
+    id="canonicalLink"
+    href="https://texasdentalhub.com/"
+  />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="/styles.css" />
-  
-  <script>
-  if (window.location.pathname.endsWith('/index.html')) {
-    window.location.replace('/');
-  }
-  const cleanURL = window.location.origin + window.location.pathname;
-  if (window.location.search && window.location.pathname === '/') {
-    history.replaceState(null, '', cleanURL);
-  }
-</script>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TexasDentalHub | Houston Metro Dentists</title>
-  <link rel="canonical" id="canonicalLink" href="https://texasdentalhub.com/" />
-  <meta name="description" content="Find trusted general and family dentists in Houston, Katy, Sugar Land, Richmond, Rosenberg, The Woodlands, and Spring, Texas." />
+  <!-- URL cleanup (safe on GitHub Pages) -->
+  <script>
+    if (window.location.pathname.endsWith('/index.html')) {
+      window.location.replace('/');
+    }
+  </script>
+ 
+    
   <style>
 
 .brand {
