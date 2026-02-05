@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -29,11 +30,9 @@
       window.location.replace('/');
     }
   </script>
-
-
+ 
     
   <style>
-      
 
 .brand {
   font-size: 1.6rem;
@@ -516,7 +515,7 @@
   border-bottom: 1px solid rgba(15, 23, 42, 0.08);
 }
 
-    /* Sticky er shadow on scroll */
+    /* Sticky header shadow on scroll */
 .topbar.scrolled {
   box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
 }
@@ -1360,27 +1359,14 @@ const heroLabel = isAllCities
   <h4>Dentists in ${heroLabel}, TX</h4>
 
 <p>
-Finding a trusted dentist in ${heroLabel} doesn’t have to be difficult. 
-<strong>TexasDental Hub </strong> helps connect patients with verified local dental clinics offering 
-general, family, cosmetic, and emergency dental care across the ${heroLabel} area.
-</p>
+Finding a trusted dentist in ${heroLabel} doesn’t have to be complicated.
+TexasDentalHub connects patients with verified local dental clinics offering general, family, cosmetic, and emergency dental care throughout the ${heroLabel} area.
 
-<p>
-Whether you’re new to ${heroLabel} or looking to switch providers, our directory makes it easy 
-to explore nearby dental offices, review available services, and contact clinics directly — 
-without third-party booking fees or misleading listings.
-</p>
+Whether you’re new to the city or simply looking for a better dental provider, our directory makes it easy to discover nearby clinics, explore available services, and contact dental offices directly — without third-party booking fees or misleading listings.
 
-<p>
-All clinics listed on TexasDental Hub are reviewed for accuracy and location, helping patients 
-find reliable dental care within their community. Our focus is on local providers serving 
-${heroLabel} and surrounding neighborhoods.
-</p>
+Every clinic listed on TexasDentalHub is reviewed for accuracy and location, helping patients find reliable dental care within their local community. We focus on real providers serving ${heroLabel} and surrounding neighborhoods, not national lead-generation networks.
 
- <p>
-Dental services commonly offered by clinics in ${heroLabel}, include preventive care,
-routine cleanings, fillings, cosmetic dentistry, emergency dental services,
-and family dental care.
+Common dental services offered by ${heroLabel} clinics include preventive care, routine cleanings, fillings, cosmetic dentistry, emergency dental treatment, and family dental care.
 </p>
 
  </div>
@@ -1837,6 +1823,7 @@ document.getElementById('citySelect').addEventListener('change', e => {
 
   // 🔥 Exit clinic view if active
   document.body.classList.remove('clinic-view');
+
 if (key === ALL_CITIES_KEY) {
   // Go back to dentists hub (no city)
   window.history.replaceState({}, '', '/dentists/');
