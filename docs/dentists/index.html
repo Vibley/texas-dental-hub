@@ -2,13 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Dentists in Houston, TX | Trusted Local Dental Clinics</title>
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="description"
-    content="Find verified general and family dentists in Houston, TX. Browse local clinics, compare services, and contact dental offices directly." />
+  <!-- 🔒 Dynamic SEO tags (single source of truth) -->
+  <title id="pageTitle">TexasDentalHub | Houston Metro Dentists</title>
+  <meta name="description" id="pageDescription"
+        content="Find trusted general and family dentists across the Houston metro area." />
 
-  <link rel="canonical" href="https://texasdentalhub.com/dentists/houston" />
-  <link rel="canonical" href="https://texasdentalhub.com/" />
+  <link rel="canonical" id="canonicalLink" href="https://texasdentalhub.com/" />
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="/styles.css" />
   
   <script>
   if (window.location.pathname.endsWith('/index.html')) {
@@ -1086,6 +1091,41 @@ function getCityFromURL() {
 let CITY_KEY_MAP = {};
 let CITY_ORDER = [];
 let CITY_KEY_LABEL = {};
+
+   function applySeoForCity(cityKey) {
+    const cityLabel = CITY_KEY_LABEL[cityKey];
+
+    if (!cityKey || !cityLabel) {
+      // Homepage / fallback
+      document.getElementById("pageTitle").textContent =
+        "TexasDentalHub | Houston Metro Dentists";
+
+      document.getElementById("pageDescription").setAttribute(
+        "content",
+        "Find trusted general and family dentists across the Houston metro area."
+      );
+
+      document.getElementById("canonicalLink").setAttribute(
+        "href",
+        "https://texasdentalhub.com/"
+      );
+      return;
+    }
+
+    // ✅ SEO CITY PAGE
+    document.getElementById("pageTitle").textContent =
+      `Dentists in ${cityLabel}, TX | Trusted Local Dental Clinics`;
+
+    document.getElementById("pageDescription").setAttribute(
+      "content",
+      `Find verified general and family dentists in ${cityLabel}, TX. Browse local clinics, compare services, and contact dental offices directly.`
+    );
+
+    document.getElementById("canonicalLink").setAttribute(
+      "href",
+      `https://texasdentalhub.com/dentists/${cityKey}`
+    );
+  }
 
 
 /* 🔹 Utility: city → key */
