@@ -1030,6 +1030,7 @@ function getCityFromURL() {
 }
 
 /* ================= CONFIG ================= */
+const IS_SEO_CITY_PAGE = location.pathname.startsWith("/dentists/");
 const SUPABASE_URL = 'https://wehhvavlbhdbcmgvdaxj.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV';
 
@@ -1245,7 +1246,6 @@ function buildAllCitiesData() {
 function renderCityLinks(currentCityKey) {
   const cities = CITY_ORDER.filter(key => key !== currentCityKey);
 
-  // Rotate list based on current city position
   const start = CITY_ORDER.indexOf(currentCityKey);
   const rotated = cities
     .slice(start)
@@ -1255,11 +1255,15 @@ function renderCityLinks(currentCityKey) {
     .slice(0, 6)
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
-      return `<li><a href="/dentists/${key}">Dentists in ${label}, TX</a></li>`;
+
+      const href = isSeoCityPage
+        ? `/dentists/${key}`
+        : `?city=${key}`;
+
+      return `<li><a href="${href}">Dentists in ${label}, TX</a></li>`;
     })
     .join("");
 }
-
 
 
   
@@ -1360,7 +1364,7 @@ and family dental care.
 
 <section class="city-links">
   <h3>Browse Dentists in Nearby Cities</h3>
-<ul class="city-link-list"> ${renderCityLinks(cityKey)}</ul>
+<p class="city-link-list"> ${renderCityLinks(cityKey)}</p>
 </section>
 
     
@@ -1787,12 +1791,25 @@ document.addEventListener("input", (e) => {
   }
 });
 
-  
+
 function getCityFromURL() {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+
+  // SEO city page: /dentists/houston
+  if (parts.length === 2 && parts[0] === 'dentists') {
+    return parts[1];
+  }
+
+  // Filter page fallback: ?city=houston
   const params = new URLSearchParams(window.location.search);
-  return params.get('city');
+  if (params.has('city')) {
+    return params.get('city');
+  }
+
+  return null;
 }
 
+    
   //-----------------added on 01/28/2026-------//
 function formatClinicHours(hours) {
   if (!hours) return '';
