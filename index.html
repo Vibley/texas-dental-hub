@@ -1256,7 +1256,7 @@ function renderCityLinks(currentCityKey) {
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
 
-      const href = is_Seo_City_Page
+      const href = IS_SEO_CITY_PAGE
         ? `/dentists/${key}`
         : `?city=${key}`;
 
