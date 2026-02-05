@@ -1837,12 +1837,13 @@ document.getElementById('citySelect').addEventListener('change', e => {
 
   // 🔥 Exit clinic view if active
   document.body.classList.remove('clinic-view');
-
-  if (key === ALL_CITIES_KEY) {
-    window.history.replaceState({}, '', window.location.pathname);
-  } else {
-    window.history.replaceState({}, '', `?city=${key}`);
-  }
+if (key === ALL_CITIES_KEY) {
+  // Go back to dentists hub (no city)
+  window.history.replaceState({}, '', '/dentists/');
+} else {
+  // Normalize all city views under /dentists/
+  window.history.replaceState({}, '', `/dentists/?city=${key}`);
+}
 
   activateCity(key);
 
