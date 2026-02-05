@@ -1123,7 +1123,7 @@ let CITY_KEY_LABEL = {};
 
     document.getElementById("canonicalLink").setAttribute(
       "href",
-      `https://texasdentalhub.com/dentists/${cityKey}`
+      `https://texasdentalhub.com/dentists/${cityKey}/`
     );
   }
 
@@ -1335,7 +1335,7 @@ function renderCityLinks(currentCityKey) {
       const label = CITY_KEY_LABEL[key] || key;
 
       const href = IS_SEO_CITY_PAGE
-        ? `/dentists/${key}`
+        ? `/dentists/${key}/`
         : `?city=${key}`;
 
      return `<li><a href="/dentists/${key}">Dentists in ${label}</a></li>`;
