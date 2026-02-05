@@ -1260,7 +1260,7 @@ function renderCityLinks(currentCityKey) {
         ? `/dentists/${key}`
         : `?city=${key}`;
 
-      return `<li><a href="${href}">Dentists in ${label}, TX</a></li>`;
+      return `<a href="${href}">Dentists in ${label}, TX</a>`;
     })
     .join("");
 }
