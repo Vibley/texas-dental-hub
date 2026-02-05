@@ -1255,9 +1255,9 @@ function renderCityLinks(currentCityKey) {
     .slice(0, 6)
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
-      return `<a href="?city=${key}">${label}</a>`;
+      return `<li><a href="/dentists/${key}">Dentists in ${label}, TX</a></li>`;
     })
-    .join(' · ');
+    .join("");
 }
 
 
