@@ -1506,63 +1506,66 @@ function updateResultsHeading(cityName) {
 }
 
 /* ================= CARD ================= */
-function card(c, isFeatured) {
+
+
+function card(c) {
   const services = (c.services || []).join(' ');
   const insurances = (c.insurances || []).join(' ');
 
   const availability = [
-  'weekday',
-  String(c.weekend_open)
-    .trim()               // 🔥 IMPORTANT
-    .toUpperCase() === 'YES'
-    ? 'weekend'
-    : null
-].filter(Boolean).join('|');
+    'weekday',
+    String(c.weekend_open || '')
+      .trim()
+      .toUpperCase() === 'YES'
+      ? 'weekend'
+      : null
+  ].filter(Boolean).join('|');
 
-const action = `
-  <div class="actions">
-    ${c.phone ? `
-      <button class="btn call-btn"
-        data-phone="${c.phone}"
-        data-name="${c.name}"
-        data-city="${c.city || 'No City Name'}">
-        Call to Schedule
+  const action = `
+    <div class="actions">
+      ${c.phone ? `
+        <button class="btn call-btn"
+          data-phone="${c.phone}"
+          data-name="${c.name}"
+          data-city="${c.city || 'No City Name'}">
+          Call to Schedule
+        </button>
+      ` : ''}
+
+      <button class="btn secondary"
+        onclick="openLead('${c.name}')">
+        Request Appointment
       </button>
-    ` : ''}
-
-    <button class="btn secondary"
-      onclick="openLead('${c.name}')">
-      Request Appointment
-    </button>
-  </div>
-`;
+    </div>
+  `;
 
   return `
-    <div class="card ${isFeatured ? 'featured' : ''}"
+    <div class="card"
       data-clinic="${toClinicSlug(c.name)}"
       data-zip="${c.zip ? String(c.zip) : ''}"
       data-service="${services}"
       data-insurance="${insurances}"
-     data-availability="${c.availability.join('|')}">
-            <span class="badge">${isFeatured ? '⭐ Featured Clinic' : 'Clinic'}</span>
+      data-availability="${availability}">
 
-     <h3> ${c.name}</h3>
-<div class="address">
+      <span class="badge">Clinic</span>
 
-  <a
-    href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.address)}"
-    class="directions-btn"
-    target="_blank"
-    rel="noopener"
-  >
-    Directions
-  </a>
-</div>
+      <h3>${c.name}</h3>
+
+      <div class="address">
+        <a
+          href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.address)}"
+          class="directions-btn"
+          target="_blank"
+          rel="noopener">
+          Directions
+        </a>
+      </div>
 
       ${action}
     </div>
   `;
 }
+   
 
   function getUniqueServicesRaw(cityKey) {
   const city = DATA[cityKey];
