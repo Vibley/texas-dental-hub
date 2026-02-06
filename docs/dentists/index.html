@@ -973,7 +973,32 @@ body.city-view .hero h1 {
 .city-link-list a:hover {
   text-decoration: underline;
 }
-    
+
+
+     /* Base: mobile-first (readability > symmetry) */
+.hero-copy {
+  text-align: left;
+  line-height: 1.7;
+}
+
+/* Desktop only: justify text */
+@media (min-width: 1024px) {
+  .hero-copy {
+    text-align: justify;
+    text-justify: inter-word;
+  }
+}
+.hero-copy p {
+  margin-bottom: 1rem;
+}
+     .hero-copy {
+  max-width: 900px;
+}
+
+     .hero-copy {
+  margin: 0 auto;
+}
+     
   </style>
   
 </head>
@@ -1358,16 +1383,21 @@ const heroLabel = isAllCities
    <div class="hero">
   <h4>Dentists in ${heroLabel}, TX</h4>
 
-<p>
-Finding a trusted dentist in ${heroLabel} doesn’t have to be complicated.
-TexasDentalHub connects patients with verified local dental clinics offering general, family, cosmetic, and emergency dental care throughout the ${heroLabel} area.
 
-Whether you’re new to the city or simply looking for a better dental provider, our directory makes it easy to discover nearby clinics, explore available services, and contact dental offices directly — without third-party booking fees or misleading listings.
-
-Every clinic listed on TexasDentalHub is reviewed for accuracy and location, helping patients find reliable dental care within their local community. We focus on real providers serving ${heroLabel} and surrounding neighborhoods, not national lead-generation networks.
-
-Common dental services offered by ${heroLabel} clinics include preventive care, routine cleanings, fillings, cosmetic dentistry, emergency dental treatment, and family dental care.
-</p>
+<div class="hero-copy">
+  <p>
+    Finding a trusted dentist in ${heroLabel} doesn’t have to be complicated. TexasDentalHub connects patients with verified local dental clinics offering general, family, cosmetic, and emergency dental care throughout the ${heroLabel} area.
+  </p>
+  <p>
+    Whether you’re new to the city or simply looking for a better dental provider, our directory makes it easy to discover nearby clinics, explore available services, and contact dental offices directly — without third-party booking fees or misleading listings.
+  </p>
+  <p>
+    Every clinic listed on TexasDentalHub is reviewed for accuracy and location, helping patients find reliable dental care within their local community. We focus on real providers serving ${heroLabel} and surrounding neighborhoods, not national lead-generation networks.
+  </p>
+  <p>
+    Common dental services offered by ${heroLabel} clinics include preventive care, routine cleanings, fillings, cosmetic dentistry, emergency dental treatment, and family dental care.
+  </p>
+</div>
 
  </div>
 
