@@ -1594,16 +1594,13 @@ function getUniqueInsurancesRaw(cityKey) {
   return [...set].sort();
 }
 
-function populateDynamicFilters(cityKey) {
-  const page = document.querySelector('.page.active');
-  if (!page) return;
 
-  const serviceSelect = page.querySelector('#filter-service');
-  const insuranceSelect = page.querySelector('#filter-insurance');
+function populateDynamicFilters(cityKey) {
+  const serviceSelect = document.getElementById('filter-service');
+  const insuranceSelect = document.getElementById('filter-insurance');
 
   if (!serviceSelect || !insuranceSelect) return;
 
-  // Services
   const services = getUniqueServicesRaw(cityKey);
   serviceSelect.innerHTML = '<option value="">All Services</option>';
 
@@ -1614,7 +1611,6 @@ function populateDynamicFilters(cityKey) {
     serviceSelect.appendChild(opt);
   });
 
-  // Insurances
   const insurances = getUniqueInsurancesRaw(cityKey);
   insuranceSelect.innerHTML = '<option value="">All Insurance</option>';
 
@@ -1625,6 +1621,8 @@ function populateDynamicFilters(cityKey) {
     insuranceSelect.appendChild(opt);
   });
 }
+
+   
 
 function updateSEO(cityKey) {
   // ⛑️ SAFETY GUARD — prevents site break
@@ -1705,12 +1703,10 @@ function wireFilters() {
 
 
 function applyFilters() {
-  const page = document.querySelector('.page.active');
-  if (!page) return;
+  const grid = document.getElementById('clinicGrid');
+  if (!grid) return;
 
-  const cards = page.querySelectorAll('.card');
-
-
+  const cards = grid.querySelectorAll('.card');
   let visibleCount = 0;
 
   cards.forEach(card => {
@@ -1725,33 +1721,29 @@ function applyFilters() {
     if (filters.insurance?.value &&
         !card.dataset.insurance.includes(filters.insurance.value)) show = false;
 
- if (filters.availability?.value) {
-  const avail = (card.dataset.availability || '').split('|');
-  if (!avail.includes(filters.availability.value)) show = false;
-}
-
+    if (filters.availability?.value) {
+      const avail = (card.dataset.availability || '').split('|');
+      if (!avail.includes(filters.availability.value)) show = false;
+    }
 
     card.style.display = show ? 'flex' : 'none';
     if (show) visibleCount++;
   });
 
+  // Empty state handling (still OK)
+  const emptyState = document.querySelector('.no-results');
+  const featuredSection = document.querySelector('.featured-section');
+  const allSection = document.querySelector('.all-section');
 
-  
-  // ✅ Empty state toggle
-const emptyState = page.querySelector('.no-results');
-const featuredSection = page.querySelector('.featured-section');
-const allSection = page.querySelector('.all-section');
-
-if (visibleCount === 0) {
-  if (emptyState) emptyState.style.display = 'block';
-  if (featuredSection) featuredSection.style.display = 'none';
-  if (allSection) allSection.style.display = 'none';
-} else {
-  if (emptyState) emptyState.style.display = 'none';
-  if (featuredSection) featuredSection.style.display = '';
-  if (allSection) allSection.style.display = '';
-}
-
+  if (visibleCount === 0) {
+    emptyState && (emptyState.style.display = 'block');
+    featuredSection && (featuredSection.style.display = 'none');
+    allSection && (allSection.style.display = 'none');
+  } else {
+    emptyState && (emptyState.style.display = 'none');
+    featuredSection && (featuredSection.style.display = '');
+    allSection && (allSection.style.display = '');
+  }
 }
   
 function resetFilters() {
