@@ -1063,6 +1063,13 @@ body.city-view .hero h1 {
   
 window.SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
+
+   // 🔁 Restore SPA route after GitHub Pages 404 redirect
+const redirectPath = sessionStorage.getItem('redirectPath');
+if (redirectPath) {
+  sessionStorage.removeItem('redirectPath');
+  history.replaceState(null, '', redirectPath);
+}
 </script>
   
 <script>
@@ -1073,6 +1080,8 @@ const BASE_PATH = '/texas-dental-hub'; // ← replace with your repo name
 
   const DEFAULT_CITY_KEY = 'houston';
   const ALL_CITIES_KEY = 'all';
+
+   
 
   // 🔹 Read city from URL query string (?city=houston)
 function getCityFromURL() {
