@@ -1,5 +1,5 @@
 // generate-sitemap.js
-import fs from "fs";
+const fs = require("fs");
 
 const SITE_URL = "https://texasdentalhub.com";
 const OUTPUT_PATH = "docs/sitemap.xml";
