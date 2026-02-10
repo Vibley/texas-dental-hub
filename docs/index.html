@@ -32,36 +32,7 @@
   </script>
  
 
-   <!-- ✅ Houston City Collection Schema -->
-<script id="city-schema" type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Dentists in Houston, TX",
-  "description": "Browse verified dentists and dental clinics in Houston, TX. Find general, family, cosmetic, and emergency dental care with TexasDentalHub.",
-  "url": "https://texasdentalhub.com/dentists/houston-tx",
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "TexasDentalHub",
-    "url": "https://texasdentalhub.com"
-  },
-  "about": {
-    "@type": "Place",
-    "name": "Houston, TX",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Houston",
-      "addressRegion": "TX",
-      "addressCountry": "US"
-    }
-  },
-  "mainEntity": {
-    "@type": "ItemList",
-    "name": "Dental Clinics in Houston, TX",
-    "itemListOrder": "https://schema.org/ItemListOrderAscending"
-  }
-}
-</script>
+  
    
   <style>
 
@@ -1713,6 +1684,7 @@ document.body.classList.remove('clinic-view');
       }
   
    updateSEO(cityKey); // 🔥 THIS IS STEP 4
+   injectCitySchema(cityKey);
   populateZipFilter(cityKey);
   populateDynamicFilters(cityKey); // ✅ now defined
   wireFilters();
@@ -2044,6 +2016,55 @@ function toSchemaOpeningHours(hoursText) {
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.id = 'clinic-schema';
+  script.textContent = JSON.stringify(schema);
+
+  document.head.appendChild(script);
+}
+
+
+function injectCitySchema(cityKey) {
+  // Remove existing city schema if present
+  const old = document.getElementById('city-schema');
+  if (old) old.remove();
+
+  // Safety guards
+  if (!cityKey || !CITY_KEY_LABEL[cityKey]) return;
+  if (cityKey === ALL_CITIES_KEY) return;
+
+  const cityName = CITY_KEY_LABEL[cityKey];
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": `Dentists in ${cityName}, TX`,
+    "description": `Browse verified dentists and dental clinics in ${cityName}, TX. Find general, family, cosmetic, and emergency dental care with TexasDentalHub.`,
+    "url": `https://texasdentalhub.com/dentists/${cityKey}-tx`,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "TexasDentalHub",
+      "url": "https://texasdentalhub.com"
+    },
+    "about": {
+      "@type": "Place",
+      "name": `${cityName}, TX`,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": cityName,
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      }
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": `Dental Clinics in ${cityName}, TX`,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": DATA[cityKey]?.clinics?.length || undefined
+    }
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'city-schema';
   script.textContent = JSON.stringify(schema);
 
   document.head.appendChild(script);
