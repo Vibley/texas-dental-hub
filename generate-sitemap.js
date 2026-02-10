@@ -1,58 +1,35 @@
-const fs = require("fs");
+// generate-sitemap.js
+import fs from "fs";
 
-const SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
-const SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
 const SITE_URL = "https://texasdentalhub.com";
 
-async function generateSitemap() {
-  const fetch = (...args) =>
-    import("node-fetch").then(({ default: fetch }) => fetch(...args));
+// 🔁 Keep this list in sync with your Supabase cities
+const cities = [
+  "houston",
+  "katy",
+  "sugar-land",
+  "richmond",
+  "rosenberg",
+  "the-woodlands",
+  "spring"
+];
 
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/clinics?select=city`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      }
-    }
-  );
+const urls = [
+  `${SITE_URL}/dentists/`,
+  ...cities.map(c => `${SITE_URL}/dentists/${c}-tx`)
+];
 
-  if (!res.ok) {
-    throw new Error(`Supabase error: ${res.status}`);
-  }
-
-  const rows = await res.json();
-
-  const cities = [
-    ...new Set(
-      rows
-        .map(r => (r.city || "").trim().toLowerCase())
-        .filter(Boolean)
-    )
-  ];
-
-  const urls = [];
-  urls.push(`${SITE_URL}/`);
-
-  cities.forEach(city => {
-    const slug = city.replace(/[^a-z0-9]+/g, "-");
-    urls.push(`${SITE_URL}/?city=${slug}`);
-  });
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(url => `
   <url>
     <loc>${url}</loc>
-  </url>`).join("")}
-</urlset>`;
+    <changefreq>weekly</changefreq>
+    <priority>${url.includes("-tx") ? "0.8" : "0.6"}</priority>
+  </url>
+`).join("")}
+</urlset>
+`;
 
-  fs.writeFileSync("sitemap.xml", xml.trim());
-  console.log(`✅ Sitemap generated (${urls.length} URLs)`);
-}
-
-generateSitemap().catch(err => {
-  console.error("❌ Sitemap generation failed:", err);
-  process.exit(1);
-});
+fs.writeFileSync("sitemap.xml", sitemap.trim());
+console.log("✅ sitemap.xml generated");
