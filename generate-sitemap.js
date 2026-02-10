@@ -3,7 +3,6 @@ import fs from "fs";
 
 const SITE_URL = "https://texasdentalhub.com";
 
-// 🔁 Keep this list in sync with your Supabase cities
 const cities = [
   "houston",
   "katy",
@@ -15,6 +14,7 @@ const cities = [
 ];
 
 const urls = [
+  `${SITE_URL}/`,
   `${SITE_URL}/dentists/`,
   ...cities.map(c => `${SITE_URL}/dentists/${c}-tx`)
 ];
@@ -25,11 +25,11 @@ ${urls.map(url => `
   <url>
     <loc>${url}</loc>
     <changefreq>weekly</changefreq>
-    <priority>${url.includes("-tx") ? "0.8" : "0.6"}</priority>
+    <priority>${url.includes("/dentists/") ? "0.8" : "1.0"}</priority>
   </url>
 `).join("")}
 </urlset>
 `;
 
 fs.writeFileSync("sitemap.xml", sitemap.trim());
-console.log("✅ sitemap.xml generated");
+console.log("✅ sitemap.xml generated with city URLs");
