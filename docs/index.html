@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- 🔒 Dynamic SEO (single source of truth) -->
-  <title id="pageTitle">TexasDentalHub | Houston Metro Dentists</title>
+  <title id="pageTitle">Dentists in Texas — Find Local Dental Clinics | TexasDentalHub</title>
 
   <meta
     name="description"
     id="pageDescription"
-    content="Find trusted general and family dentists across the Houston metro area."
+    content="Search verified dentists across Texas cities. Find contact info, services, and appointment options on TexasDentalHub — your trusted dental directory."
   />
 
   <link
@@ -31,7 +31,38 @@
     }
   </script>
  
-    
+
+   <!-- ✅ Houston City Collection Schema -->
+<script id="city-schema" type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Dentists in Houston, TX",
+  "description": "Browse verified dentists and dental clinics in Houston, TX. Find general, family, cosmetic, and emergency dental care with TexasDentalHub.",
+  "url": "https://texasdentalhub.com/dentists/houston-tx",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "TexasDentalHub",
+    "url": "https://texasdentalhub.com"
+  },
+  "about": {
+    "@type": "Place",
+    "name": "Houston, TX",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Houston",
+      "addressRegion": "TX",
+      "addressCountry": "US"
+    }
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "Dental Clinics in Houston, TX",
+    "itemListOrder": "https://schema.org/ItemListOrderAscending"
+  }
+}
+</script>
+   
   <style>
 
 .brand {
@@ -1142,10 +1173,10 @@ let CITY_KEY_LABEL = {};
       `Find verified general and family dentists in ${cityLabel}, TX. Browse local clinics, compare services, and contact dental offices directly.`
     );
 
-    document.getElementById("canonicalLink").setAttribute(
-      "href",
-      `https://texasdentalhub.com/dentists/?city=${cityKey}`
-    );
+   document.getElementById("canonicalLink").setAttribute(
+  "href",
+  `https://texasdentalhub.com/dentists/${cityKey}-tx`
+);
   }
 
 
@@ -1354,7 +1385,7 @@ function renderCityLinks(currentCityKey) {
     .slice(0, 6)
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
-      return `<li><a href="/dentists/?city=${key}">Dentists in ${label}</a></li>`;
+      return `<li><a href="/dentists/${key}-tx">Dentists in ${label}</a></li>`;
     })
     .join("");
 }
@@ -1375,10 +1406,13 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
    <div class="hero">
-  <h4>Dentists in ${heroLabel}, TX</h4>
+  <h1>Dentists in ${heroLabel}, TX</h1>
 
 
 <div class="hero-copy">
+<p>
+  TexasDentalHub is a Houston-focused dental directory helping patients find trusted dentists in Houston, TX and surrounding neighborhoods.
+</p>
   <p>
     Finding a trusted dentist in ${heroLabel} doesn’t have to be complicated. TexasDentalHub connects patients with verified local dental clinics offering general, family, cosmetic, and emergency dental care throughout the ${heroLabel} area.
   </p>
