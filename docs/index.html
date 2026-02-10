@@ -1863,7 +1863,7 @@ if (key === ALL_CITIES_KEY) {
   window.history.replaceState({}, '', '/dentists/');
 } else {
   // Normalize all city views under /dentists/
-  window.history.replaceState({}, '', `/dentists/?city=${key}`);
+  window.history.replaceState({}, '', `/dentists/${key}-tx`);
 }
 
   activateCity(key);
