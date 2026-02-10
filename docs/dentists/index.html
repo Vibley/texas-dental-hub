@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- 🔒 Dynamic SEO (single source of truth) -->
-  <title id="pageTitle">TexasDentalHub | Houston Metro Dentists</title>
+  <title id="pageTitle">Dentists in Texas — Find Local Dental Clinics | TexasDentalHub</title>
 
   <meta
     name="description"
     id="pageDescription"
-    content="Find trusted general and family dentists across the Houston metro area."
+    content="Search verified dentists across Texas cities. Find contact info, services, and appointment options on TexasDentalHub — your trusted dental directory."
   />
 
   <link
@@ -31,7 +31,9 @@
     }
   </script>
  
-    
+
+  
+   
   <style>
 
 .brand {
@@ -1061,6 +1063,13 @@ body.city-view .hero h1 {
   
 window.SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
 window.SUPABASE_KEY = "sb_publishable_HI7wHyO6rFnczXvvEGoldg_GF-Hd2DV";
+
+   // 🔁 Restore SPA route after GitHub Pages 404 redirect
+const redirectPath = sessionStorage.getItem('redirectPath');
+if (redirectPath) {
+  sessionStorage.removeItem('redirectPath');
+  history.replaceState(null, '', redirectPath);
+}
 </script>
   
 <script>
@@ -1071,6 +1080,8 @@ const BASE_PATH = '/texas-dental-hub'; // ← replace with your repo name
 
   const DEFAULT_CITY_KEY = 'houston';
   const ALL_CITIES_KEY = 'all';
+
+   
 
   // 🔹 Read city from URL query string (?city=houston)
 function getCityFromURL() {
@@ -1142,10 +1153,10 @@ let CITY_KEY_LABEL = {};
       `Find verified general and family dentists in ${cityLabel}, TX. Browse local clinics, compare services, and contact dental offices directly.`
     );
 
-    document.getElementById("canonicalLink").setAttribute(
-      "href",
-      `https://texasdentalhub.com/dentists/?city=${cityKey}`
-    );
+   document.getElementById("canonicalLink").setAttribute(
+  "href",
+  `https://texasdentalhub.com/dentists/${cityKey}-tx`
+);
   }
 
 
@@ -1354,7 +1365,7 @@ function renderCityLinks(currentCityKey) {
     .slice(0, 6)
     .map(key => {
       const label = CITY_KEY_LABEL[key] || key;
-      return `<li><a href="/dentists/?city=${key}">Dentists in ${label}</a></li>`;
+      return `<li><a href="/dentists/${key}-tx">Dentists in ${label}</a></li>`;
     })
     .join("");
 }
@@ -1375,10 +1386,13 @@ const heroLabel = isAllCities
   
   page.innerHTML = `
    <div class="hero">
-  <h4>Dentists in ${heroLabel}, TX</h4>
+  <h1>Dentists in ${heroLabel}, TX</h1>
 
 
 <div class="hero-copy">
+<p>
+  TexasDentalHub is a Houston-focused dental directory helping patients find trusted dentists in Houston, TX and surrounding neighborhoods.
+</p>
   <p>
     Finding a trusted dentist in ${heroLabel} doesn’t have to be complicated. TexasDentalHub connects patients with verified local dental clinics offering general, family, cosmetic, and emergency dental care throughout the ${heroLabel} area.
   </p>
@@ -1679,6 +1693,7 @@ document.body.classList.remove('clinic-view');
       }
   
    updateSEO(cityKey); // 🔥 THIS IS STEP 4
+   injectCitySchema(cityKey);
   populateZipFilter(cityKey);
   populateDynamicFilters(cityKey); // ✅ now defined
   wireFilters();
@@ -2010,6 +2025,55 @@ function toSchemaOpeningHours(hoursText) {
   const script = document.createElement('script');
   script.type = 'application/ld+json';
   script.id = 'clinic-schema';
+  script.textContent = JSON.stringify(schema);
+
+  document.head.appendChild(script);
+}
+
+
+function injectCitySchema(cityKey) {
+  // Remove existing city schema if present
+  const old = document.getElementById('city-schema');
+  if (old) old.remove();
+
+  // Safety guards
+  if (!cityKey || !CITY_KEY_LABEL[cityKey]) return;
+  if (cityKey === ALL_CITIES_KEY) return;
+
+  const cityName = CITY_KEY_LABEL[cityKey];
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": `Dentists in ${cityName}, TX`,
+    "description": `Browse verified dentists and dental clinics in ${cityName}, TX. Find general, family, cosmetic, and emergency dental care with TexasDentalHub.`,
+    "url": `https://texasdentalhub.com/dentists/${cityKey}-tx`,
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "TexasDentalHub",
+      "url": "https://texasdentalhub.com"
+    },
+    "about": {
+      "@type": "Place",
+      "name": `${cityName}, TX`,
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": cityName,
+        "addressRegion": "TX",
+        "addressCountry": "US"
+      }
+    },
+    "mainEntity": {
+      "@type": "ItemList",
+      "name": `Dental Clinics in ${cityName}, TX`,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "numberOfItems": DATA[cityKey]?.clinics?.length || undefined
+    }
+  };
+
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.id = 'city-schema';
   script.textContent = JSON.stringify(schema);
 
   document.head.appendChild(script);
