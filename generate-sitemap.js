@@ -2,6 +2,7 @@
 import fs from "fs";
 
 const SITE_URL = "https://texasdentalhub.com";
+const OUTPUT_PATH = "docs/sitemap.xml";
 
 const cities = [
   "houston",
@@ -31,5 +32,5 @@ ${urls.map(url => `
 </urlset>
 `;
 
-fs.writeFileSync("sitemap.xml", sitemap.trim());
-console.log("✅ sitemap.xml generated with city URLs");
+fs.writeFileSync(OUTPUT_PATH, sitemap.trim());
+console.log("✅ docs/sitemap.xml generated");
