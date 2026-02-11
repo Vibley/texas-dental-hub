@@ -2118,6 +2118,15 @@ if (citySlug.endsWith('-tx')) {
 
   const clinicCity = cityData.label;
 
+
+    console.log("URL slug:", slug);
+
+[...cityData.featured, ...cityData.clinics].forEach(c => {
+  console.log("Comparing with:", toClinicSlug(c.name));
+});
+
+    
+
   if (!clinic) {
     
     
