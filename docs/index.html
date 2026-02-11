@@ -2091,7 +2091,13 @@ function injectCitySchema(cityKey) {
 
  function renderClinicPage(slug) {
   const parts = window.location.pathname.split('/').filter(Boolean);
-  const citySlug = parts[1];
+
+    let citySlug = parts[1];
+
+// Remove -tx suffix if present
+if (citySlug.endsWith('-tx')) {
+  citySlug = citySlug.replace('-tx', '');
+}
 
   const cityData = DATA[citySlug];
   if (!cityData) {
