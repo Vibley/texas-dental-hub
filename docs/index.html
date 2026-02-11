@@ -1162,10 +1162,11 @@ let CITY_KEY_LABEL = {};
 
 /* 🔹 Utility: city → key */
 function toCityKey(city) {
+  if (!city) return '';
   return city
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '')
-    .trim();
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
   // 🔹 Clinic name → URL-safe slug
@@ -1317,6 +1318,7 @@ async function loadClinicsFromSupabase() {
 
   const clinic = {
   name: c.name,
+   city: cityName,  
   address: c.address,
   phone: c.phone || '',
   zip: c.zip,
