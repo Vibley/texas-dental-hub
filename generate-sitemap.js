@@ -2,24 +2,22 @@
 const fs = require("fs");
 
 const SITE_URL = "https://texasdentalhub.com";
-const OUTPUT_PATH = "docs/sitemap.xml";
-
 const SUPABASE_URL = "https://wehhvavlbhdbcmgvdaxj.supabase.co";
-
-// 🔐 We will store this securely in GitHub Secrets
 const SUPABASE_KEY = process.env.SUPABASE_ANON_KEY;
 
-function slugify(city) {
-  return city
+const DOCS_PATH = "docs/";
+
+function slugify(text) {
+  return text
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 }
 
-async function fetchCities() {
-  const response = await fetch(
-    `${SUPABASE_URL}/rest/v1/clinics?select=city`,
+async function fetchClinics() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/clinics?select=name,city`,
     {
       headers: {
         apikey: SUPABASE_KEY,
@@ -28,37 +26,35 @@ async function fetchCities() {
     }
   );
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch cities from Supabase");
-  }
+  if (!res.ok) throw new Error("Failed to fetch clinics");
 
-  const rows = await response.json();
-
-  const uniqueCities = [
-    ...new Set(
-      rows
-        .map(r => (r.city || "").trim())
-        .filter(Boolean)
-        .map(slugify)
-    )
-  ];
-
-  return uniqueCities;
+  return await res.json();
 }
 
 (async () => {
   try {
-    const cities = await fetchCities();
+    const rows = await fetchClinics();
 
-    const urls = [
-      `${SITE_URL}/`,
-      `${SITE_URL}/dentists/`,
-      ...cities.map(c => `${SITE_URL}/dentists/${c}-tx`)
+    const uniqueCities = [
+      ...new Set(
+        rows
+          .map(r => (r.city || "").trim())
+          .filter(Boolean)
+      )
     ];
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+    const citySlugs = uniqueCities.map(slugify);
+
+    // 🔹 Generate City Sitemap
+    const cityUrls = [
+      `${SITE_URL}/`,
+      `${SITE_URL}/dentists/`,
+      ...citySlugs.map(c => `${SITE_URL}/dentists/${c}-tx`)
+    ];
+
+    const citySitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(url => `
+${cityUrls.map(url => `
   <url>
     <loc>${url}</loc>
     <changefreq>weekly</changefreq>
@@ -67,8 +63,43 @@ ${urls.map(url => `
 `).join("")}
 </urlset>`;
 
-    fs.writeFileSync(OUTPUT_PATH, sitemap.trim());
-    console.log(`✅ Sitemap generated with ${cities.length} cities`);
+    fs.writeFileSync(`${DOCS_PATH}sitemap-cities.xml`, citySitemap.trim());
+
+    // 🔹 Generate Clinic Sitemap
+    const clinicUrls = rows.map(r => {
+      const clinicSlug = slugify(r.name);
+      return `${SITE_URL}/?clinic=${clinicSlug}`;
+    });
+
+    const clinicSitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${clinicUrls.map(url => `
+  <url>
+    <loc>${url}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+`).join("")}
+</urlset>`;
+
+    fs.writeFileSync(`${DOCS_PATH}sitemap-clinics.xml`, clinicSitemap.trim());
+
+    // 🔹 Generate Sitemap Index
+    const sitemapIndex = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>${SITE_URL}/sitemap-cities.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>${SITE_URL}/sitemap-clinics.xml</loc>
+  </sitemap>
+</sitemapindex>`;
+
+    fs.writeFileSync(`${DOCS_PATH}sitemap.xml`, sitemapIndex.trim());
+
+    console.log(`✅ Cities: ${citySlugs.length}`);
+    console.log(`✅ Clinics: ${clinicUrls.length}`);
+    console.log("✅ Sitemap index generated successfully");
   } catch (err) {
     console.error("❌ Sitemap generation failed:", err);
     process.exit(1);
