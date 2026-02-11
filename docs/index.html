@@ -2092,17 +2092,19 @@ function injectCitySchema(cityKey) {
   document.head.appendChild(script);
 }
 
- function renderClinicPage(slug) {
+
+   function renderClinicPage(slug) {
   const parts = window.location.pathname.split('/').filter(Boolean);
 
-    let citySlug = parts[1];
+  let citySlug = parts[1];
 
-// Remove -tx suffix if present
-if (citySlug.endsWith('-tx')) {
-  citySlug = citySlug.replace('-tx', '');
-}
+  // Remove -tx suffix if present
+  if (citySlug && citySlug.endsWith('-tx')) {
+    citySlug = citySlug.replace('-tx', '');
+  }
 
   const cityData = DATA[citySlug];
+
   if (!cityData) {
     console.warn("City not found:", citySlug);
     return;
@@ -2116,85 +2118,92 @@ if (citySlug.endsWith('-tx')) {
     }
   });
 
+  if (!clinic) {
+    document.querySelector('.container').innerHTML = `
+      <div class="hero">
+        <h1>Clinic not found</h1>
+        <p>
+          <a href="/dentists/${citySlug}" class="directions-btn">
+            ← Browse more dentists in ${cityData.label}
+          </a>
+        </p>
+      </div>
+    `;
+    return; // 🔥 IMPORTANT
+  }
+
   const clinicCity = cityData.label;
 
+  document.body.classList.add('clinic-view');
 
-    console.log("URL slug:", slug);
+  injectClinicSchema(clinic, clinicCity);
 
-[...cityData.featured, ...cityData.clinics].forEach(c => {
-  console.log("Comparing with:", toClinicSlug(c.name));
-});
+  document.title = `${clinic.name} | Dentist in ${clinicCity}, TX`;
 
-    
+  document.querySelector('.container').innerHTML = `
+    <section class="clinic-detail">
 
-  if (!clinic) {
-    
-    
-document.querySelector('.container').innerHTML = `
-  <section class="clinic-detail">
+      <header class="clinic-header">
+        <h1 class="clinic-title">${clinic.name}</h1>
+        <div class="clinic-title-divider"></div>
 
-    <header class="clinic-header">
-      <h1 class="clinic-title">${clinic.name}</h1>
-      <div class="clinic-title-divider"></div>
-
-      <div class="clinic-subtitle">
-        <span>${clinicCity}, TX</span>
-      </div>
-
-      <div class="clinic-cta">
-        ${
-          clinic.phone
-            ? `
-              <button
-                type="button"
-                class="btn"
-                onclick="callClinic(
-                  '${clinic.phone}',
-                  '${clinic.name}',
-                  '${clinicCity}'
-                )">
-                Call Clinic
-              </button>
-            `
-            : ''
-        }
-
-        <button class="btn secondary" onclick="openLead('${clinic.name}')">
-          Request Appointment
-        </button>
-      </div>
-
-      <p class="back-to-city">
-        <a href="/dentists/${citySlug}" class="directions-btn">
-          ← Browse more dentists in ${clinicCity}
-        </a>
-      </p>
-    </header>
-
-    <div class="clinic-card">
-      <div class="info-row">
-        <strong>Address</strong>
-        <span>${clinic.address || ''}</span>
-      </div>
-
-      ${clinic.services?.length ? `
-        <div class="info-row">
-          <strong>Services</strong>
-          <span>${clinic.services.join(', ')}</span>
+        <div class="clinic-subtitle">
+          <span>${clinicCity}, TX</span>
         </div>
-      ` : ''}
 
-      ${clinic.insurances?.length ? `
-        <div class="info-row">
-          <strong>Insurance</strong>
-          <span>${clinic.insurances.join(', ')}</span>
+        <div class="clinic-cta">
+          ${
+            clinic.phone
+              ? `
+                <button
+                  type="button"
+                  class="btn"
+                  onclick="callClinic(
+                    '${clinic.phone}',
+                    '${clinic.name}',
+                    '${clinicCity}'
+                  )">
+                  Call Clinic
+                </button>
+              `
+              : ''
+          }
+
+          <button class="btn secondary" onclick="openLead('${clinic.name}')">
+            Request Appointment
+          </button>
         </div>
-      ` : ''}
-    </div>
 
-  </section>
-`;
-    
+        <p class="back-to-city">
+          <a href="/dentists/${citySlug}" class="directions-btn">
+            ← Browse more dentists in ${clinicCity}
+          </a>
+        </p>
+      </header>
+
+      <div class="clinic-card">
+        <div class="info-row">
+          <strong>Address</strong>
+          <span>${clinic.address || ''}</span>
+        </div>
+
+        ${clinic.services?.length ? `
+          <div class="info-row">
+            <strong>Services</strong>
+            <span>${clinic.services.join(', ')}</span>
+          </div>
+        ` : ''}
+
+        ${clinic.insurances?.length ? `
+          <div class="info-row">
+            <strong>Insurance</strong>
+            <span>${clinic.insurances.join(', ')}</span>
+          </div>
+        ` : ''}
+      </div>
+
+    </section>
+  `;
 }
 
   
