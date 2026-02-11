@@ -1564,8 +1564,9 @@ function card(c) {
   `;
 
   return `
-    <div class="card"
-      data-clinic="${toClinicSlug(c.name)}"
+   <div class="card"
+  data-clinic="${toClinicSlug(c.name)}"
+  data-city="${toCityKey(c.city)}"
       data-zip="${c.zip ? String(c.zip) : ''}"
       data-service="${services}"
       data-insurance="${insurances}"
@@ -2461,43 +2462,30 @@ document.addEventListener('click', function (e) {
   const card = e.target.closest('.card');
   if (!card) return;
 
-  // ❌ Ignore clicks on buttons, links, inputs
+  // Ignore clicks on interactive elements
   if (
     e.target.closest('button') ||
     e.target.closest('a') ||
     e.target.closest('input') ||
     e.target.closest('textarea')
-  ) {
+  ) return;
+
+  const slug = card.dataset.clinic;
+  const citySlug = card.dataset.city;
+
+  if (!slug || !citySlug) {
+    console.warn("Missing clinic or city slug in card dataset.");
     return;
   }
 
-  const slug = card.dataset.clinic;
-  if (!slug) return;
+  window.history.pushState(
+    {},
+    '',
+    `/dentists/${citySlug}/clinic/${slug}`
+  );
 
-  // Navigate to clinic page
-// Navigate to clinic page (clean hierarchical URL)
-const parts = window.location.pathname.split('/').filter(Boolean);
-
-// parts example for city page:
-// ["dentists", "kingwood-tx"]
-
-let citySlug = parts[1];
-
-// Fallback safety (in case user clicks from unexpected page)
-if (!citySlug) {
-  console.warn("City slug not found in URL.");
-  return;
-}
-
-window.history.pushState(
-  {},
-  '',
-  `/dentists/${citySlug}/clinic/${slug}`
-);
-
-renderClinicPage(slug);
+  renderClinicPage(slug);
 });
-
   
 
  </script>
