@@ -18,11 +18,13 @@ jobs:
 
       - name: Run sitemap generator
         run: node generate-sitemap.js
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Commit sitemap
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/sitemap.xml
-          git commit -m "Auto-generate sitemap with city URLs" || echo "No changes to commit"
+          git commit -m "Auto-generate sitemap from Supabase" || echo "No changes"
           git push
