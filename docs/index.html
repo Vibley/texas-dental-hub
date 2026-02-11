@@ -2110,34 +2110,27 @@ function renderClinicPage(slug) {
     }
   });
 
-  if (!clinic) {
-    console.warn("Clinic not found:", slug);
-    return;
-  }
-
   const clinicCity = cityData.label;
 
-  // continue rendering using clinic + clinicCity
-}
-   
   if (!clinic) {
     document.querySelector('.container').innerHTML = `
       <div class="hero">
-              <h1>Clinic not found</h1>
-              
-       <p class="back-to-city">
-  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
-    ← Browse more dentists in ${clinicCity}
-  </a>
-</p>
+        <h1>Clinic not found</h1>
 
-        
+        <p class="back-to-city">
+          <a href="/dentists/${citySlug}" class="directions-btn">
+            ← Browse more dentists in ${clinicCity}
+          </a>
+        </p>
       </div>
     `;
     return;
   }
 
-   document.body.classList.add('clinic-view');
+  document.body.classList.add('clinic-view');
+
+  // Continue rendering clinic page below...
+}
 
 // 🔥 Scroll to top when clinic page loads
 window.scrollTo({ top: 0, behavior: 'smooth' });
