@@ -2089,11 +2089,8 @@ function injectCitySchema(cityKey) {
   document.head.appendChild(script);
 }
 
-  
-function renderClinicPage(slug) {
+ function renderClinicPage(slug) {
   const parts = window.location.pathname.split('/').filter(Boolean);
-
-  // /dentists/{city}/clinic/{slug}
   const citySlug = parts[1];
 
   const cityData = DATA[citySlug];
@@ -2116,7 +2113,6 @@ function renderClinicPage(slug) {
     document.querySelector('.container').innerHTML = `
       <div class="hero">
         <h1>Clinic not found</h1>
-
         <p class="back-to-city">
           <a href="/dentists/${citySlug}" class="directions-btn">
             ← Browse more dentists in ${clinicCity}
@@ -2129,122 +2125,31 @@ function renderClinicPage(slug) {
 
   document.body.classList.add('clinic-view');
 
-  // Continue rendering clinic page below...
-}
+  // 🔥 Scroll to top when clinic page loads
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-// 🔥 Scroll to top when clinic page loads
-window.scrollTo({ top: 0, behavior: 'smooth' });
-
-   injectClinicSchema(clinic, clinicCity);
-   
+  injectClinicSchema(clinic, clinicCity);
 
   // SEO
-  document.title = `${clinic.name} | Dentist in ${clinicCity || 'Texas'}`;
+  document.title = `${clinic.name} | Dentist in ${clinicCity}`;
   const meta = document.querySelector('meta[name="description"]');
   if (meta) {
     meta.setAttribute(
       'content',
-      `${clinic.name} is a verified dental clinic in Texas. View services, location, and contact details.`
+      `${clinic.name} is a verified dental clinic in ${clinicCity}, TX.`
     );
   }
-   // 🔥 Canonical URL (clinic pages ONLY)
-setCanonical(`https://texasdentalhub.com/?clinic=${slug}`);
+
+  setCanonical(
+    `https://texasdentalhub.com/dentists/${citySlug}/clinic/${slug}`
+  );
 
   // Render page
-document.querySelector('.container').innerHTML = `
-  <section class="clinic-detail">
-
-    <!-- Header -->
-    <header class="clinic-header">
-      <h1 class="clinic-title">${clinic.name}</h1>
-      <div class="clinic-title-divider"></div>
-
-
-      <div class="clinic-subtitle">
-        ${clinicCity ? `<span>${clinicCity}, TX</span>` : ''}
-           </div>
-
-
-
-
-<div class="clinic-cta">
-  ${
-    clinic.phone
-      ? `
-        <button
-          type="button"
-          class="btn"
-          onclick="callClinic(
-            '${clinic.phone}',
-            '${clinic.name}',
-            '${clinicCity || ''}'
-          )">
-          Call Clinic
-        </button>
-      `
-      : ''
-  }
-
-  <button class="btn secondary" onclick="openLead('${clinic.name}')">
-    Request Appointment
-  </button>
-</div>
-
-
-    <p class="back-to-city">
-  <a href="?city=${toCityKey(clinicCity)}" class="directions-btn">
-    ← Browse more dentists in ${clinicCity}
-  </a>
-</p>
-
-      
-    </header>
-
-   
-
-    <!-- Info Card -->
-    <div class="clinic-card">
-
-      <div class="info-row">
-        <strong>Address</strong>
-        <span>${clinic.address}</span>
-      </div>
-
-      ${formatClinicHours(clinic.hours) ? `
-        <div class="info-row">
-          <strong>Operating Hours</strong>
-          <span>${formatClinicHours(clinic.hours)}</span>
-        </div>
-      ` : ''}
-
-      ${clinic.languages?.length ? `
-        <div class="info-row">
-          <strong>Languages</strong>
-          <span>${clinic.languages.join(', ')}</span>
-        </div>
-      ` : ''}
-
-      ${clinic.services?.length ? `
-        <div class="info-row">
-          <strong>Services</strong>
-          <span>${clinic.services.join(', ')}</span>
-        </div>
-      ` : ''}
-
-      ${clinic.insurances?.length ? `
-        <div class="info-row">
-          <strong>Insurance</strong>
-          <span>${clinic.insurances.join(', ')}</span>
-        </div>
-      ` : ''}
-
-    </div>
-
-
-
-  </section>
-`;
-
+  document.querySelector('.container').innerHTML = `
+    <section class="clinic-detail">
+      ...
+    </section>
+  `;
 }
 
   
