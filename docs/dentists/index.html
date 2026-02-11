@@ -1176,10 +1176,20 @@ function toClinicSlug(name) {
     .replace(/(^-|-$)/g, '');
 }
 
-// 🔹 Read clinic slug from URL (?clinic=abc-family-dental)
 function getClinicFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('clinic');
+  const parts = window.location.pathname.split('/').filter(Boolean);
+
+  // Expected:
+  // /dentists/{city}/clinic/{slug}
+  if (
+    parts.length === 4 &&
+    parts[0] === "dentists" &&
+    parts[2] === "clinic"
+  ) {
+    return parts[3];
+  }
+
+  return null;
 }
 
 
@@ -2080,22 +2090,35 @@ function injectCitySchema(cityKey) {
 }
 
   
- function renderClinicPage(slug) {
+function renderClinicPage(slug) {
+  const parts = window.location.pathname.split('/').filter(Boolean);
+
+  // /dentists/{city}/clinic/{slug}
+  const citySlug = parts[1];
+
+  const cityData = DATA[citySlug];
+  if (!cityData) {
+    console.warn("City not found:", citySlug);
+    return;
+  }
+
   let clinic = null;
-  let clinicCity = null;
 
-Object.entries(DATA).forEach(([key, city]) => {
-  // ❌ Skip the aggregated All Cities bucket
-  if (key === ALL_CITIES_KEY) return;
-
-  [...city.featured, ...city.clinics].forEach(c => {
+  [...cityData.featured, ...cityData.clinics].forEach(c => {
     if (toClinicSlug(c.name) === slug) {
       clinic = c;
-      clinicCity = city.label;
     }
   });
-});
 
+  if (!clinic) {
+    console.warn("Clinic not found:", slug);
+    return;
+  }
+
+  const clinicCity = cityData.label;
+
+  // continue rendering using clinic + clinicCity
+}
    
   if (!clinic) {
     document.querySelector('.container').innerHTML = `
