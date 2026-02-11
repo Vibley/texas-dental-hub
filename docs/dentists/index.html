@@ -2571,8 +2571,27 @@ document.addEventListener('click', function (e) {
   if (!slug) return;
 
   // Navigate to clinic page
-  window.history.pushState({}, '', `?clinic=${slug}`);
-  renderClinicPage(slug);
+// Navigate to clinic page (clean hierarchical URL)
+const parts = window.location.pathname.split('/').filter(Boolean);
+
+// parts example for city page:
+// ["dentists", "kingwood-tx"]
+
+let citySlug = parts[1];
+
+// Fallback safety (in case user clicks from unexpected page)
+if (!citySlug) {
+  console.warn("City slug not found in URL.");
+  return;
+}
+
+window.history.pushState(
+  {},
+  '',
+  `/dentists/${citySlug}/clinic/${slug}`
+);
+
+renderClinicPage(slug);
 });
 
   
