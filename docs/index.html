@@ -2119,46 +2119,73 @@ if (citySlug.endsWith('-tx')) {
   const clinicCity = cityData.label;
 
   if (!clinic) {
-    document.querySelector('.container').innerHTML = `
-      <div class="hero">
-        <h1>Clinic not found</h1>
-        <p class="back-to-city">
-          <a href="/dentists/${citySlug}" class="directions-btn">
-            ← Browse more dentists in ${clinicCity}
-          </a>
-        </p>
+    
+    
+document.querySelector('.container').innerHTML = `
+  <section class="clinic-detail">
+
+    <header class="clinic-header">
+      <h1 class="clinic-title">${clinic.name}</h1>
+      <div class="clinic-title-divider"></div>
+
+      <div class="clinic-subtitle">
+        <span>${clinicCity}, TX</span>
       </div>
-    `;
-    return;
-  }
 
-  document.body.classList.add('clinic-view');
+      <div class="clinic-cta">
+        ${
+          clinic.phone
+            ? `
+              <button
+                type="button"
+                class="btn"
+                onclick="callClinic(
+                  '${clinic.phone}',
+                  '${clinic.name}',
+                  '${clinicCity}'
+                )">
+                Call Clinic
+              </button>
+            `
+            : ''
+        }
 
-  // 🔥 Scroll to top when clinic page loads
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+        <button class="btn secondary" onclick="openLead('${clinic.name}')">
+          Request Appointment
+        </button>
+      </div>
 
-  injectClinicSchema(clinic, clinicCity);
+      <p class="back-to-city">
+        <a href="/dentists/${citySlug}" class="directions-btn">
+          ← Browse more dentists in ${clinicCity}
+        </a>
+      </p>
+    </header>
 
-  // SEO
-  document.title = `${clinic.name} | Dentist in ${clinicCity}`;
-  const meta = document.querySelector('meta[name="description"]');
-  if (meta) {
-    meta.setAttribute(
-      'content',
-      `${clinic.name} is a verified dental clinic in ${clinicCity}, TX.`
-    );
-  }
+    <div class="clinic-card">
+      <div class="info-row">
+        <strong>Address</strong>
+        <span>${clinic.address || ''}</span>
+      </div>
 
-  setCanonical(
-    `https://texasdentalhub.com/dentists/${citySlug}/clinic/${slug}`
-  );
+      ${clinic.services?.length ? `
+        <div class="info-row">
+          <strong>Services</strong>
+          <span>${clinic.services.join(', ')}</span>
+        </div>
+      ` : ''}
 
-  // Render page
-  document.querySelector('.container').innerHTML = `
-    <section class="clinic-detail">
-      ...
-    </section>
-  `;
+      ${clinic.insurances?.length ? `
+        <div class="info-row">
+          <strong>Insurance</strong>
+          <span>${clinic.insurances.join(', ')}</span>
+        </div>
+      ` : ''}
+    </div>
+
+  </section>
+`;
+    
 }
 
   
