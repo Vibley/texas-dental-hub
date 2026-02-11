@@ -1162,10 +1162,11 @@ let CITY_KEY_LABEL = {};
 
 /* 🔹 Utility: city → key */
 function toCityKey(city) {
+  if (!city) return '';
   return city
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '')
-    .trim();
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
 }
 
   // 🔹 Clinic name → URL-safe slug
@@ -1317,6 +1318,7 @@ async function loadClinicsFromSupabase() {
 
   const clinic = {
   name: c.name,
+   city: cityName,  
   address: c.address,
   phone: c.phone || '',
   zip: c.zip,
@@ -2090,17 +2092,19 @@ function injectCitySchema(cityKey) {
   document.head.appendChild(script);
 }
 
- function renderClinicPage(slug) {
+
+   function renderClinicPage(slug) {
   const parts = window.location.pathname.split('/').filter(Boolean);
 
-    let citySlug = parts[1];
+  let citySlug = parts[1];
 
-// Remove -tx suffix if present
-if (citySlug.endsWith('-tx')) {
-  citySlug = citySlug.replace('-tx', '');
-}
+  // Remove -tx suffix if present
+  if (citySlug && citySlug.endsWith('-tx')) {
+    citySlug = citySlug.replace('-tx', '');
+  }
 
   const cityData = DATA[citySlug];
+
   if (!cityData) {
     console.warn("City not found:", citySlug);
     return;
@@ -2114,47 +2118,90 @@ if (citySlug.endsWith('-tx')) {
     }
   });
 
-  const clinicCity = cityData.label;
-
   if (!clinic) {
     document.querySelector('.container').innerHTML = `
       <div class="hero">
         <h1>Clinic not found</h1>
+        <p>
+          <a href="/dentists/${citySlug}" class="directions-btn">
+            ← Browse more dentists in ${cityData.label}
+          </a>
+        </p>
+      </div>
+    `;
+    return; // 🔥 IMPORTANT
+  }
+
+  const clinicCity = cityData.label;
+
+  document.body.classList.add('clinic-view');
+
+  injectClinicSchema(clinic, clinicCity);
+
+  document.title = `${clinic.name} | Dentist in ${clinicCity}, TX`;
+
+  document.querySelector('.container').innerHTML = `
+    <section class="clinic-detail">
+
+      <header class="clinic-header">
+        <h1 class="clinic-title">${clinic.name}</h1>
+        <div class="clinic-title-divider"></div>
+
+        <div class="clinic-subtitle">
+          <span>${clinicCity}, TX</span>
+        </div>
+
+        <div class="clinic-cta">
+          ${
+            clinic.phone
+              ? `
+                <button
+                  type="button"
+                  class="btn"
+                  onclick="callClinic(
+                    '${clinic.phone}',
+                    '${clinic.name}',
+                    '${clinicCity}'
+                  )">
+                  Call Clinic
+                </button>
+              `
+              : ''
+          }
+
+          <button class="btn secondary" onclick="openLead('${clinic.name}')">
+            Request Appointment
+          </button>
+        </div>
+
         <p class="back-to-city">
           <a href="/dentists/${citySlug}" class="directions-btn">
             ← Browse more dentists in ${clinicCity}
           </a>
         </p>
+      </header>
+
+      <div class="clinic-card">
+        <div class="info-row">
+          <strong>Address</strong>
+          <span>${clinic.address || ''}</span>
+        </div>
+
+        ${clinic.services?.length ? `
+          <div class="info-row">
+            <strong>Services</strong>
+            <span>${clinic.services.join(', ')}</span>
+          </div>
+        ` : ''}
+
+        ${clinic.insurances?.length ? `
+          <div class="info-row">
+            <strong>Insurance</strong>
+            <span>${clinic.insurances.join(', ')}</span>
+          </div>
+        ` : ''}
       </div>
-    `;
-    return;
-  }
 
-  document.body.classList.add('clinic-view');
-
-  // 🔥 Scroll to top when clinic page loads
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  injectClinicSchema(clinic, clinicCity);
-
-  // SEO
-  document.title = `${clinic.name} | Dentist in ${clinicCity}`;
-  const meta = document.querySelector('meta[name="description"]');
-  if (meta) {
-    meta.setAttribute(
-      'content',
-      `${clinic.name} is a verified dental clinic in ${clinicCity}, TX.`
-    );
-  }
-
-  setCanonical(
-    `https://texasdentalhub.com/dentists/${citySlug}/clinic/${slug}`
-  );
-
-  // Render page
-  document.querySelector('.container').innerHTML = `
-    <section class="clinic-detail">
-      ...
     </section>
   `;
 }
